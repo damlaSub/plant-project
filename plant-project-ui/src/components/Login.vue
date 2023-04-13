@@ -53,7 +53,7 @@
             </div>
             <div class="card-footer py-3 border-0">
               <div class="text-center">
-                Create an account?
+                Don't have an account?
                 <a href="/signup" class="text-dark">Sign up</a>
               </div>
             </div>
@@ -70,12 +70,13 @@
   main {
     background-color: #f9f5f1;
   }
-  /* .login-form {
-    width: 100%;
-    height: auto;
-    background-color: #f9f5f1;
-  } */
-
+  a {
+    text-decoration: none;
+    color: #212529;
+  }
+  a:hover {
+    color: #355e3b;
+  }
   .submit {
     color: white;
     background-color: #355e3b;
