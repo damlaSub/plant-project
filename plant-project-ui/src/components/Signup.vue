@@ -1,3 +1,50 @@
+<script>
+  import { useVuelidate } from "@vuelidate/core";
+  import {
+    email,
+    required,
+    maxLength,
+    minLength,
+    sameAs,
+  } from "@vuelidate/validators";
+
+  import { reactive, computed } from "vue";
+
+  export default {
+    setup() {
+      const state = reactive({
+        email: "",
+        password: {
+          psw: "",
+          confirm: "",
+        },
+      });
+      const rules = computed(() => {
+        email: { required, email },
+        password: {
+          psw: {required, minLength: minLength(12), maxLength: maxLength(32) },
+          confirm: {required, sameAs(state.password.psw)},
+        }
+      })
+
+      const v$ = useVuelidate(state, rules)
+
+      return { state, v$ };
+    },
+
+    methods: {
+      submitForm() {
+        this.v$.validate();
+        if (!this.v$.$error) {
+          alert("success");
+        } else {
+          alert("error");
+        }
+      },
+    },
+  };
+</script>
+
 <template>
   <main class="h-100">
     <div class="container h-100">
@@ -9,21 +56,15 @@
                 <img src="/src/assets/myLogo.png" alt="logo" width="100" />
               </div>
               <h1 class="fs-4 card-title fw-bold mb-4">Create an account</h1>
-              <form
-                method="POST"
-                class="needs-validation"
-                novalidate=""
-                autocomplete="off"
-              >
+              <form class="needs-validation" autocomplete="off">
                 <div class="mb-3">
                   <input
                     id="email"
                     type="email"
                     class="form-control"
                     name="email"
-                    value=""
-                    placeholder="e-mail address*"
-                    required
+                    placeholder="e-mail*"
+                    v-model="state.email"
                     autofocus
                   />
                   <div class="invalid-feedback">Email is invalid</div>
@@ -36,7 +77,7 @@
                     class="form-control"
                     name="password"
                     placeholder="password*"
-                    required
+                    v-model="state.password.psw"
                   />
                   <div class="invalid-feedback">Password is required</div>
                 </div>
@@ -49,7 +90,7 @@
                     class="form-control"
                     name="password-confirm"
                     placeholder="confirm password*"
-                    required
+                    v-model="state.password.confirm"
                   />
                   <div class="invalid-feedback">
                     Password confirmation is required
@@ -68,7 +109,11 @@
                       >Remember Me</label
                     >
                   </div>
-                  <button type="submit" class="btn ms-auto submit">
+                  <button
+                    type="submit"
+                    class="btn ms-auto submit"
+                    @click.prevent="submitForm"
+                  >
                     Login
                   </button>
                 </div>
@@ -86,8 +131,6 @@
     </div>
   </main>
 </template>
-
-<style></style>
 
 <style>
   main {

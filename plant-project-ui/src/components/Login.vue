@@ -12,7 +12,6 @@
               <form
                 method="POST"
                 class="needs-validation login-form"
-                novalidate=""
                 autocomplete="off"
               >
                 <div class="mb-3">
@@ -22,7 +21,7 @@
                     class="form-control"
                     name="email"
                     value=""
-                    placeholder="e-mail address*"
+                    placeholder="e-mail*"
                     required
                     autofocus
                   />
