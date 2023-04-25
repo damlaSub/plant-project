@@ -20,25 +20,30 @@
         },
       });
       const rules = computed(() => {
-        email: { required, email },
-        password: {
-          psw: {required, minLength: minLength(12), maxLength: maxLength(32) },
-          confirm: {required, sameAs(state.password.psw)},
+        email: {
+          required, email;
         }
-      })
+        password: {
+          psw: {
+            required, minLength(12), maxLength(32);
+          }
+          confirm: {
+            required, sameAs(state.password.psw);
+          }
+        }
+      });
 
-      const v$ = useVuelidate(state, rules)
+      const v$ = useVuelidate(state, rules);
 
       return { state, v$ };
     },
-
     methods: {
       submitForm() {
-        this.v$.validate();
+        this.v$.$validate();
         if (!this.v$.$error) {
-          alert("success");
+          alert("'Form successfully submitted.'");
         } else {
-          alert("error");
+          alert("Form failed validation");
         }
       },
     },
@@ -56,7 +61,7 @@
                 <img src="/src/assets/myLogo.png" alt="logo" width="100" />
               </div>
               <h1 class="fs-4 card-title fw-bold mb-4">Create an account</h1>
-              <form class="needs-validation" autocomplete="off">
+              <form autocomplete="off">
                 <div class="mb-3">
                   <input
                     id="email"
@@ -67,7 +72,9 @@
                     v-model="state.email"
                     autofocus
                   />
-                  <div class="invalid-feedback">Email is invalid</div>
+                  <span class="" v-if="v$.email.$error">
+                    {{ v$.email.$errors[0].$message }}</span
+                  >
                 </div>
 
                 <div class="mb-3">
@@ -79,7 +86,9 @@
                     placeholder="password*"
                     v-model="state.password.psw"
                   />
-                  <div class="invalid-feedback">Password is required</div>
+                  <span class="" v-if="v$.password.psw.$error">
+                    {{ v$.password.psw.$errors[0].$message }}
+                  </span>
                 </div>
 
                 <div class="mb-3">
@@ -92,9 +101,9 @@
                     placeholder="confirm password*"
                     v-model="state.password.confirm"
                   />
-                  <div class="invalid-feedback">
-                    Password confirmation is required
-                  </div>
+                  <span class="" v-if="v$.password.confirm.$error">
+                    {{ v$.password.confirm.$errors[0].$message }}
+                  </span>
                 </div>
 
                 <div class="d-flex align-items-center">
