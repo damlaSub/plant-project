@@ -8,45 +8,57 @@
     sameAs,
   } from "@vuelidate/validators";
 
-  import { reactive, computed } from "vue";
-
   export default {
     setup() {
-      const state = reactive({
-        email: "",
-        password: {
-          psw: "",
+      return { v$: useVuelidate() };
+    },
+    data() {
+      return {
+        profile: {
+          email: "",
+          password: "",
           confirm: "",
         },
-      });
-      const rules = computed(() => {
-        email: {
-          required, email;
-        }
-        password: {
-          psw: {
-            required, minLength(12), maxLength(32);
-          }
+        inputs: {
+          email: "",
+          password: "",
+          confirm: "",
+        },
+      };
+    },
+    validations() {
+      return {
+        inputs: {
+          email: {
+            required,
+            email,
+          },
+          password: {
+            required,
+            minLength: minLength(12),
+            maxLength: maxLength(32),
+          },
           confirm: {
-            required, sameAs(state.password.psw);
-          }
-        }
-      });
-
-      const v$ = useVuelidate(state, rules);
-
-      return { state, v$ };
+            required,
+            sameAs: sameAs(this.inputs.password),
+          },
+        },
+      };
     },
     methods: {
       submitForm() {
         this.v$.$validate();
+        // console.log(this.v$);
         if (!this.v$.$error) {
           alert("'Form successfully submitted.'");
-        } else {
-          alert("Form failed validation");
         }
+        //else {
+        //   alert("Form failed validation");
+        // }
       },
     },
+    // mounted() {
+    // },
   };
 </script>
 
@@ -61,7 +73,7 @@
                 <img src="/src/assets/myLogo.png" alt="logo" width="100" />
               </div>
               <h1 class="fs-4 card-title fw-bold mb-4">Create an account</h1>
-              <form autocomplete="off">
+              <form @submit="submitForm" autocomplete="off">
                 <div class="mb-3">
                   <input
                     id="email"
@@ -69,11 +81,11 @@
                     class="form-control"
                     name="email"
                     placeholder="e-mail*"
-                    v-model="state.email"
+                    v-model="this.inputs.email"
                     autofocus
                   />
-                  <span class="" v-if="v$.email.$error">
-                    {{ v$.email.$errors[0].$message }}</span
+                  <span class="text-danger" v-if="v$.inputs.email.$error">
+                    {{ v$.inputs.email.$errors[0].$message }}</span
                   >
                 </div>
 
@@ -84,10 +96,10 @@
                     class="form-control"
                     name="password"
                     placeholder="password*"
-                    v-model="state.password.psw"
+                    v-model="this.inputs.password"
                   />
-                  <span class="" v-if="v$.password.psw.$error">
-                    {{ v$.password.psw.$errors[0].$message }}
+                  <span class="text-danger" v-if="v$.inputs.password.$error">
+                    {{ v$.inputs.password.$errors[0].$message }}
                   </span>
                 </div>
 
@@ -99,10 +111,10 @@
                     class="form-control"
                     name="password-confirm"
                     placeholder="confirm password*"
-                    v-model="state.password.confirm"
+                    v-model="this.inputs.confirm"
                   />
-                  <span class="" v-if="v$.password.confirm.$error">
-                    {{ v$.password.confirm.$errors[0].$message }}
+                  <span class="text-danger" v-if="v$.inputs.confirm.$error">
+                    {{ v$.inputs.confirm.$errors[0].$message }}
                   </span>
                 </div>
 
@@ -118,11 +130,7 @@
                       >Remember Me</label
                     >
                   </div>
-                  <button
-                    type="submit"
-                    class="btn ms-auto submit"
-                    @click.prevent="submitForm"
-                  >
+                  <button type="submit" class="btn ms-auto submit">
                     Login
                   </button>
                 </div>
