@@ -73,7 +73,7 @@
                 <img src="/src/assets/myLogo.png" alt="logo" width="100" />
               </div>
               <h1 class="fs-4 card-title fw-bold mb-4">Create an account</h1>
-              <form @submit="submitForm" autocomplete="off">
+              <form @submit.prevent="submitForm" autocomplete="off">
                 <div class="mb-3">
                   <input
                     id="email"
@@ -81,7 +81,7 @@
                     class="form-control"
                     name="email"
                     placeholder="e-mail*"
-                    v-model="this.inputs.email"
+                    v-model="this.inputs.email.$model"
                     autofocus
                   />
                   <span class="text-danger" v-if="v$.inputs.email.$error">
