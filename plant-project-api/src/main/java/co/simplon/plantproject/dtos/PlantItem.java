@@ -10,8 +10,8 @@ public interface PlantItem {
 
     String getImageUrl();
 
-    Integer getWater();
+    Short getWater();
 
-    Integer getSun();
+    Short getSun();
 
 }

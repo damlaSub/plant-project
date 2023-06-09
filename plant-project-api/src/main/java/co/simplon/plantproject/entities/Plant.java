@@ -23,10 +23,10 @@ public class Plant extends AbstractEntity {
     private String imageUrl;
 
     @Column(name = "water")
-    private int water;
+    private Short water;
 
     @Column(name = "sun")
-    private int sun;
+    private Short sun;
 
     @Column(name = "added_at")
     private LocalDate addedAt;
@@ -67,7 +67,7 @@ public class Plant extends AbstractEntity {
 	return water;
     }
 
-    public void setWater(int water) {
+    public void setWater(Short water) {
 	this.water = water;
     }
 
@@ -75,7 +75,7 @@ public class Plant extends AbstractEntity {
 	return sun;
     }
 
-    public void setSun(int sun) {
+    public void setSun(Short sun) {
 	this.sun = sun;
     }
 
