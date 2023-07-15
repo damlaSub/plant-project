@@ -55,14 +55,10 @@
       <ul class="dropdown-menu">
         <li><img src="../../public/images/sun.svg" /></li>
         <li>
-          <img src="../../public/images/sun.svg" /><img
-            src="../../public/images/sun.svg"
-          />
+          <img v-for="n in 2" src="../../public/images/sun.svg" />
         </li>
         <li>
-          <img src="../../public/images/sun.svg" /><img
-            src="../../public/images/sun.svg"
-          /><img src="../../public/images/sun.svg" />
+          <img v-for="n in 3" src="../../public/images/sun.svg" />
         </li>
       </ul>
     </div>
@@ -80,14 +76,10 @@
           <img src="../../public/images/water.svg" />
         </li>
         <li>
-          <img src="../../public/images/water.svg" /><img
-            src="../../public/images/water.svg"
-          />
+          <img v-for="n in 2" src="../../public/images/water.svg" />
         </li>
         <li>
-          <img src="../../public/images/water.svg" /><img
-            src="../../public/images/water.svg"
-          /><img src="../../public/images/water.svg" />
+          <img v-for="n in 3" src="../../public/images/water.svg" />
         </li>
       </ul>
     </div>
