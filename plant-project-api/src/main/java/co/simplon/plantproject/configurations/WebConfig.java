@@ -1,4 +1,4 @@
-package co.simplon.plantproject;
+package co.simplon.plantproject.configurations;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

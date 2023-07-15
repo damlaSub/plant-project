@@ -1,4 +1,10 @@
 DELETE FROM plants;
+DELETE FROM accounts;
+
+INSERT INTO accounts
+	(first_name, last_name, email, password)
+	VALUES
+	('Damla', 'Test', 'dont@testme', '12345678Test');
 
 INSERT INTO plants
 	(name, latin_name, description, image_url, water, sun, added_at)
