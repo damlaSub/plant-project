@@ -7,7 +7,7 @@ INSERT INTO accounts
 	('Damla', 'Test', 'dont@testme', '12345678Test');
 
 INSERT INTO plants
-	(name, latin_name, description, image_url, water, sun, added_at)
+	(name, latin_name, description, image, water, sun, added_at)
 	VALUES
 	('Calethea', 'Caletheia monstera', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.', 'calethea.jpg', 2, 2, now()
 		),

@@ -1,35 +1,43 @@
-package co.simplon.plantproject.entities;
+package co.simplon.plantproject.dtos;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import org.springframework.web.multipart.MultipartFile;
 
-@Entity
-@Table(name = "plants")
-public class Plant extends AbstractEntity {
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
-    @Column(name = "name")
+public class PlantCreateDto {
+
+    @NotBlank
+    @Size(max = 100)
     private String name;
 
-    @Column(name = "latin_name")
+    @NotBlank
+    @Size(max = 200)
     private String latinName;
 
-    @Column(name = "description")
+    @NotBlank
+    @Size(max = 1000)
     private String description;
 
-    @Column(name = "image")
-    private String imageUrl;
+    // @NotBlank
+    private MultipartFile imageUrl;
 
-    @Column(name = "water")
+    @NotNull
+    @DecimalMax("3.00")
     private Short water;
 
-    @Column(name = "sun")
+    @DecimalMax("3.00")
     private Short sun;
 
-    @Column(name = "added_at")
     private LocalDate addedAt;
+
+    public PlantCreateDto() {
+	// TODO Auto-generated constructor stub
+    }
 
     public String getName() {
 	return name;
@@ -55,15 +63,15 @@ public class Plant extends AbstractEntity {
 	this.description = description;
     }
 
-    public String getImageUrl() {
+    public MultipartFile getImageUrl() {
 	return imageUrl;
     }
 
-    public void setImageUrl(String image) {
+    public void setImageUrl(MultipartFile imageP) {
 	this.imageUrl = imageUrl;
     }
 
-    public int getWater() {
+    public Short getWater() {
 	return water;
     }
 
@@ -71,7 +79,7 @@ public class Plant extends AbstractEntity {
 	this.water = water;
     }
 
-    public int getSun() {
+    public Short getSun() {
 	return sun;
     }
 
