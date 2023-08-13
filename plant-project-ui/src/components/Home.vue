@@ -36,53 +36,50 @@
       type="text"
       v-model.trim="input"
       ref="input"
-      class="form-control"
+      class="form-control search"
       placeholder="Search plants..."
       aria-label="Search plants"
       aria-describedby="basic-addon1"
     />
   </div>
-  <div class="row">
-    <div class="col" role="group">
-      <button
-        type="button"
-        class="btn btn-outline-secondary"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-      >
-        Sun <i class="bi bi-chevron-down"></i>
-      </button>
-      <ul class="dropdown-menu">
-        <li><img src="../../public/images/sun.svg" /></li>
-        <li>
-          <img v-for="n in 2" src="../../public/images/sun.svg" />
-        </li>
-        <li>
-          <img v-for="n in 3" src="../../public/images/sun.svg" />
-        </li>
-      </ul>
-    </div>
-    <div class="col" role="group">
-      <button
-        type="button"
-        class="btn btn-outline-secondary"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-      >
-        Water <i class="bi bi-chevron-down"></i>
-      </button>
-      <ul class="dropdown-menu">
-        <li>
-          <img src="../../public/images/water.svg" />
-        </li>
-        <li>
-          <img v-for="n in 2" src="../../public/images/water.svg" />
-        </li>
-        <li>
-          <img v-for="n in 3" src="../../public/images/water.svg" />
-        </li>
-      </ul>
-    </div>
+  <div class="d-grid gap-2 d-md-flex justify-content-md-end px-5">
+    <button
+      type="button"
+      class="btn"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+    >
+      Sun <i class="bi bi-chevron-down"></i>
+    </button>
+    <ul class="dropdown-menu">
+      <li><img src="../../public/images/sun.svg" /></li>
+      <li>
+        <img v-for="n in 2" src="../../public/images/sun.svg" />
+      </li>
+      <li>
+        <img v-for="n in 3" src="../../public/images/sun.svg" />
+      </li>
+    </ul>
+
+    <button
+      type="button"
+      class="btn"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+    >
+      Water <i class="bi bi-chevron-down"></i>
+    </button>
+    <ul class="dropdown-menu">
+      <li>
+        <img src="../../public/images/water.svg" />
+      </li>
+      <li>
+        <img v-for="n in 2" src="../../public/images/water.svg" />
+      </li>
+      <li>
+        <img v-for="n in 3" src="../../public/images/water.svg" />
+      </li>
+    </ul>
   </div>
   <div
     class="p-5 item error text-danger"
@@ -101,7 +98,10 @@
           />
         </div>
         <div class="card-body">
-          <h5 class="card-title">{{ plant.name }}</h5>
+          <div>
+            <h5 class="card-title">{{ plant.name }}</h5>
+          </div>
+
           <div class="d-flex">
             <ul>
               <span v-for="n in plant.sun">
@@ -114,10 +114,12 @@
                 <img src="../../public/images/water.svg" />
               </span>
             </ul>
-            <button type="button" class="btn btn-light">+</button>
           </div>
           <div class="d-flex align-items-center">
             <p class="card-text">{{ plant.description }}</p>
+          </div>
+          <div class="d-grid d-md-flex justify-content-md-end">
+            <button type="button" class="btn btn-light">+</button>
           </div>
         </div>
       </div>
@@ -125,7 +127,25 @@
   </div>
 </template>
 <style>
+  .btn,
   button {
-    background-color: #f4ede7;
+    color: white;
+    background-color: #355e3b;
+    border-color: #355e3b;
+  }
+  .btn:hover,
+  button:hover {
+    color: white;
+    border-color: white;
+    background-color: #355e3b;
+    cursor: pointer;
+  }
+  #basic-addon1 {
+    background-color: #355e3b;
+  }
+
+  .search:focus {
+    border-color: #355e3b;
+    box-shadow: 0 0 0 0.2rem #355e3b;
   }
 </style>

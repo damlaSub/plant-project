@@ -174,4 +174,11 @@
   .card-footer {
     background-color: #f4ede7;
   }
+  #email:focus,
+  #password:focus,
+  #password-confirm:focus,
+  #remember:focus {
+    border-color: #355e3b;
+    box-shadow: 0 0 0 0.2rem #355e3b;
+  }
 </style>

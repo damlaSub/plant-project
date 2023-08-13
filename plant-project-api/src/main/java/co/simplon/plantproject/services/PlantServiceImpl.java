@@ -18,18 +18,29 @@ import org.springframework.web.multipart.MultipartFile;
 import co.simplon.plantproject.dtos.PlantCreateDto;
 import co.simplon.plantproject.dtos.PlantItem;
 import co.simplon.plantproject.entities.Plant;
+import co.simplon.plantproject.entities.Sun;
+import co.simplon.plantproject.entities.Water;
 import co.simplon.plantproject.repositories.PlantRepository;
+import co.simplon.plantproject.repositories.SunRepository;
+import co.simplon.plantproject.repositories.WaterRepository;
 
 @Service
 @Transactional(readOnly = true)
 public class PlantServiceImpl implements PlantService {
+
+    private final SunRepository suns;
+
+    private final WaterRepository waters;
 
     private final PlantRepository plants;
 
     @Value("${plant.uploads.location}")
     private String uploadDir;
 
-    public PlantServiceImpl(PlantRepository plants) {
+    public PlantServiceImpl(WaterRepository waters,
+	    SunRepository suns, PlantRepository plants) {
+	this.waters = waters;
+	this.suns = suns;
 	this.plants = plants;
     }
 
@@ -50,8 +61,11 @@ public class PlantServiceImpl implements PlantService {
 	    store(file, fileName);
 	}
 
-	entity.setSun(inputs.getSun());
-	entity.setWater(inputs.getWater());
+	Water water = waters
+		.getReferenceById(inputs.getWaterId());
+	entity.setWater(water);
+	Sun sun = suns.getReferenceById(inputs.getSunId());
+	entity.setSun(sun);
 	LocalDate addedAt = LocalDate.now();
 	entity.setAddedAt(addedAt);
 	plants.save(entity);

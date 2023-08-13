@@ -1,4 +1,6 @@
 DROP TABLE IF EXISTS plants;
+DROP TABLE IF EXISTS water_levels;
+DROP TABLE IF EXISTS sun_levels;
 DROP TABLE IF EXISTS accounts;
 
 CREATE TABLE accounts (
@@ -9,13 +11,26 @@ CREATE TABLE accounts (
 	password VARCHAR(250) NOT NULL
 );
 
+
+CREATE TABLE water_levels (
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(40) UNIQUE NOT NULL,
+	logical_order SMALLINT NOT NULL
+);
+
+CREATE TABLE sun_levels (
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(40) UNIQUE NOT NULL,
+	logical_order SMALLINT NOT NULL
+);
+
 CREATE TABLE plants (
 	id SERIAL PRIMARY KEY,
 	name VARCHAR(100) UNIQUE NOT NULL,
 	latin_name VARCHAR(200) UNIQUE NOT NULL,
 	description VARCHAR(1000) NOT NULL,
 	image VARCHAR(300) UNIQUE NOT NULL,
-	water INTEGER NOT NULL,
-    sun INTEGER NOT NULL,
+	water_id INTEGER REFERENCES water_levels(id) NOT NULL,
+	sun_id INTEGER REFERENCES sun_levels(id) NOT NULL,
     added_at DATE NOT NULL
 );

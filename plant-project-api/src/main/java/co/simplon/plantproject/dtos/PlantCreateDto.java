@@ -1,12 +1,10 @@
 package co.simplon.plantproject.dtos;
 
-import java.time.LocalDate;
-
 import org.springframework.web.multipart.MultipartFile;
 
-import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 public class PlantCreateDto {
@@ -27,13 +25,12 @@ public class PlantCreateDto {
     private MultipartFile imageUrl;
 
     @NotNull
-    @DecimalMax("3.00")
-    private Short water;
+    @Positive
+    private Long waterId;
 
-    @DecimalMax("3.00")
-    private Short sun;
-
-    private LocalDate addedAt;
+    @NotNull
+    @Positive
+    private Long sunId;
 
     public PlantCreateDto() {
 	// TODO Auto-generated constructor stub
@@ -67,41 +64,32 @@ public class PlantCreateDto {
 	return imageUrl;
     }
 
-    public void setImageUrl(MultipartFile imageP) {
+    public void setImageUrl(MultipartFile imageUrl) {
 	this.imageUrl = imageUrl;
     }
 
-    public Short getWater() {
-	return water;
+    public Long getWaterId() {
+	return waterId;
     }
 
-    public void setWater(Short water) {
-	this.water = water;
+    public void setWaterId(Long waterId) {
+	this.waterId = waterId;
     }
 
-    public Short getSun() {
-	return sun;
+    public Long getSunId() {
+	return sunId;
     }
 
-    public void setSun(Short sun) {
-	this.sun = sun;
-    }
-
-    public LocalDate getAddedAt() {
-	return addedAt;
-    }
-
-    public void setAddedAt(LocalDate addedAt) {
-	this.addedAt = addedAt;
+    public void setSunId(Long sunId) {
+	this.sunId = sunId;
     }
 
     @Override
     public String toString() {
 	return "{name=" + name + ", latinName=" + latinName
 		+ ", description=" + description
-		+ ", imageUrl=" + imageUrl + ", water="
-		+ water + ", sun=" + sun + ", addedAt="
-		+ addedAt + "}";
+		+ ", imageUrl=" + imageUrl + ", waterId="
+		+ waterId + ", sunId=" + sunId + "}";
     }
 
 }

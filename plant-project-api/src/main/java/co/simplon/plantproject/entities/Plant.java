@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,14 +24,16 @@ public class Plant extends AbstractEntity {
     @Column(name = "image")
     private String imageUrl;
 
-    @Column(name = "water")
-    private Short water;
-
-    @Column(name = "sun")
-    private Short sun;
-
     @Column(name = "added_at")
     private LocalDate addedAt;
+
+    @ManyToOne
+    @JoinColumn(name = "water_id")
+    private Water water;
+
+    @ManyToOne
+    @JoinColumn(name = "sun_id")
+    private Sun sun;
 
     public String getName() {
 	return name;
@@ -59,24 +63,8 @@ public class Plant extends AbstractEntity {
 	return imageUrl;
     }
 
-    public void setImageUrl(String image) {
+    public void setImageUrl(String imageUrl) {
 	this.imageUrl = imageUrl;
-    }
-
-    public int getWater() {
-	return water;
-    }
-
-    public void setWater(Short water) {
-	this.water = water;
-    }
-
-    public int getSun() {
-	return sun;
-    }
-
-    public void setSun(Short sun) {
-	this.sun = sun;
     }
 
     public LocalDate getAddedAt() {
@@ -87,13 +75,29 @@ public class Plant extends AbstractEntity {
 	this.addedAt = addedAt;
     }
 
+    public Water getWater() {
+	return water;
+    }
+
+    public void setWater(Water water) {
+	this.water = water;
+    }
+
+    public Sun getSun() {
+	return sun;
+    }
+
+    public void setSun(Sun sun) {
+	this.sun = sun;
+    }
+
     @Override
     public String toString() {
 	return "{name=" + name + ", latinName=" + latinName
 		+ ", description=" + description
-		+ ", imageUrl=" + imageUrl + ", water="
-		+ water + ", sun=" + sun + ", addedAt="
-		+ addedAt + "}";
+		+ ", imageUrl=" + imageUrl + ", addedAt="
+		+ addedAt + ", water=" + water + ", sun="
+		+ sun + "}";
     }
 
 }
