@@ -52,12 +52,12 @@
       Sun <i class="bi bi-chevron-down"></i>
     </button>
     <ul class="dropdown-menu">
-      <li><img src="../../public/images/sun.svg" /></li>
+      <li><img src="/images/sun.svg" /></li>
       <li>
-        <img v-for="n in 2" src="../../public/images/sun.svg" />
+        <img v-for="n in 2" src="/images/sun.svg" />
       </li>
       <li>
-        <img v-for="n in 3" src="../../public/images/sun.svg" />
+        <img v-for="n in 3" src="/images/sun.svg" />
       </li>
     </ul>
 
@@ -71,13 +71,13 @@
     </button>
     <ul class="dropdown-menu">
       <li>
-        <img src="../../public/images/water.svg" />
+        <img src="/images/water.svg" />
       </li>
       <li>
-        <img v-for="n in 2" src="../../public/images/water.svg" />
+        <img v-for="n in 2" src="/images/water.svg" />
       </li>
       <li>
-        <img v-for="n in 3" src="../../public/images/water.svg" />
+        <img v-for="n in 3" src="/images/water.svg" />
       </li>
     </ul>
   </div>
@@ -105,13 +105,13 @@
           <div class="d-flex">
             <ul>
               <span v-for="n in plant.sun">
-                <img src="../../public/images/sun.svg" />
+                <img src="/images/sun.svg" />
               </span>
             </ul>
 
             <ul>
               <span v-for="n in plant.water">
-                <img src="../../public/images/water.svg" />
+                <img src="/images/water.svg" />
               </span>
             </ul>
           </div>

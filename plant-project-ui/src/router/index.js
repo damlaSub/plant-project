@@ -22,9 +22,14 @@ const router = createRouter({
       component: () => import("../views/SignupView.vue"),
     },
     {
-      path: "/create",
+      path: "/admin/create",
       name: "create",
       component: () => import("../views/CreatePlantView.vue"),
+    },
+    {
+      path: "/admin/plants",
+      name: "edit",
+      component: () => import("../views/AdminEditPlantsView.vue"),
     },
   ],
 });

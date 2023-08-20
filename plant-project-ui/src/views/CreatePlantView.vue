@@ -1,6 +1,6 @@
 <script setup>
-  import CreatePlan from "../components/CreatePlant.vue";
+  import CreatePlant from "../components/CreatePlant.vue";
 </script>
 <template>
-  <CreatePlan />
+  <CreatePlant />
 </template>
