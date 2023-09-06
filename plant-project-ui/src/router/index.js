@@ -29,7 +29,12 @@ const router = createRouter({
     {
       path: "/admin/plants",
       name: "edit",
-      component: () => import("../views/AdminEditPlantsView.vue"),
+      component: () => import("../views/EditPlantsView.vue"),
+    },
+    {
+      path: "/admin/update",
+      name: "update",
+      component: () => import("../views/UpdatePlantView.vue"),
     },
   ],
 });

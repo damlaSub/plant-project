@@ -22,7 +22,7 @@ public class PlantCreateDto {
     private String description;
 
     // @NotBlank
-    private MultipartFile imageUrl;
+    private MultipartFile image;
 
     @NotNull
     @Positive
@@ -60,12 +60,12 @@ public class PlantCreateDto {
 	this.description = description;
     }
 
-    public MultipartFile getImageUrl() {
-	return imageUrl;
+    public MultipartFile getImage() {
+	return image;
     }
 
-    public void setImageUrl(MultipartFile imageUrl) {
-	this.imageUrl = imageUrl;
+    public void setImage(MultipartFile image) {
+	this.image = image;
     }
 
     public Long getWaterId() {
@@ -88,7 +88,7 @@ public class PlantCreateDto {
     public String toString() {
 	return "{name=" + name + ", latinName=" + latinName
 		+ ", description=" + description
-		+ ", imageUrl=" + imageUrl + ", waterId="
+		+ ", image=" + image + ", waterId="
 		+ waterId + ", sunId=" + sunId + "}";
     }
 

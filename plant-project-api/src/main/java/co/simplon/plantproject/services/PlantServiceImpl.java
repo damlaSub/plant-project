@@ -52,14 +52,13 @@ public class PlantServiceImpl implements PlantService {
 	entity.setLatinName(inputs.getLatinName());
 	entity.setDescription(inputs.getDescription());
 
-	if ((inputs.getImageUrl() != null)) {
-	    MultipartFile file = inputs.getImageUrl();
-	    String baseName = UUID.randomUUID().toString();
-	    String fileName = baseName + inputs
-		    .getImageUrl().getOriginalFilename();
-	    entity.setImageUrl(fileName);
-	    store(file, fileName);
-	}
+	// if ((inputs.getImage() != null)) {
+	MultipartFile file = inputs.getImage();
+	String baseName = UUID.randomUUID().toString();
+	String fileName = baseName
+		+ inputs.getImage().getOriginalFilename();
+	store(file, fileName);
+	// }
 
 	Water water = waters
 		.getReferenceById(inputs.getWaterId());
@@ -88,5 +87,14 @@ public class PlantServiceImpl implements PlantService {
     public Collection<PlantItem> getAll() {
 	return plants.findAllProjectedBy();
     }
+
+//    @Override
+//    @Transactional
+//    public void delete(Long id) {
+//	Plant entity = plants.findById(id).get();
+//	MultipartFile file = entity.getImage();
+//	plants.delete(entity);
+//	storage.delete(file, fileName);
+//    }
 
 }

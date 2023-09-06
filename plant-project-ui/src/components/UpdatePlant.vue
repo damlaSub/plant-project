@@ -19,16 +19,16 @@
           waterId: 0,
           sunId: 0,
         },
+        inputs: {
+          description: null,
+          file: null,
+        },
       };
     },
     validations() {
       return {
         inputs: {
-          name: { required, maxLength: maxLength(100) },
-          latinName: { required, maxLength: maxLength(200) },
           description: { required, maxLength: maxLength(1000) },
-          waterId: { minValue: minValue(1) },
-          sunId: { minValue: minValue(1) },
           file: {
             maxValue: (file) => {
               return file.size < 512000;
@@ -47,14 +47,6 @@
           console.error(resp);
         }
       },
-      async initWaters() {
-        const resp = await this.$http.get("/waters");
-        this.waters = resp.body;
-      },
-      async initSuns() {
-        const resp = await this.$http.get("/suns");
-        this.suns = resp.body;
-      },
     },
     beforeMount() {
       this.initWaters();
@@ -65,66 +57,9 @@
 
 <template>
   <div class="mb-3 p-5">
-    <h1 class="fs-4 card-title fw-bold mb-4">Create a plant</h1>
+    <h1 class="fs-4 card-title fw-bold mb-4">Update plant</h1>
+    image, name, latin name, water & sun
     <form class="row g-3" novalidate @submit.prevent="">
-      <div class="col-md-4">
-        <label for="input-name" class="form-label required" maxlength="100"
-          >Name</label
-        >
-        <input
-          v-model.trim="inputs.name"
-          name="input-name"
-          type="text"
-          class="form-control"
-          id="input-name"
-          required
-        />
-        <div class="form-text text-danger">Maximum of 100 chars</div>
-        <div id="input-name-helptext" class="fw-light">Plant's name</div>
-      </div>
-      <div class="col-md-8">
-        <label for="latin" class="form-label required" maxlength="200"
-          >Latin name</label
-        >
-        <input
-          v-model.trim="inputs.latinName"
-          name="latin"
-          type="text"
-          class="form-control"
-          id="latin"
-          required
-        />
-        <div class="form-text text-danger">Maximum of 200 chars</div>
-        <div id="latin-helptext" class="fw-light">Plant's name in latin</div>
-      </div>
-      <div class="col-md-4">
-        <label for="waterId" class="form-label required"
-          >Hydratation level</label
-        >
-        <select
-          v-model.number="inputs.waterId"
-          name="waterId"
-          class="form-select"
-          id="waterId"
-        >
-          <option selected disabled value="0">Select hydratation</option>
-        </select>
-        <div id="water-helptext" class="fw-light">
-          Plant's hydratation level
-        </div>
-      </div>
-      <div class="col-md-4">
-        <label for="sunId" class="form-label required">Sunshine level</label>
-        <select
-          v-model.number="inputs.sunId"
-          name="sunId"
-          class="form-select"
-          id="sunId"
-        >
-          <option selected disabled value="0">Select sunshine</option>
-        </select>
-        <div id="sun-helptext" class="fw-light">Plant's sunshine level</div>
-      </div>
       <div class="col-md-4">
         <label for="image" class="form-label required" maxlength="100"
           >Image</label

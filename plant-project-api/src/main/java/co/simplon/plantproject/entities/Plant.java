@@ -2,6 +2,8 @@ package co.simplon.plantproject.entities;
 
 import java.time.LocalDate;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -22,7 +24,7 @@ public class Plant extends AbstractEntity {
     private String description;
 
     @Column(name = "image")
-    private String imageUrl;
+    private MultipartFile image;
 
     @Column(name = "added_at")
     private LocalDate addedAt;
@@ -59,12 +61,12 @@ public class Plant extends AbstractEntity {
 	this.description = description;
     }
 
-    public String getImageUrl() {
-	return imageUrl;
+    public MultipartFile getImage() {
+	return image;
     }
 
-    public void setImageUrl(String imageUrl) {
-	this.imageUrl = imageUrl;
+    public void setImage(MultipartFile image) {
+	this.image = image;
     }
 
     public LocalDate getAddedAt() {
@@ -95,7 +97,7 @@ public class Plant extends AbstractEntity {
     public String toString() {
 	return "{name=" + name + ", latinName=" + latinName
 		+ ", description=" + description
-		+ ", imageUrl=" + imageUrl + ", addedAt="
+		+ ", image=" + image + ", addedAt="
 		+ addedAt + ", water=" + water + ", sun="
 		+ sun + "}";
     }

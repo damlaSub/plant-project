@@ -10,4 +10,6 @@ public interface PlantService {
     Collection<PlantItem> getAll();
 
     void create(PlantCreateDto inputs);
+
+    // void delete(Long id);
 }
