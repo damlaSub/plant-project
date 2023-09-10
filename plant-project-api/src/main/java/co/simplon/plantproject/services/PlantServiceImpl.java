@@ -17,30 +17,32 @@ import org.springframework.web.multipart.MultipartFile;
 
 import co.simplon.plantproject.dtos.PlantCreateDto;
 import co.simplon.plantproject.dtos.PlantItem;
+import co.simplon.plantproject.dtos.PlantUpdateDto;
+import co.simplon.plantproject.entities.Hydration;
 import co.simplon.plantproject.entities.Plant;
-import co.simplon.plantproject.entities.Sun;
-import co.simplon.plantproject.entities.Water;
+import co.simplon.plantproject.entities.Sunlight;
+import co.simplon.plantproject.repositories.HydrationRepository;
 import co.simplon.plantproject.repositories.PlantRepository;
-import co.simplon.plantproject.repositories.SunRepository;
-import co.simplon.plantproject.repositories.WaterRepository;
+import co.simplon.plantproject.repositories.SunlightRepository;
 
 @Service
 @Transactional(readOnly = true)
 public class PlantServiceImpl implements PlantService {
 
-    private final SunRepository suns;
-
-    private final WaterRepository waters;
-
-    private final PlantRepository plants;
-
     @Value("${plant.uploads.location}")
     private String uploadDir;
 
-    public PlantServiceImpl(WaterRepository waters,
-	    SunRepository suns, PlantRepository plants) {
-	this.waters = waters;
-	this.suns = suns;
+    private final SunlightRepository sunlights;
+
+    private final HydrationRepository hydrations;
+
+    private final PlantRepository plants;
+
+    public PlantServiceImpl(HydrationRepository hydrations,
+	    SunlightRepository sunlights,
+	    PlantRepository plants) {
+	this.hydrations = hydrations;
+	this.sunlights = sunlights;
 	this.plants = plants;
     }
 
@@ -48,26 +50,60 @@ public class PlantServiceImpl implements PlantService {
     @Transactional
     public void create(PlantCreateDto inputs) {
 	Plant entity = new Plant();
-	entity.setName(inputs.getName());
+	entity.setCommonName(inputs.getCommonName());
 	entity.setLatinName(inputs.getLatinName());
 	entity.setDescription(inputs.getDescription());
 
-	// if ((inputs.getImage() != null)) {
-	MultipartFile file = inputs.getImage();
+	MultipartFile file = inputs.getFile();
 	String baseName = UUID.randomUUID().toString();
 	String fileName = baseName
-		+ inputs.getImage().getOriginalFilename();
-	store(file, fileName);
-	// }
+		+ inputs.getFile().getOriginalFilename();
+	entity.setImage(fileName);
 
-	Water water = waters
-		.getReferenceById(inputs.getWaterId());
-	entity.setWater(water);
-	Sun sun = suns.getReferenceById(inputs.getSunId());
-	entity.setSun(sun);
+	store(file, fileName);
+
+	Hydration hydration = hydrations
+		.getReferenceById(inputs.getHydrationId());
+	entity.setHydration(hydration);
+	Sunlight sunlight = sunlights
+		.getReferenceById(inputs.getSunlightId());
+	entity.setSunlight(sunlight);
 	LocalDate addedAt = LocalDate.now();
 	entity.setAddedAt(addedAt);
 	plants.save(entity);
+	System.out.println(
+		inputs.getFile().getOriginalFilename());
+
+    }
+
+    @Override
+    @Transactional
+    public void update(Long id, PlantUpdateDto inputs) {
+	Plant entity = new Plant();
+	entity.setCommonName(inputs.getCommonName());
+	entity.setLatinName(inputs.getLatinName());
+	entity.setDescription(inputs.getDescription());
+
+	MultipartFile file = inputs.getFile();
+	if (file != null) {
+	    String baseName = UUID.randomUUID().toString();
+	    String fileName = baseName + inputs.getFile()
+		    .getOriginalFilename();
+	    entity.setImage(fileName);
+
+	    store(file, fileName);
+	}
+	Hydration hydration = hydrations
+		.getReferenceById(inputs.getHydrationId());
+	entity.setHydration(hydration);
+	Sunlight sunlight = sunlights
+		.getReferenceById(inputs.getSunlightId());
+	entity.setSunlight(sunlight);
+	LocalDate addedAt = LocalDate.now();
+	entity.setAddedAt(addedAt);
+	plants.save(entity);
+	System.out.println(
+		inputs.getFile().getOriginalFilename());
 
     }
 

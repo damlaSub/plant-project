@@ -6,22 +6,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import co.simplon.plantproject.dtos.WaterOrSunValue;
-import co.simplon.plantproject.services.SunService;
+import co.simplon.plantproject.dtos.HydrationOrSunlightValue;
+import co.simplon.plantproject.services.SunlightService;
 
 @RestController
-@RequestMapping("/suns")
-public class SunController {
+@RequestMapping("/sunlights")
+public class SunlightController {
 
-    private final SunService service;
+    private final SunlightService service;
 
-    public SunController(SunService service) {
+    public SunlightController(SunlightService service) {
 
 	this.service = service;
     }
 
     @GetMapping
-    public Collection<WaterOrSunValue> getAll() {
+    public Collection<HydrationOrSunlightValue> getAll() {
 	return service.getAll();
     }
 

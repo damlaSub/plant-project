@@ -1,13 +1,13 @@
 package co.simplon.plantproject.dtos;
 
-import co.simplon.plantproject.entities.Sun;
-import co.simplon.plantproject.entities.Water;
+import co.simplon.plantproject.entities.Hydration;
+import co.simplon.plantproject.entities.Sunlight;
 
 public interface PlantItem {
 
     Long getId();
 
-    String getName();
+    String getCommonName();
 
     String getLatinName();
 
@@ -15,8 +15,8 @@ public interface PlantItem {
 
     String getImage();
 
-    Water getWater();
+    Hydration getHydration();
 
-    Sun getSun();
+    Sunlight getSunlight();
 
 }

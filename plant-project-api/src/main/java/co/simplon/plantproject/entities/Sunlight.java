@@ -5,10 +5,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "sun_levels")
-public class Sun extends AbstractEntity {
+@Table(name = "sunlight_levels")
+public class Sunlight extends AbstractEntity {
 
-    public Sun() {
+    public Sunlight() {
 	// TODO Auto-generated constructor stub
     }
 

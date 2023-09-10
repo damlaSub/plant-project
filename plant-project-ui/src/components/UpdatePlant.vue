@@ -15,7 +15,7 @@
           name: null,
           latinName: null,
           description: null,
-          imageUrl: null,
+          image: null,
           waterId: 0,
           sunId: 0,
         },
@@ -39,7 +39,7 @@
     },
     methods: {
       async submit() {
-        const resp = await this.$http.post("/plants", this.inputs);
+        const resp = await this.$http.patch("/plants", this.inputs);
         if (resp.status === 204) {
           Object.assign(this.inputs, this.$options.data().inputs);
           this.$v.$reset();
@@ -70,7 +70,7 @@
           class="form-control"
           id="image"
           required
-          accept="image/png,image/gif,image/jpeg"
+          accept="image/png,image/gif,image/jpeg,image/jpg"
           @change="handleFileUpload"
           @keyup.esc=""
         />

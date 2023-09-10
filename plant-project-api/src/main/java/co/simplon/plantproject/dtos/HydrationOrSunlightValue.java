@@ -1,6 +1,6 @@
 package co.simplon.plantproject.dtos;
 
-public interface WaterOrSunValue {
+public interface HydrationOrSunlightValue {
 
     Long getId();
 

@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
-public class PlantCreateDto {
+public class PlantUpdateDto {
 
     @NotBlank
     @Size(max = 100)
@@ -21,7 +21,6 @@ public class PlantCreateDto {
     @Size(max = 1000)
     private String description;
 
-    @NotBlank
     private MultipartFile file;
 
     @NotNull
@@ -31,10 +30,6 @@ public class PlantCreateDto {
     @NotNull
     @Positive
     private Long sunlightId;
-
-    public PlantCreateDto() {
-	// TODO Auto-generated constructor stub
-    }
 
     public String getCommonName() {
 	return commonName;

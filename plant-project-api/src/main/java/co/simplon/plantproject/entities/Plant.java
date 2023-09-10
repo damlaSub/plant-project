@@ -2,8 +2,6 @@ package co.simplon.plantproject.entities;
 
 import java.time.LocalDate;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -14,8 +12,8 @@ import jakarta.persistence.Table;
 @Table(name = "plants")
 public class Plant extends AbstractEntity {
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "common_name")
+    private String commonName;
 
     @Column(name = "latin_name")
     private String latinName;
@@ -24,25 +22,25 @@ public class Plant extends AbstractEntity {
     private String description;
 
     @Column(name = "image")
-    private MultipartFile image;
+    private String image;
 
     @Column(name = "added_at")
     private LocalDate addedAt;
 
     @ManyToOne
-    @JoinColumn(name = "water_id")
-    private Water water;
+    @JoinColumn(name = "hydration_id")
+    private Hydration hydration;
 
     @ManyToOne
-    @JoinColumn(name = "sun_id")
-    private Sun sun;
+    @JoinColumn(name = "sunlight_id")
+    private Sunlight sunlight;
 
-    public String getName() {
-	return name;
+    public String getCommonName() {
+	return commonName;
     }
 
-    public void setName(String name) {
-	this.name = name;
+    public void setCommonName(String commonName) {
+	this.commonName = commonName;
     }
 
     public String getLatinName() {
@@ -61,11 +59,11 @@ public class Plant extends AbstractEntity {
 	this.description = description;
     }
 
-    public MultipartFile getImage() {
+    public String getImage() {
 	return image;
     }
 
-    public void setImage(MultipartFile image) {
+    public void setImage(String image) {
 	this.image = image;
     }
 
@@ -77,29 +75,29 @@ public class Plant extends AbstractEntity {
 	this.addedAt = addedAt;
     }
 
-    public Water getWater() {
-	return water;
+    public Hydration getHydration() {
+	return hydration;
     }
 
-    public void setWater(Water water) {
-	this.water = water;
+    public void setHydration(Hydration hydration) {
+	this.hydration = hydration;
     }
 
-    public Sun getSun() {
-	return sun;
+    public Sunlight getSunlight() {
+	return sunlight;
     }
 
-    public void setSun(Sun sun) {
-	this.sun = sun;
+    public void setSunlight(Sunlight sunlight) {
+	this.sunlight = sunlight;
     }
 
     @Override
     public String toString() {
-	return "{name=" + name + ", latinName=" + latinName
-		+ ", description=" + description
+	return "{commonName=" + commonName + ", latinName="
+		+ latinName + ", description=" + description
 		+ ", image=" + image + ", addedAt="
-		+ addedAt + ", water=" + water + ", sun="
-		+ sun + "}";
+		+ addedAt + ", hydration=" + hydration
+		+ ", sunlight=" + sunlight + "}";
     }
 
 }

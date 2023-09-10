@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS plants;
-DROP TABLE IF EXISTS water_levels;
-DROP TABLE IF EXISTS sun_levels;
+DROP TABLE IF EXISTS hydration_levels;
+DROP TABLE IF EXISTS sunlight_levels;
 DROP TABLE IF EXISTS accounts;
 
 CREATE TABLE accounts (
@@ -12,13 +12,13 @@ CREATE TABLE accounts (
 );
 
 
-CREATE TABLE water_levels (
+CREATE TABLE hydration_levels (
 	id SERIAL PRIMARY KEY,
 	name VARCHAR(40) UNIQUE NOT NULL,
 	logical_order SMALLINT NOT NULL
 );
 
-CREATE TABLE sun_levels (
+CREATE TABLE sunlight_levels (
 	id SERIAL PRIMARY KEY,
 	name VARCHAR(40) UNIQUE NOT NULL,
 	logical_order SMALLINT NOT NULL
@@ -26,11 +26,11 @@ CREATE TABLE sun_levels (
 
 CREATE TABLE plants (
 	id SERIAL PRIMARY KEY,
-	name VARCHAR(100) UNIQUE NOT NULL,
+	common_name VARCHAR(100) UNIQUE NOT NULL,
 	latin_name VARCHAR(200) UNIQUE NOT NULL,
 	description VARCHAR(1000) NOT NULL,
 	image VARCHAR(300) UNIQUE NOT NULL,
-	water_id INTEGER REFERENCES water_levels(id) NOT NULL,
-	sun_id INTEGER REFERENCES sun_levels(id) NOT NULL,
+	hydration_id INTEGER REFERENCES hydration_levels(id) NOT NULL,
+	sunlight_id INTEGER REFERENCES sunlight_levels(id) NOT NULL,
     added_at DATE NOT NULL
 );

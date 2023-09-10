@@ -15,7 +15,7 @@
           name: null,
           latinName: null,
           description: null,
-          imageUrl: null,
+          image: null,
           waterId: 0,
           sunId: 0,
         },

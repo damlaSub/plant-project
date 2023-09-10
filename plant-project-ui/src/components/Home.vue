@@ -92,7 +92,7 @@
       <div class="card h-100">
         <div class="p-3">
           <img
-            :src="baseUrl + plant.imageUrl"
+            :src="baseUrl + plant.image"
             class="card-img-top"
             :alt="plant.name"
           />
@@ -104,13 +104,13 @@
 
           <div class="d-flex">
             <ul>
-              <span v-for="n in plant.sun">
+              <span v-for="n in plant.sun.logicalOrder">
                 <img src="/images/sun.svg" />
               </span>
             </ul>
 
             <ul>
-              <span v-for="n in plant.water">
+              <span v-for="n in plant.water.logicalOrder">
                 <img src="/images/water.svg" />
               </span>
             </ul>
