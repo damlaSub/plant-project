@@ -10,10 +10,10 @@
       async initPlants() {
         const resp = await this.$http.get("/plants");
         this.plants = resp.body;
-        console.log(this.plants);
       },
-      handleDelete() {
-        // remove() ...
+      handleDelete(id) {
+        let updatePlantList = this.plants.filter((el) => el.id !== id);
+        this.plants = updatePlantList;
       },
     },
     beforeMount() {
@@ -32,12 +32,12 @@
     </div>
     <div class="container-xl">
       <div class="row row-title fw-bold py-3">
-        <div class="col">Name</div>
+        <div class="col">Common name</div>
         <div class="col">Latin name</div>
         <div class="col">Description</div>
         <div class="col">Image</div>
-        <div class="col">Water level</div>
-        <div class="col">Sun level</div>
+        <div class="col">Hydration level</div>
+        <div class="col">Sunlight level</div>
         <div class="col">Action</div>
       </div>
     </div>
@@ -45,29 +45,43 @@
     <div class="container-xl">
       <div
         v-for="plant in plants"
+        :key="plant.id"
         class="row py-2 border border-light border-top-0 rounded-bottom"
       >
-        <div class="col text-truncate">{{ plant.name }}</div>
+        <div class="col text-truncate">{{ plant.commonName }}</div>
         <div class="col text-truncate">{{ plant.latinName }}</div>
         <div class="col text-truncate">{{ plant.description }}</div>
         <div class="col">{{ plant.image }}</div>
-        <div class="col">{{ plant.water.name }}</div>
-        <div class="col">{{ plant.sun.name }}</div>
+        <div class="col">{{ plant.hydration.name }}</div>
+        <div class="col">{{ plant.sunlight.name }}</div>
         <div class="col">
           <a class="icon-update" href="/admin/update">
             <i class="bi bi-pencil"></i>
           </a>
-          <button @click="handleDelete()" type="button" class="btn btn-delete">
+          <button
+            @click="handleDelete(plant.id)"
+            type="button"
+            class="btn btn-delete"
+          >
             <i class="bi bi-trash"></i>
           </button>
         </div>
       </div>
     </div>
-    <!-- <div
+  </div>
+
+  <!-- toast -->
+  <div
+    aria-live="polite"
+    aria-atomic="true"
+    class="d-flex justify-content-center align-items-center w-100"
+  >
+    <div
       class="toast top-50 start-50 translate-middle"
       role="alert"
       aria-live="assertive"
       aria-atomic="true"
+      data-bs-autohide="false"
     >
       <div class="toast-body">
         Delete this item ?
@@ -82,7 +96,7 @@
           </button>
         </div>
       </div>
-    </div> -->
+    </div>
   </div>
 </template>
 <style>

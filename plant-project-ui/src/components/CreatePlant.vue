@@ -7,29 +7,30 @@
     },
     data() {
       return {
-        FileSystem: import.meta.env.VITE_IMG_BASE_URL,
-        sizeFile: true,
-        waters: [],
-        suns: [],
+        // FileSystem: import.meta.env.VITE_IMG_BASE_URL,
+        // sizeFile: true,
+        hydratationLevels: [],
+        sunlightLevels: [],
         plant: {
-          name: null,
+          commonName: null,
           latinName: null,
           description: null,
-          image: null,
-          waterId: 0,
-          sunId: 0,
+          file: undefined,
+          hydrationId: 0,
+          sunlightId: 0,
         },
       };
     },
     validations() {
       return {
         inputs: {
-          name: { required, maxLength: maxLength(100) },
+          commonName: { required, maxLength: maxLength(100) },
           latinName: { required, maxLength: maxLength(200) },
           description: { required, maxLength: maxLength(1000) },
-          waterId: { minValue: minValue(1) },
-          sunId: { minValue: minValue(1) },
+          hydrationId: { minValue: minValue(1) },
+          sunlightId: { minValue: minValue(1) },
           file: {
+            required,
             maxValue: (file) => {
               return file.size < 512000;
             },
@@ -47,18 +48,18 @@
           console.error(resp);
         }
       },
-      async initWaters() {
-        const resp = await this.$http.get("/waters");
-        this.waters = resp.body;
+      async initSunlightLevels() {
+        const resp = await this.$http.get("/sunlights");
+        this.sunlightLevels = resp.body;
       },
-      async initSuns() {
-        const resp = await this.$http.get("/suns");
-        this.suns = resp.body;
+      async initHydrationLevels() {
+        const resp = await this.$http.get("/hydrations");
+        this.hydrationLevels = resp.body;
       },
     },
     beforeMount() {
-      this.initWaters();
-      this.initSuns();
+      this.initSunlightLevels();
+      this.initHydrationLevels();
     },
   };
 </script>
@@ -66,13 +67,13 @@
 <template>
   <div class="mb-3 p-5">
     <h1 class="fs-4 card-title fw-bold mb-4">Create a plant</h1>
-    <form class="row g-3" novalidate @submit.prevent="">
+    <form class="row g-3" novalidate @submit.prevent="submit">
       <div class="col-md-4">
         <label for="input-name" class="form-label required" maxlength="100"
-          >Name</label
+          >Common name</label
         >
         <input
-          v-model.trim="inputs.name"
+          v-model.trim="inputs.commonName"
           name="input-name"
           type="text"
           class="form-control"
@@ -80,7 +81,7 @@
           required
         />
         <div class="form-text text-danger">Maximum of 100 chars</div>
-        <div id="input-name-helptext" class="fw-light">Plant's name</div>
+        <div id="input-name-helptext" class="fw-light">Plant's common name</div>
       </div>
       <div class="col-md-8">
         <label for="latin" class="form-label required" maxlength="200"
@@ -95,35 +96,45 @@
           required
         />
         <div class="form-text text-danger">Maximum of 200 chars</div>
-        <div id="latin-helptext" class="fw-light">Plant's name in latin</div>
+        <div id="latin-helptext" class="fw-light">Plant's latin name</div>
       </div>
       <div class="col-md-4">
-        <label for="waterId" class="form-label required"
+        <label for="hydrationId" class="form-label required"
           >Hydratation level</label
         >
         <select
-          v-model.number="inputs.waterId"
-          name="waterId"
+          v-model.number="inputs.hydrationId"
+          name="hydrationId"
           class="form-select"
-          id="waterId"
+          id="hydrationId"
         >
           <option selected disabled value="0">Select hydratation</option>
+          <option v-for="hydrationLevel in hydrationLevels">
+            {{ hydrationLevel.name }}
+          </option>
         </select>
-        <div id="water-helptext" class="fw-light">
+        <div id="hydratation-helptext" class="fw-light">
           Plant's hydratation level
         </div>
       </div>
       <div class="col-md-4">
-        <label for="sunId" class="form-label required">Sunshine level</label>
-        <select
-          v-model.number="inputs.sunId"
-          name="sunId"
-          class="form-select"
-          id="sunId"
+        <label for="sunlightId" class="form-label required"
+          >Sunlight level</label
         >
-          <option selected disabled value="0">Select sunshine</option>
+        <select
+          v-model.number="inputs.sunlightId"
+          name="sunlightId"
+          class="form-select"
+          id="sunlightId"
+        >
+          <option selected disabled value="0">Select sunlight</option>
+          <option v-for="sunlightLevel in sunlightLevels">
+            {{ sunlightLevel.name }}
+          </option>
         </select>
-        <div id="sun-helptext" class="fw-light">Plant's sunshine level</div>
+        <div id="sunlight-helptext" class="fw-light">
+          Plant's sunlight level
+        </div>
       </div>
       <div class="col-md-4">
         <label for="image" class="form-label required" maxlength="100"
@@ -135,18 +146,19 @@
           class="form-control"
           id="image"
           required
-          accept="image/png,image/gif,image/jpeg"
+          accept="image/png,image/gif,image/jpeg, image/jpg"
           @change="handleFileUpload"
           @keyup.esc=""
         />
         <div class="form-text text-danger">
           Image size must be less than 500ko
         </div>
-        <div class="form-text mb-3">Plant's image</div>
+        <div id="image-helptext" class="fw-light">Plant's image</div>
       </div>
       <div class="col-12">
         <label for="description" class="form-label required">Description</label>
         <textarea
+          v-model.trim="inputs.description"
           name="description"
           class="form-control"
           id="description"
@@ -156,10 +168,10 @@
           required
         ></textarea>
         <div class="form-text text-danger">
-          Text with a maximum of 1000 chars.
+          Text with a maximum of 1000 chars
         </div>
         <div id="description-helptext" class="fw-light">
-          Plant's description.
+          Plant's description
         </div>
       </div>
       <div class="d-grid d-md-flex justify-content-md-end">
@@ -168,6 +180,7 @@
     </form>
   </div>
 </template>
+
 <style>
   .btn,
   button {

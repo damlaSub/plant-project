@@ -3,22 +3,38 @@
     data() {
       return {
         baseUrl: import.meta.env.VITE_IMG_BASE_URL,
+        hydratationLevels: [],
+        sunlightLevels: [],
         plants: [],
         input: "",
       };
     },
     methods: {
+      async initSunlightLevels() {
+        const resp = await this.$http.get("/sunlights");
+        this.sunlightLevels = resp.body;
+      },
+      async initHydrationLevels() {
+        const resp = await this.$http.get("/hydrations");
+        this.hydrationLevels = resp.body;
+      },
       async initPlants() {
         const resp = await this.$http.get("/plants");
         this.plants = resp.body;
       },
       filteredPlantList() {
-        return this.plants.filter((plant) =>
-          plant.name.toLowerCase().includes(this.input.toLowerCase())
+        return this.plants.filter(
+          (plant) =>
+            plant.commonName.toLowerCase().includes(this.input.toLowerCase()) ||
+            plant.latinName
+              .toLowerCase()
+              .includes(this.input.toLocaleLowerCase())
         );
       },
     },
     beforeMount() {
+      this.initHydrationLevels();
+      this.initSunlightLevels();
       this.initPlants();
     },
     mounted() {
@@ -49,16 +65,10 @@
       data-bs-toggle="dropdown"
       aria-expanded="false"
     >
-      Sun <i class="bi bi-chevron-down"></i>
+      Sunligt <i class="bi bi-chevron-down"></i>
     </button>
     <ul class="dropdown-menu">
-      <li><img src="/images/sun.svg" /></li>
-      <li>
-        <img v-for="n in 2" src="/images/sun.svg" />
-      </li>
-      <li>
-        <img v-for="n in 3" src="/images/sun.svg" />
-      </li>
+      <li v-for="sunlightLevel in sunlightLevels">{{ sunlightLevel.name }}</li>
     </ul>
 
     <button
@@ -67,17 +77,11 @@
       data-bs-toggle="dropdown"
       aria-expanded="false"
     >
-      Water <i class="bi bi-chevron-down"></i>
+      Hydration <i class="bi bi-chevron-down"></i>
     </button>
     <ul class="dropdown-menu">
-      <li>
-        <img src="/images/water.svg" />
-      </li>
-      <li>
-        <img v-for="n in 2" src="/images/water.svg" />
-      </li>
-      <li>
-        <img v-for="n in 3" src="/images/water.svg" />
+      <li v-for="hydrationLevel in hydrationLevels">
+        {{ hydrationLevel.name }}
       </li>
     </ul>
   </div>
@@ -88,7 +92,7 @@
     <p>No results found!</p>
   </div>
   <div class="row row-cols-md-4 g-3 p-5">
-    <div class="col" v-for="plant in filteredPlantList()" :key="plant">
+    <div class="col" v-for="plant in filteredPlantList()" :key="plant.id">
       <div class="card h-100">
         <div class="p-3">
           <img
@@ -99,18 +103,18 @@
         </div>
         <div class="card-body">
           <div>
-            <h5 class="card-title">{{ plant.name }}</h5>
+            <h5 class="card-title">{{ plant.commonName }}</h5>
           </div>
 
           <div class="d-flex">
             <ul>
-              <span v-for="n in plant.sun.logicalOrder">
+              <span v-for="n in plant.sunlight.logicalOrder">
                 <img src="/images/sun.svg" />
               </span>
             </ul>
 
             <ul>
-              <span v-for="n in plant.water.logicalOrder">
+              <span v-for="n in plant.hydration.logicalOrder">
                 <img src="/images/water.svg" />
               </span>
             </ul>
