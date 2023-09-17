@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -27,13 +28,17 @@ public class Plant extends AbstractEntity {
     @Column(name = "added_at")
     private LocalDate addedAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hydration_id")
     private Hydration hydration;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sunlight_id")
     private Sunlight sunlight;
+
+    public Plant() {
+
+    }
 
     public String getCommonName() {
 	return commonName;

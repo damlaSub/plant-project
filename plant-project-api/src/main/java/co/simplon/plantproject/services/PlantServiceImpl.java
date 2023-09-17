@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import co.simplon.plantproject.dtos.PlantCreateDto;
+import co.simplon.plantproject.dtos.PlantDetail;
 import co.simplon.plantproject.dtos.PlantItem;
 import co.simplon.plantproject.dtos.PlantUpdateDto;
 import co.simplon.plantproject.entities.Hydration;
@@ -53,21 +54,18 @@ public class PlantServiceImpl implements PlantService {
 	entity.setCommonName(inputs.getCommonName());
 	entity.setLatinName(inputs.getLatinName());
 	entity.setDescription(inputs.getDescription());
-
-	MultipartFile file = inputs.getFile();
-	String baseName = UUID.randomUUID().toString();
-	String fileName = baseName
-		+ inputs.getFile().getOriginalFilename();
-	entity.setImage(fileName);
-
-	store(file, fileName);
-
 	Hydration hydration = hydrations
 		.getReferenceById(inputs.getHydrationId());
 	entity.setHydration(hydration);
 	Sunlight sunlight = sunlights
 		.getReferenceById(inputs.getSunlightId());
 	entity.setSunlight(sunlight);
+	MultipartFile file = inputs.getFile();
+	String baseName = UUID.randomUUID().toString();
+	String fileName = baseName
+		+ inputs.getFile().getOriginalFilename();
+	entity.setImage(fileName);
+	store(file, fileName);
 	LocalDate addedAt = LocalDate.now();
 	entity.setAddedAt(addedAt);
 	plants.save(entity);
@@ -79,26 +77,21 @@ public class PlantServiceImpl implements PlantService {
     @Override
     @Transactional
     public void update(Long id, PlantUpdateDto inputs) {
-	Plant entity = new Plant();
-	entity.setCommonName(inputs.getCommonName());
-	entity.setLatinName(inputs.getLatinName());
-	entity.setDescription(inputs.getDescription());
+	Plant entity = plants.findById(id).get();
 
-	MultipartFile file = inputs.getFile();
-	if (file != null) {
+	if (inputs.getFile() != null) {
+	    Path oldImage = Paths.get(uploadDir,
+		    entity.getImage());
+	    MultipartFile file = inputs.getFile();
 	    String baseName = UUID.randomUUID().toString();
 	    String fileName = baseName + inputs.getFile()
 		    .getOriginalFilename();
 	    entity.setImage(fileName);
-
 	    store(file, fileName);
+	    oldImage.toFile().delete();
 	}
-	Hydration hydration = hydrations
-		.getReferenceById(inputs.getHydrationId());
-	entity.setHydration(hydration);
-	Sunlight sunlight = sunlights
-		.getReferenceById(inputs.getSunlightId());
-	entity.setSunlight(sunlight);
+
+	entity.setDescription(inputs.getDescription());
 	LocalDate addedAt = LocalDate.now();
 	entity.setAddedAt(addedAt);
 	plants.save(entity);
@@ -124,13 +117,24 @@ public class PlantServiceImpl implements PlantService {
 	return plants.findAllProjectedBy();
     }
 
-//    @Override
-//    @Transactional
-//    public void delete(Long id) {
-//	Plant entity = plants.findById(id).get();
-//	MultipartFile file = entity.getImage();
-//	plants.delete(entity);
-//	storage.delete(file, fileName);
-//    }
+    @Override
+    public PlantDetail getPlant(Long id) {
+	return plants.findProjectedDetailById(id);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+	Plant entity = plants.findById(id).get();
+	String image = entity.getImage();
+	plants.delete(entity);
+	Path target = Paths.get(uploadDir).resolve(image);
+	try {
+	    Files.delete(target);
+	} catch (IOException ex) {
+	    throw new RuntimeException(ex);
+	}
+
+    }
 
 }

@@ -3,19 +3,9 @@ package co.simplon.plantproject.dtos;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 public class PlantUpdateDto {
-
-    @NotBlank
-    @Size(max = 100)
-    private String commonName;
-
-    @NotBlank
-    @Size(max = 200)
-    private String latinName;
 
     @NotBlank
     @Size(max = 1000)
@@ -23,28 +13,8 @@ public class PlantUpdateDto {
 
     private MultipartFile file;
 
-    @NotNull
-    @Positive
-    private Long hydrationId;
+    public PlantUpdateDto() {
 
-    @NotNull
-    @Positive
-    private Long sunlightId;
-
-    public String getCommonName() {
-	return commonName;
-    }
-
-    public void setCommonName(String commonName) {
-	this.commonName = commonName;
-    }
-
-    public String getLatinName() {
-	return latinName;
-    }
-
-    public void setLatinName(String latinName) {
-	this.latinName = latinName;
     }
 
     public String getDescription() {
@@ -63,29 +33,10 @@ public class PlantUpdateDto {
 	this.file = file;
     }
 
-    public Long getHydrationId() {
-	return hydrationId;
-    }
-
-    public void setHydrationId(Long hydrationId) {
-	this.hydrationId = hydrationId;
-    }
-
-    public Long getSunlightId() {
-	return sunlightId;
-    }
-
-    public void setSunlightId(Long sunlightId) {
-	this.sunlightId = sunlightId;
-    }
-
     @Override
     public String toString() {
-	return "{commonName=" + commonName + ", latinName="
-		+ latinName + ", description=" + description
-		+ ", file=" + file + ", hydrationId="
-		+ hydrationId + ", sunlightId=" + sunlightId
-		+ "}";
+	return "{description=" + description + ", file="
+		+ file + "}";
     }
 
 }

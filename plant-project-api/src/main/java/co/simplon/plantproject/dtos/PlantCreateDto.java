@@ -21,7 +21,7 @@ public class PlantCreateDto {
     @Size(max = 1000)
     private String description;
 
-    @NotBlank
+    @NotNull
     private MultipartFile file;
 
     @NotNull

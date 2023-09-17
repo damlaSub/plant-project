@@ -14,14 +14,18 @@ CREATE TABLE accounts (
 
 CREATE TABLE hydration_levels (
 	id SERIAL PRIMARY KEY,
-	name VARCHAR(40) UNIQUE NOT NULL,
-	logical_order SMALLINT NOT NULL
+	hydration_code VARCHAR(5) NOT NULL,
+	hydration_name VARCHAR(40) UNIQUE NOT NULL,
+	logical_order SMALLINT NOT NULL,
+	UNIQUE(hydration_name, hydration_code)
 );
 
 CREATE TABLE sunlight_levels (
 	id SERIAL PRIMARY KEY,
-	name VARCHAR(40) UNIQUE NOT NULL,
-	logical_order SMALLINT NOT NULL
+	sunlight_code VARCHAR(5) NOT NULL,
+	sunlight_name VARCHAR(40) UNIQUE NOT NULL,
+	logical_order SMALLINT NOT NULL,
+	UNIQUE(sunlight_code, sunlight_name)
 );
 
 CREATE TABLE plants (

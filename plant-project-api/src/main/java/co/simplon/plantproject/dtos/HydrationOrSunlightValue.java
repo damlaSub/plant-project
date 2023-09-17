@@ -4,5 +4,6 @@ public interface HydrationOrSunlightValue {
 
     Long getId();
 
-    String getName();
+    String getCode();
+
 }
