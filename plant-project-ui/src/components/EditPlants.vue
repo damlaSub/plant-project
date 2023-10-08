@@ -1,4 +1,6 @@
 <script>
+  import { RouterLink } from "vue-router";
+
   export default {
     data() {
       return {
@@ -11,9 +13,13 @@
         const resp = await this.$http.get("/plants");
         this.plants = resp.body;
       },
-      handleDelete(id) {
-        let updatePlantList = this.plants.filter((el) => el.id !== id);
-        this.plants = updatePlantList;
+      async handleDelete(id) {
+        const resp = await this.$http.delete(`plants/${id}`);
+        if ((resp.status = 204)) {
+          await this.initPlants();
+        } else {
+          console.log(resp);
+        }
       },
     },
     beforeMount() {
@@ -24,7 +30,7 @@
 <template>
   <div class="mb-3 p-5">
     <div class="d-grid d-md-flex justify-content-md-end">
-      <a href="/admin/create"
+      <a href="/admin/plants/create"
         ><button role="button" class="btn btn-create mb-4">
           <i class="bi bi-plus-circle"></i> Create a plant
         </button></a
@@ -46,18 +52,21 @@
       <div
         v-for="plant in plants"
         :key="plant.id"
-        class="row py-2 border border-light border-top-0 rounded-bottom"
+        class="item row py-2 border border-light border-top-0 rounded-bottom"
       >
         <div class="col text-truncate">{{ plant.commonName }}</div>
         <div class="col text-truncate">{{ plant.latinName }}</div>
         <div class="col text-truncate">{{ plant.description }}</div>
-        <div class="col">{{ plant.image }}</div>
+        <div class="col text-truncate">{{ plant.image }}</div>
         <div class="col">{{ plant.hydration.name }}</div>
         <div class="col">{{ plant.sunlight.name }}</div>
         <div class="col">
-          <a class="icon-update" href="/admin/update">
+          <RouterLink
+            :to="{ name: 'update', params: { id: plant.id } }"
+            title="Update plant"
+          >
             <i class="bi bi-pencil"></i>
-          </a>
+          </RouterLink>
           <button
             @click="handleDelete(plant.id)"
             type="button"
@@ -114,14 +123,17 @@
   .row-title {
     background-color: #f9f5f1;
   }
-  .icon-update,
-  .icon-update:hover,
-  .icon-update:focus {
+  .bi-pencil,
+  .bi-pencil:hover,
+  .bi-pencil:focus {
     color: green;
   }
   .btn-delete,
   .btn-delete:hover,
   .btn-delete:focus {
     color: red;
+  }
+  .item:hover {
+    background-color: #f8f9fa;
   }
 </style>

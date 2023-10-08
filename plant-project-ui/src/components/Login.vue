@@ -13,6 +13,7 @@
                 method="POST"
                 class="needs-validation login-form"
                 autocomplete="off"
+                novalidate
               >
                 <div class="mb-3">
                   <input

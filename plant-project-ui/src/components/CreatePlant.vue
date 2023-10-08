@@ -1,17 +1,20 @@
 <script>
   import { useVuelidate } from "@vuelidate/core";
-  import { maxLength, minValue, required } from "@vuelidate/validators";
+  import {
+    maxLength,
+    minValue,
+    required,
+    requiredIf,
+  } from "@vuelidate/validators";
   export default {
     setup() {
       return { v$: useVuelidate() };
     },
     data() {
       return {
-        // FileSystem: import.meta.env.VITE_IMG_BASE_URL,
-        // sizeFile: true,
-        hydratationLevels: [],
+        hydrationLevels: [],
         sunlightLevels: [],
-        plant: {
+        inputs: {
           commonName: null,
           latinName: null,
           description: null,
@@ -27,25 +30,41 @@
           commonName: { required, maxLength: maxLength(100) },
           latinName: { required, maxLength: maxLength(200) },
           description: { required, maxLength: maxLength(1000) },
-          hydrationId: { minValue: minValue(1) },
-          sunlightId: { minValue: minValue(1) },
+          hydrationId: { required, minValue: minValue(1) },
+          sunlightId: { required, minValue: minValue(1) },
           file: {
-            required,
+            required: requiredIf(() => {
+              return this.inputs.file === undefined;
+            }),
             maxValue: (file) => {
-              return file.size < 512000;
+              return file ? file.size <= 5 : false;
             },
           },
         },
       };
     },
     methods: {
-      async submit() {
-        const resp = await this.$http.post("/plants", this.inputs);
+      handleFileUpload(event) {
+        this.inputs.file = event.target.files[0];
+        console.log(this.inputs.file.size);
+      },
+      async submit(event) {
+        const valid = await this.v$.$validate();
+        const formData = new FormData();
+        Object.keys(this.inputs).forEach((key) => {
+          const value = this.inputs[key];
+          if (value) {
+            formData.append(key, value);
+          }
+        });
+
+        const resp = await this.$http.post("/plants", formData);
         if (resp.status === 204) {
           Object.assign(this.inputs, this.$options.data().inputs);
-          this.$v.$reset();
+          event.target.reset();
+          this.v$.$reset();
         } else {
-          console.error(resp);
+          console.log("error");
         }
       },
       async initSunlightLevels() {
@@ -67,7 +86,7 @@
 <template>
   <div class="mb-3 p-5">
     <h1 class="fs-4 card-title fw-bold mb-4">Create a plant</h1>
-    <form class="row g-3" novalidate @submit.prevent="submit">
+    <form class="row g-3 needs-validation" novalidate @submit.prevent="submit">
       <div class="col-md-4">
         <label for="input-name" class="form-label required" maxlength="100"
           >Common name</label
@@ -80,8 +99,12 @@
           id="input-name"
           required
         />
-        <div class="form-text text-danger">Maximum of 100 chars</div>
-        <div id="input-name-helptext" class="fw-light">Plant's common name</div>
+        <span class="form-text text-danger" v-if="v$.inputs.commonName.$error">
+          Maximum of 100 chars
+        </span>
+        <span id="input-name-helptext" class="fw-light" v-else>
+          Plant's common name
+        </span>
       </div>
       <div class="col-md-8">
         <label for="latin" class="form-label required" maxlength="200"
@@ -95,8 +118,12 @@
           id="latin"
           required
         />
-        <div class="form-text text-danger">Maximum of 200 chars</div>
-        <div id="latin-helptext" class="fw-light">Plant's latin name</div>
+        <span class="form-text text-danger" v-if="v$.inputs.latinName.$error">
+          Maximum of 200 chars
+        </span>
+        <span id="latin-helptext" class="fw-light" v-else>
+          Plant's latin name
+        </span>
       </div>
       <div class="col-md-4">
         <label for="hydrationId" class="form-label required"
@@ -108,14 +135,27 @@
           class="form-select"
           id="hydrationId"
         >
-          <option selected disabled value="0">Select hydratation</option>
-          <option v-for="hydrationLevel in hydrationLevels">
+          <option selected disabled value="0">
+            Select an hydratation level
+          </option>
+          <option
+            v-for="hydrationLevel in hydrationLevels"
+            :key="hydrationLevel.id"
+            :value="hydrationLevel.id"
+          >
             {{ hydrationLevel.name }}
           </option>
         </select>
-        <div id="hydratation-helptext" class="fw-light">
+        <span class="form-text text-danger" v-if="v$.inputs.hydrationId.$error">
+          The value is required
+        </span>
+        <span
+          id="hydratation-helptext"
+          class="fw-light"
+          v-else="v$.inputs.hydrationId.$error"
+        >
           Plant's hydratation level
-        </div>
+        </span>
       </div>
       <div class="col-md-4">
         <label for="sunlightId" class="form-label required"
@@ -127,14 +167,25 @@
           class="form-select"
           id="sunlightId"
         >
-          <option selected disabled value="0">Select sunlight</option>
-          <option v-for="sunlightLevel in sunlightLevels">
+          <option selected disabled value="0">Select a sunlight level</option>
+          <option
+            v-for="sunlightLevel in sunlightLevels"
+            :key="sunlightLevel.id"
+            :value="sunlightLevel.id"
+          >
             {{ sunlightLevel.name }}
           </option>
         </select>
-        <div id="sunlight-helptext" class="fw-light">
+        <span class="form-text text-danger" v-if="v$.inputs.sunlightId.$error">
+          The value is required
+        </span>
+        <span
+          id="sunlight-helptext"
+          class="fw-light"
+          v-else="v$.inputs.sunlightId.$error"
+        >
           Plant's sunlight level
-        </div>
+        </span>
       </div>
       <div class="col-md-4">
         <label for="image" class="form-label required" maxlength="100"
@@ -146,14 +197,27 @@
           class="form-control"
           id="image"
           required
-          accept="image/png,image/gif,image/jpeg, image/jpg"
+          accept="image/png,image/gif,image/jpeg"
           @change="handleFileUpload"
           @keyup.esc=""
         />
-        <div class="form-text text-danger">
+        <span
+          class="form-text text-danger"
+          v-if="v$.inputs.file.$error.$message"
+        >
+          {{ v$.inputs.file.$errors[0].$message }}
+        </span>
+
+        <!-- <span
+          class="form-text text-danger"
+          v-else-if="v$.inputs.file.$errors[1]"
+        >
           Image size must be less than 500ko
-        </div>
-        <div id="image-helptext" class="fw-light">Plant's image</div>
+        </span> -->
+        <!-- <span class="form-text text-danger" v-if="v$.inputs.file.$error">
+          {{ v$.inputs.file.$errors[0].$message }}
+        </span> -->
+        <span id="image-helptext" class="fw-light" v-else>Plant's image</span>
       </div>
       <div class="col-12">
         <label for="description" class="form-label required">Description</label>
@@ -167,12 +231,12 @@
           maxlength="1000"
           required
         ></textarea>
-        <div class="form-text text-danger">
+        <span class="form-text text-danger" v-if="v$.inputs.description.$error">
           Text with a maximum of 1000 chars
-        </div>
-        <div id="description-helptext" class="fw-light">
+        </span>
+        <span id="description-helptext" class="fw-light" v-else>
           Plant's description
-        </div>
+        </span>
       </div>
       <div class="d-grid d-md-flex justify-content-md-end">
         <button type="submit" class="btn">Save</button>

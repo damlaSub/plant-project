@@ -73,7 +73,7 @@
                 <img src="/src/assets/myLogo.png" alt="logo" width="100" />
               </div>
               <h1 class="fs-4 card-title fw-bold mb-4">Create an account</h1>
-              <form @submit.prevent="submitForm" autocomplete="off">
+              <form @submit.prevent="submitForm" autocomplete="off" novalidate>
                 <div class="mb-3">
                   <input
                     id="email"

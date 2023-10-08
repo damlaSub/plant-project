@@ -22,7 +22,7 @@ const router = createRouter({
       component: () => import("../views/SignupView.vue"),
     },
     {
-      path: "/admin/create",
+      path: "/admin/plants/create",
       name: "create",
       component: () => import("../views/CreatePlantView.vue"),
     },
@@ -32,7 +32,7 @@ const router = createRouter({
       component: () => import("../views/EditPlantsView.vue"),
     },
     {
-      path: "/admin/update",
+      path: "/admin/plants/:id/update",
       name: "update",
       component: () => import("../views/UpdatePlantView.vue"),
     },

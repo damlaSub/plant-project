@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import co.simplon.plantproject.dtos.PlantCreateDto;
 import co.simplon.plantproject.dtos.PlantDetail;
+import co.simplon.plantproject.dtos.PlantForUpdate;
 import co.simplon.plantproject.dtos.PlantItem;
 import co.simplon.plantproject.dtos.PlantUpdateDto;
 import co.simplon.plantproject.entities.Hydration;
@@ -78,7 +79,15 @@ public class PlantServiceImpl implements PlantService {
     @Transactional
     public void update(Long id, PlantUpdateDto inputs) {
 	Plant entity = plants.findById(id).get();
-
+	entity.setCommonName(inputs.getCommonName());
+	entity.setLatinName(inputs.getLatinName());
+	entity.setDescription(inputs.getDescription());
+	Hydration hydration = hydrations
+		.getReferenceById(inputs.getHydrationId());
+	entity.setHydration(hydration);
+	Sunlight sunlight = sunlights
+		.getReferenceById(inputs.getSunlightId());
+	entity.setSunlight(sunlight);
 	if (inputs.getFile() != null) {
 	    Path oldImage = Paths.get(uploadDir,
 		    entity.getImage());
@@ -90,13 +99,6 @@ public class PlantServiceImpl implements PlantService {
 	    store(file, fileName);
 	    oldImage.toFile().delete();
 	}
-
-	entity.setDescription(inputs.getDescription());
-	LocalDate addedAt = LocalDate.now();
-	entity.setAddedAt(addedAt);
-	plants.save(entity);
-	System.out.println(
-		inputs.getFile().getOriginalFilename());
 
     }
 
@@ -120,6 +122,11 @@ public class PlantServiceImpl implements PlantService {
     @Override
     public PlantDetail getPlant(Long id) {
 	return plants.findProjectedDetailById(id);
+    }
+
+    @Override
+    public PlantForUpdate getForUpdate(Long id) {
+	return plants.findProjectedById(id);
     }
 
     @Override

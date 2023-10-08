@@ -5,11 +5,15 @@ import co.simplon.plantproject.entities.Sunlight;
 
 public interface PlantForUpdate {
 
+    Long getId();
+
     String getCommonName();
 
     String getLatinName();
 
     String getDescription();
+
+    String getImage();
 
     Hydration getHydration();
 

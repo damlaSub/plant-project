@@ -1,6 +1,7 @@
 package co.simplon.plantproject.entities;
 
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 
@@ -8,7 +9,7 @@ import jakarta.persistence.MappedSuperclass;
 abstract class AbstractEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     AbstractEntity() {

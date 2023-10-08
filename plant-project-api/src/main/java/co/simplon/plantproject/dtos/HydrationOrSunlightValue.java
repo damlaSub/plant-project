@@ -6,4 +6,6 @@ public interface HydrationOrSunlightValue {
 
     String getCode();
 
+    String getName();
+
 }
