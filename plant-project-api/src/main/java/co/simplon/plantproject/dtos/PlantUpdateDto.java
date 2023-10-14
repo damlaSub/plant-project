@@ -23,7 +23,7 @@ public class PlantUpdateDto {
     @Size(max = 1000)
     private String description;
 
-    @MaxSize(maxSizeInMB = 10)
+    @MaxSize(maxSizeInMB = 1)
     @FileType
     private MultipartFile file;
 
