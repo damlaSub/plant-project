@@ -1,13 +1,13 @@
 package co.simplon.plantproject.dtos;
 
-public class Credentials {
+public class SignUpCredentials {
 
     private String firstName;
     private String lastName;
     private String email;
     private String password;
 
-    public Credentials() {
+    public SignUpCredentials() {
 	super();
 	// TODO Auto-generated constructor stub
     }

@@ -4,7 +4,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import co.simplon.plantproject.dtos.Credentials;
+import co.simplon.plantproject.dtos.SignUpCredentials;
 import co.simplon.plantproject.dtos.SingInCredentials;
 import co.simplon.plantproject.dtos.TokenInfo;
 import co.simplon.plantproject.entities.Account;
@@ -28,7 +28,7 @@ public class AuthServiceImpl implements AuthService {
     // Sign up, sign in implementation
     @Override
     @Transactional
-    public void signUp(Credentials inputs) {
+    public void signUp(SignUpCredentials inputs) {
 	Account account = new Account();
 	account.setFirstName(inputs.getFirstName());
 	account.setLastName(inputs.getLastName());

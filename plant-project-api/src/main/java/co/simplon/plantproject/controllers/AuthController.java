@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import co.simplon.plantproject.dtos.Credentials;
+import co.simplon.plantproject.dtos.SignUpCredentials;
 import co.simplon.plantproject.dtos.SingInCredentials;
 import co.simplon.plantproject.dtos.TokenInfo;
 import co.simplon.plantproject.services.AuthService;
@@ -20,7 +20,7 @@ public class AuthController {
 
     @PostMapping("/sign-up")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void signUp(@RequestBody Credentials inputs) {
+    public void signUp(@RequestBody SignUpCredentials inputs) {
 	service.signUp(inputs);
     }
 
