@@ -3,6 +3,11 @@ DELETE FROM hydration_levels;
 DELETE FROM sunlight_levels;
 DELETE FROM accounts;
 
+INSERT INTO roles 
+	(role_name)
+	VALUES 
+	('ROLE_ADMIN'), ('ROLE_USER');
+
 INSERT INTO accounts
 	(first_name, last_name, email, password)
 	VALUES
