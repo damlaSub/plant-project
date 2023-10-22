@@ -1,14 +1,26 @@
 DROP TABLE IF EXISTS plants;
 DROP TABLE IF EXISTS hydration_levels;
 DROP TABLE IF EXISTS sunlight_levels;
+DROP TABLE IF EXISTS roles;
 DROP TABLE IF EXISTS accounts;
+
+CREATE TABLE roles (
+    id SERIAL,
+    role_name VARCHAR(100) NOT NULL,
+    constraint pk_role_id primary key(id),
+    UNIQUE (role_name)
+);
 
 CREATE TABLE accounts (
 	id SERIAL PRIMARY KEY,
 	first_name VARCHAR(250) NOT NULL,
 	last_name VARCHAR(250) NOT NULL,
 	email VARCHAR(255) UNIQUE NOT NULL,
-	password VARCHAR(250) NOT NULL
+	password VARCHAR(250) NOT NULL,
+	constraint pk_account_id primary key(id),
+	constraint fk_role_id 
+			foreign key (role_id)
+			references roles(id)
 );
 
 
