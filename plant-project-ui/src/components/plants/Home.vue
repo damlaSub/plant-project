@@ -11,15 +11,15 @@
     },
     methods: {
       async initSunlightLevels() {
-        const resp = await this.$http.get("/sunlights");
+        const resp = await this.$axios.get("/sunlights");
         this.sunlightLevels = resp.body;
       },
       async initHydrationLevels() {
-        const resp = await this.$http.get("/hydrations");
+        const resp = await this.$axios.get("/hydrations");
         this.hydrationLevels = resp.body;
       },
       async initPlants() {
-        const resp = await this.$http.get("/plants");
+        const resp = await this.$axios.get("/plants");
         this.plants = resp.body;
       },
       filteredPlantList() {

@@ -1,5 +1,5 @@
 <script setup>
-  import CreatePlant from "../components/CreatePlant.vue";
+  import CreatePlant from "../components/plants/CreatePlant.vue";
 </script>
 <template>
   <CreatePlant />

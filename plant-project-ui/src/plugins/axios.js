@@ -4,13 +4,14 @@ const ACCEPTED_STATUS = [200, 201, 202, 204, 400];
 
 export default {
   install: (app) => {
-    const http = axios.create({
+    // Création et configuration d'une instance axios
+    const axiosInstance = axios.create({
       baseURL: import.meta.env.VITE_API_BASE_URL,
       validateStatus: (status) => {
         return ACCEPTED_STATUS.includes(status);
       },
     });
-    http.interceptors.response.use(
+    axiosInstance.interceptors.response.use(
       (response) => {
         const status = response.status;
         const data = response.data;
@@ -21,6 +22,8 @@ export default {
         return Promise.reject(error);
       }
     );
-    app.config.globalProperties.$http = http;
+    // Utilasation des global properties pour accéder à axios avec sa configuration dans toute l'app
+    // Via $axios
+    app.config.globalProperties.$axios = axiosInstance;
   },
 };

@@ -1,22 +1,29 @@
 <script>
   import { RouterLink } from "vue-router";
-
+  import { Toast } from "bootstrap";
   export default {
     data() {
       return {
+        toast: null,
         baseUrl: import.meta.env.VITE_IMG_BASE_URL,
         plants: [],
       };
     },
     methods: {
       async initPlants() {
-        const resp = await this.$http.get("/plants");
+        const resp = await this.$axios.get("/plants");
         this.plants = resp.body;
       },
+      showToast() {
+        const toastDiv = document.querySelector(".toast");
+        const toast = new Toast(toastDiv);
+        toast.show();
+      },
       async handleDelete(id) {
-        const resp = await this.$http.delete(`plants/${id}`);
+        const resp = await this.$axios.delete(`plants/${id}`);
         if ((resp.status = 204)) {
           await this.initPlants();
+          this.showToast();
         } else {
           console.log(resp);
         }
@@ -31,7 +38,7 @@
   <div class="mb-3 p-5">
     <div class="d-grid d-md-flex justify-content-md-end">
       <a href="/admin/plants/create"
-        ><button role="button" class="btn btn-create mb-4">
+        ><button role="button" class="btn btn-create m-4">
           <i class="bi bi-plus-circle"></i> Create a plant
         </button></a
       >
@@ -76,35 +83,59 @@
           </button>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- toast -->
-  <div
-    aria-live="polite"
-    aria-atomic="true"
-    class="d-flex justify-content-center align-items-center w-100"
-  >
-    <div
-      class="toast top-50 start-50 translate-middle"
-      role="alert"
-      aria-live="assertive"
-      aria-atomic="true"
-      data-bs-autohide="false"
-    >
-      <div class="toast-body">
-        Delete this item ?
-        <div class="mt-2 pt-2 border-top">
-          <button type="button" class="btn btn-primary btn-sm">Delete</button>
+      <!-- success toast -->
+      <div
+        class="toast align-items-center text-white bg-success border-0"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div class="d-flex">
+          <div class="toast-body">Plant was deleted successfully.</div>
           <button
             type="button"
-            class="btn btn-secondary btn-sm"
+            class="btn-close btn-close-white me-2 m-auto"
             data-bs-dismiss="toast"
-          >
-            Cancel
-          </button>
+            aria-label="Close"
+          ></button>
         </div>
       </div>
+      <!-- success toast -->
+
+      <!-- toast sure? -->
+      <!-- <div
+        aria-live="polite"
+        aria-atomic="true"
+        class="d-flex justify-content-center align-items-center w-100"
+      >
+        <div
+          class="toast top-50 start-50 translate-middle"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+          data-bs-autohide="false"
+        >
+          <div class="toast-body">
+            Delete this item ?
+            <div class="mt-2 pt-2 border-top">
+              <button
+                class="btn btn-primary btn-sm"
+                @click="handleDelete(plant.id)"
+              >
+                Delete
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary btn-sm"
+                data-bs-dismiss="toast"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <!-- toast -->
     </div>
   </div>
 </template>

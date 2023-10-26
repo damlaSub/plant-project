@@ -52,7 +52,7 @@
           formData.append("description", this.inputs.description);
           formData.append("hydrationId", this.inputs.hydrationId);
           formData.append("sunlightId", this.inputs.sunlightId);
-          const resp = await this.$http.patch(`/plants/${this.id}`, formData);
+          const resp = await this.$axios.patch(`/plants/${this.id}`, formData);
           if (resp.status == 204) {
             console.log("valid");
             console.log("this.inputs.file", this.inputs.file);
@@ -68,18 +68,19 @@
         }
       },
       async getPlantForUpdate() {
-        const response = await this.$http.get(`/plants/${this.id}/for-update`);
+        const response = await this.$axios.get(`/plants/${this.id}/for-update`);
         this.inputs = response.body;
-        console.log(response.body);
+        console.log(this.inputs);
         console.log(this.inputs.hydration.name);
-        // console.log(this.inputs.hydrationId, "heloo"); undefined
+        console.log(this.hydrationLevels[1].id === this.inputs.hydration.id);
+        console.log(this.inputs.hydrationId, "response : undefined");
       },
       async initSunlightLevels() {
-        const resp = await this.$http.get("/sunlights");
+        const resp = await this.$axios.get("/sunlights");
         this.sunlightLevels = resp.body;
       },
       async initHydrationLevels() {
-        const resp = await this.$http.get("/hydrations");
+        const resp = await this.$axios.get("/hydrations");
         this.hydrationLevels = resp.body;
       },
     },
@@ -99,11 +100,12 @@
     </div>
     <div class="col-md-8">
       <form novalidate @submit.prevent="updatePlant">
-        <div class="col-md-4">
+        <div class="col-md-4 my-3">
           <label for="input-name" class="form-label required" maxlength="100"
             >Common name</label
           >
           <input
+            :class="{ 'is-invalid': v$.inputs.latinName.$error }"
             v-model.trim="inputs.commonName"
             name="input-name"
             type="text"
@@ -126,6 +128,7 @@
             >Latin name</label
           >
           <input
+            :class="{ 'is-invalid': v$.inputs.latinName.$error }"
             v-model.trim="inputs.latinName"
             name="latin"
             type="text"
@@ -141,20 +144,20 @@
           </span>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-4 my-3">
           <label for="hydrationId" class="form-label required"
             >Hydratation level</label
           >
           <select
+            :class="{ 'is-invalid': v$.inputs.hydrationId.$error }"
             v-model.number="inputs.hydrationId"
             name="hydrationId"
             class="form-select"
             id="hydrationId"
           >
-            <option selected disabled value="0">
-              Select an hydratation level
-            </option>
+            <option disabled>Select an hydratation level</option>
             <option
+              :selected="hydrationLevel.id === inputs.hydration.id"
               v-for="hydrationLevel in hydrationLevels"
               :key="hydrationLevel.id"
               :value="hydrationLevel.id"
@@ -176,11 +179,12 @@
             Plant's hydratation level
           </span>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 my-3">
           <label for="sunlightId" class="form-label required"
             >Sunlight level</label
           >
           <select
+            :class="{ 'is-invalid': v$.inputs.sunlightId.$error }"
             v-model.number="inputs.sunlightId"
             name="sunlightId"
             class="form-select"
@@ -209,7 +213,7 @@
             Plant's sunlight level
           </span>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 my-3">
           <!-- <h2 class="plant_name">
           {{ inputs.commonName }} - {{ inputs.latinName }}
         </h2>
@@ -217,7 +221,7 @@
         <p>Sunlight level : {{ inputs.sunlight.name }}</p> -->
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-4 my-3">
           <!-- <label for="image" class="form-label required" maxlength="100"
           >Image</label
         > -->
@@ -242,6 +246,7 @@
             >Description</label
           >
           <textarea
+            :class="{ 'is-invalid': v$.inputs.description.$error }"
             name="description"
             class="form-control"
             id="description"

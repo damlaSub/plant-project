@@ -1,11 +1,6 @@
 <script>
   import { useVuelidate } from "@vuelidate/core";
-  import {
-    maxLength,
-    minValue,
-    required,
-    requiredIf,
-  } from "@vuelidate/validators";
+  import { maxLength, minValue, required } from "@vuelidate/validators";
   export default {
     setup() {
       return { v$: useVuelidate() };
@@ -33,11 +28,8 @@
           hydrationId: { required, minValue: minValue(1) },
           sunlightId: { required, minValue: minValue(1) },
           file: {
-            required: requiredIf(() => {
-              return this.inputs.file === undefined;
-            }),
             maxValue: (file) => {
-              return file ? file.size <= 5 : false;
+              return file ? file.size <= 512000 : false;
             },
           },
         },
@@ -53,26 +45,27 @@
         const formData = new FormData();
         Object.keys(this.inputs).forEach((key) => {
           const value = this.inputs[key];
-          if (value) {
+          if (valid) {
             formData.append(key, value);
           }
         });
 
-        const resp = await this.$http.post("/plants", formData);
+        const resp = await this.$axios.post("/plants", formData);
         if (resp.status === 204) {
           Object.assign(this.inputs, this.$options.data().inputs);
-          event.target.reset();
+
           this.v$.$reset();
+          event.target.reset();
         } else {
           console.log("error");
         }
       },
       async initSunlightLevels() {
-        const resp = await this.$http.get("/sunlights");
+        const resp = await this.$axios.get("/sunlights");
         this.sunlightLevels = resp.body;
       },
       async initHydrationLevels() {
-        const resp = await this.$http.get("/hydrations");
+        const resp = await this.$axios.get("/hydrations");
         this.hydrationLevels = resp.body;
       },
     },
@@ -92,6 +85,7 @@
           >Common name</label
         >
         <input
+          :class="{ 'is-invalid': v$.inputs.latinName.$error }"
           v-model.trim="inputs.commonName"
           name="input-name"
           type="text"
@@ -111,6 +105,7 @@
           >Latin name</label
         >
         <input
+          :class="{ 'is-invalid': v$.inputs.latinName.$error }"
           v-model.trim="inputs.latinName"
           name="latin"
           type="text"
@@ -130,6 +125,7 @@
           >Hydratation level</label
         >
         <select
+          :class="{ 'is-invalid': v$.inputs.hydrationId.$error }"
           v-model.number="inputs.hydrationId"
           name="hydrationId"
           class="form-select"
@@ -162,6 +158,7 @@
           >Sunlight level</label
         >
         <select
+          :class="{ 'is-invalid': v$.inputs.sunlightId.$error }"
           v-model.number="inputs.sunlightId"
           name="sunlightId"
           class="form-select"
@@ -192,6 +189,7 @@
           >Image</label
         >
         <input
+          :class="{ 'is-invalid': v$.inputs.file.$error }"
           name="image"
           type="file"
           class="form-control"
@@ -201,27 +199,15 @@
           @change="handleFileUpload"
           @keyup.esc=""
         />
-        <span
-          class="form-text text-danger"
-          v-if="v$.inputs.file.$error.$message"
-        >
-          {{ v$.inputs.file.$errors[0].$message }}
-        </span>
-
-        <!-- <span
-          class="form-text text-danger"
-          v-else-if="v$.inputs.file.$errors[1]"
-        >
+        <span class="form-text text-danger" v-if="v$.inputs.file.$error">
           Image size must be less than 500ko
-        </span> -->
-        <!-- <span class="form-text text-danger" v-if="v$.inputs.file.$error">
-          {{ v$.inputs.file.$errors[0].$message }}
-        </span> -->
+        </span>
         <span id="image-helptext" class="fw-light" v-else>Plant's image</span>
       </div>
       <div class="col-12">
         <label for="description" class="form-label required">Description</label>
         <textarea
+          :class="{ 'is-invalid': v$.inputs.description.$error }"
           v-model.trim="inputs.description"
           name="description"
           class="form-control"
