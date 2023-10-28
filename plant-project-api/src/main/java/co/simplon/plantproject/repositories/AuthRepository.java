@@ -2,10 +2,10 @@ package co.simplon.plantproject.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import co.simplon.plantproject.entities.Account;
+import co.simplon.plantproject.entities.User;
 
 public interface AuthRepository
-	extends JpaRepository<Account, Long> {
+	extends JpaRepository<User, Long> {
 
-    Account getByEmail(String email);
+    User getByEmail(String email);
 }

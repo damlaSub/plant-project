@@ -5,7 +5,7 @@
     required,
     maxLength,
     minLength,
-    sameAs,
+    // sameAs,
   } from "@vuelidate/validators";
 
   export default {
@@ -14,21 +14,26 @@
     },
     data() {
       return {
-        profile: {
-          email: "",
-          password: "",
-          confirm: "",
-        },
         inputs: {
-          email: "",
-          password: "",
-          confirm: "",
+          firstName: null,
+          lastName: null,
+          email: null,
+          password: null,
+          // confirm: null,
         },
       };
     },
     validations() {
       return {
         inputs: {
+          firstName: {
+            required,
+            maxLength: maxLength(250),
+          },
+          lastName: {
+            required,
+            maxLength: maxLength(250),
+          },
           email: {
             required,
             email,
@@ -38,27 +43,35 @@
             minLength: minLength(12),
             maxLength: maxLength(32),
           },
-          confirm: {
-            required,
-            sameAs: sameAs(this.inputs.password),
-          },
+          // confirm: {
+          //   required,
+          //   sameAs: sameAs(this.inputs.password),
+          // },
         },
       };
     },
     methods: {
-      submitForm() {
-        this.v$.$validate();
-        // console.log(this.v$);
-        if (!this.v$.$error) {
-          alert("'Form successfully submitted.'");
+      async submitForm(event) {
+        const valid = await this.v$.$validate();
+        if (valid) {
+          const userData = {
+            firstName: this.inputs.firstName,
+            lastName: this.inputs.lastName,
+            email: this.inputs.email,
+            password: this.inputs.password,
+          };
+          const response = await this.$http.post("/sign-up", userData);
+          if (response.status === 204) {
+            event.target.reset();
+            this.v$.$reset();
+            console.log(response);
+            console.log(event.target);
+          } else {
+            console.log(error);
+          }
         }
-        //else {
-        //   alert("Form failed validation");
-        // }
       },
     },
-    // mounted() {
-    // },
   };
 </script>
 
@@ -73,7 +86,42 @@
                 <img src="/src/assets/myLogo.png" alt="logo" width="100" />
               </div>
               <h1 class="fs-4 card-title fw-bold mb-4">Create an account</h1>
-              <form @submit.prevent="submitForm" autocomplete="off" novalidate>
+              <form
+                class="needs-validation"
+                novalidate
+                @submit.prevent="submitForm"
+                autocomplete="off"
+              >
+                <div class="mb-3">
+                  <input
+                    id="first-name"
+                    type="text"
+                    class="form-control"
+                    name="first-name"
+                    placeholder="first name*"
+                    v-model="this.inputs.firstName"
+                    autofocus
+                  />
+                  <span class="text-danger" v-if="v$.inputs.firstName.$error">
+                    {{ v$.inputs.firstName.$errors[0].$message }}</span
+                  >
+                </div>
+
+                <div class="mb-3">
+                  <input
+                    id="last-name"
+                    type="text"
+                    class="form-control"
+                    name="last-name"
+                    placeholder="last name*"
+                    v-model="this.inputs.lastName"
+                    autofocus
+                  />
+                  <span class="text-danger" v-if="v$.inputs.lastName.$error">
+                    {{ v$.inputs.lastName.$errors[0].$message }}</span
+                  >
+                </div>
+
                 <div class="mb-3">
                   <input
                     id="email"
@@ -81,7 +129,7 @@
                     class="form-control"
                     name="email"
                     placeholder="e-mail*"
-                    v-model="this.inputs.email.$model"
+                    v-model="this.inputs.email"
                     autofocus
                   />
                   <span class="text-danger" v-if="v$.inputs.email.$error">
@@ -103,7 +151,7 @@
                   </span>
                 </div>
 
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                   <div class="mb-2 w-100"></div>
                   <input
                     id="password-confirm"
@@ -116,7 +164,7 @@
                   <span class="text-danger" v-if="v$.inputs.confirm.$error">
                     {{ v$.inputs.confirm.$errors[0].$message }}
                   </span>
-                </div>
+                </div> -->
 
                 <div class="d-flex align-items-center">
                   <div class="form-check">
@@ -131,7 +179,7 @@
                     >
                   </div>
                   <button type="submit" class="btn ms-auto submit">
-                    Login
+                    Sign up
                   </button>
                 </div>
               </form>
@@ -176,7 +224,7 @@
   }
   #email:focus,
   #password:focus,
-  #password-confirm:focus,
+  /* #password-confirm:focus, */
   #remember:focus {
     border-color: #355e3b;
     box-shadow: 0 0 0 0.2rem #355e3b;
