@@ -11,6 +11,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import co.simplon.plantproject.utils.AuthHelper;
 
 @Configuration
+//@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig {
 
     @Value("${plant.auth.rounds}")
@@ -32,5 +33,14 @@ public class SecurityConfig {
 		.passwordEncoder(encoder).issuer(issuer)
 		.expiration(tokenExpiration).build();
     }
+
+//    @Bean
+//    public SecurityFilterChain filterChain(
+//	    HttpSecurity http) throws Exception {
+//	http.csrf().disable().authorizeRequests()
+//		.anyRequest().authenticated().and()
+//		.httpBasic();
+//	return http.build();
+//    }
 
 }

@@ -1,14 +1,15 @@
 DELETE FROM plants;
 DELETE FROM hydration_levels;
 DELETE FROM sunlight_levels;
-DELETE FROM accounts;
+DELETE FROM users;
+DELETE FROM roles;
 
 INSERT INTO roles 
 	(role_name)
 	VALUES 
 	('ROLE_ADMIN'), ('ROLE_USER');
 
-INSERT INTO accounts
+INSERT INTO users
 	(first_name, last_name, email, password)
 	VALUES
 	('Damla', 'Test', 'dont@testme', '12345678Test');

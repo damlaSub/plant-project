@@ -5,8 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "accounts")
-public class Account extends AbstractEntity {
+@Table(name = "users")
+public class User extends AbstractEntity {
 
     @Column(name = "first_name")
     private String firstName;
@@ -17,7 +17,7 @@ public class Account extends AbstractEntity {
     @Column(name = "password")
     private String password;
 
-    public Account() {
+    public User() {
 	super();
 	// TODO Auto-generated constructor stub
     }
