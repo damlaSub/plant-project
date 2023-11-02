@@ -41,6 +41,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public void signUp(SignUpCredentials inputs) {
+
 	if (!userRepository
 		.existsByEmail(inputs.getEmail())) {
 
@@ -48,7 +49,6 @@ public class AuthServiceImpl implements AuthService {
 	    user.setFirstName(inputs.getFirstName());
 	    user.setLastName(inputs.getLastName());
 	    user.setEmail(inputs.getEmail());
-
 	    String hashPassword = authHelper
 		    .encode(inputs.getPassword());
 	    user.setPassword(hashPassword);
