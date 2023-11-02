@@ -50,11 +50,12 @@ public class SecurityConfig {
 	    HttpSecurity http) throws Exception {
 	http.cors().and().csrf().disable()
 		.authorizeRequests()
-		.antMatchers("/sign-up", "/sign-in", "/")
+		.antMatchers("/sign-up", "/sign-in", "/",
+			"/sunlights", "/hydrations",
+			"/plants")
 		.permitAll()
 		.antMatchers("/plants/{id}/for-update",
-			"/plants/{id}", "/sunlights",
-			"/hydrations")
+			"/plants/{id}")
 		.hasAuthority("ROLE_ADMIN").anyRequest()
 		.authenticated().and()
 		.oauth2ResourceServer().jwt();

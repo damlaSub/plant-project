@@ -42,6 +42,7 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     public void signUp(SignUpCredentials inputs) {
 
+	// Check if user already exists in db
 	if (!userRepository
 		.existsByEmail(inputs.getEmail())) {
 
@@ -54,8 +55,8 @@ public class AuthServiceImpl implements AuthService {
 	    user.setPassword(hashPassword);
 	    Set<Role> roles = new HashSet<>();
 
-	    // Assign "ROLE_ADMIN" if the user's email domain is "cactus.co".
-	    if (user.getEmail().endsWith("cactus.co")) {
+	    // Assign "ROLE_ADMIN" if the user's email domain is "test.com".
+	    if (user.getEmail().endsWith("@test.com")) {
 		Role adminRole = roleRepository
 			.findByName("ROLE_ADMIN");
 		roles.add(adminRole);
@@ -68,6 +69,9 @@ public class AuthServiceImpl implements AuthService {
 	    }
 
 	    userRepository.save(user);
+	} else {
+	    throw new BadCredentialsException(
+		    "This email is already associated with an account.");
 	}
     }
 

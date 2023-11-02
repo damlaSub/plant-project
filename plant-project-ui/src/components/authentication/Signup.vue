@@ -60,14 +60,17 @@
             email: this.inputs.email,
             password: this.inputs.password,
           };
-          const response = await this.$axios.post("/sign-up", userData);
-          if (response.status === 204) {
-            event.target.reset();
-            this.v$.$reset();
-            console.log("succesfully ...");
-          } else {
-            console.log(error);
-          }
+          await this.$axios
+            .post("/sign-up", userData)
+            .then((response) => {
+              this.v$.$reset();
+
+              console.log("response", response);
+              this.$router.push("/signin");
+            })
+            .catch((error) => {
+              console.log(error.response.data);
+            });
         }
       },
     },

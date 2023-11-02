@@ -1,3 +1,73 @@
+<script>
+  import { useVuelidate } from "@vuelidate/core";
+  import {
+    email,
+    required,
+    maxLength,
+    minLength,
+    // sameAs,
+  } from "@vuelidate/validators";
+
+  export default {
+    setup() {
+      return { v$: useVuelidate() };
+    },
+    data() {
+      return {
+        inputs: {
+          email: null,
+          password: null,
+          // confirm: null,
+        },
+      };
+    },
+    validations() {
+      return {
+        inputs: {
+          email: {
+            required,
+            email,
+          },
+          password: {
+            required,
+            minLength: minLength(8),
+            maxLength: maxLength(32),
+          },
+          // confirm: {
+          //   required,
+          //   sameAs: sameAs(this.inputs.password),
+          // },
+        },
+      };
+    },
+    methods: {
+      async handleSignIn(event) {
+        const valid = await this.v$.$validate();
+        if (valid) {
+          const userData = {
+            email: this.inputs.email,
+            password: this.inputs.password,
+          };
+          const response = await this.$axios.post("/sign-in", userData);
+          const isAdmin = userData.email.endsWith("@test.com");
+          if (response.status === 200) {
+            // const token = response.data.token;
+            // localStorage.setItem("token", token);
+            if (isAdmin) {
+              this.$router.push("/admin/plants");
+            } else {
+              this.$router.push("/");
+            }
+          } else {
+            console.log(error);
+          }
+        } else {
+          console.log(error);
+        }
+      },
+    },
+  };
+</script>
 <template>
   <main class="h-100">
     <div class="container h-100">
@@ -13,6 +83,7 @@
                 method="POST"
                 class="needs-validation login-form"
                 autocomplete="off"
+                @submit.prevent="handleSignIn"
                 novalidate
               >
                 <div class="mb-3">
@@ -21,9 +92,8 @@
                     type="email"
                     class="form-control"
                     name="email"
-                    value=""
                     placeholder="e-mail*"
-                    required
+                    v-model="this.inputs.email"
                     autofocus
                   />
                   <div class="invalid-feedback">Email is invalid</div>
@@ -36,7 +106,7 @@
                     class="form-control"
                     name="password"
                     placeholder="password*"
-                    required
+                    v-model="this.inputs.password"
                   />
                   <div class="invalid-feedback">Password is required</div>
                 </div>
