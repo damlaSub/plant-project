@@ -70,10 +70,13 @@
       async getPlantForUpdate() {
         const response = await this.$axios.get(`/plants/${this.id}/for-update`);
         this.inputs = response.body;
-        console.log(this.inputs);
-        console.log(this.inputs.hydration.name);
-        console.log(this.hydrationLevels[1].id === this.inputs.hydration.id);
-        console.log(this.inputs.hydrationId, "response : undefined");
+        const data = response.body;
+        this.inputs.commonName = data.commonName;
+        this.inputs.latinName = data.latinName;
+        this.inputs.description = data.description;
+        this.inputs.hydrationId = data.hydration.id;
+        this.inputs.sunlightId = data.sunlight.id;
+        this.inputs.file = data.image;
       },
       async initSunlightLevels() {
         const resp = await this.$axios.get("/sunlights");
@@ -155,9 +158,10 @@
             class="form-select"
             id="hydrationId"
           >
-            <option disabled>Select an hydratation level</option>
+            <option selected disabled value="0">
+              Select an hydratation level
+            </option>
             <option
-              :selected="hydrationLevel.id === inputs.hydration.id"
               v-for="hydrationLevel in hydrationLevels"
               :key="hydrationLevel.id"
               :value="hydrationLevel.id"

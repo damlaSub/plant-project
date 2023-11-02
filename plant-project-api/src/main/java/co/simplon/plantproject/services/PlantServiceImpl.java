@@ -13,6 +13,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import co.simplon.plantproject.dtos.PlantCreateDto;
@@ -63,8 +64,10 @@ public class PlantServiceImpl implements PlantService {
 	entity.setSunlight(sunlight);
 	MultipartFile file = inputs.getFile();
 	String baseName = UUID.randomUUID().toString();
-	String fileName = baseName
-		+ inputs.getFile().getOriginalFilename();
+	String fileExtention = StringUtils
+		.getFilenameExtension(inputs.getFile()
+			.getOriginalFilename());
+	String fileName = baseName + "." + fileExtention;
 	entity.setImage(fileName);
 	store(file, fileName);
 	LocalDate addedAt = LocalDate.now();

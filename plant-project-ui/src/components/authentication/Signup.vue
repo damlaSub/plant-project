@@ -40,7 +40,7 @@
           },
           password: {
             required,
-            minLength: minLength(12),
+            minLength: minLength(8),
             maxLength: maxLength(32),
           },
           // confirm: {
@@ -60,12 +60,11 @@
             email: this.inputs.email,
             password: this.inputs.password,
           };
-          const response = await this.$http.post("/sign-up", userData);
+          const response = await this.$axios.post("/sign-up", userData);
           if (response.status === 204) {
             event.target.reset();
             this.v$.$reset();
-            console.log(response);
-            console.log(event.target);
+            console.log("succesfully ...");
           } else {
             console.log(error);
           }
@@ -187,7 +186,7 @@
             <div class="card-footer py-3 border-0">
               <div class="text-center">
                 Already have an account?
-                <a href="/login" class="text-dark">Log in</a>
+                <a href="/signin" class="text-dark">Sign in</a>
               </div>
             </div>
           </div>

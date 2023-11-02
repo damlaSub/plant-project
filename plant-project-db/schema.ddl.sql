@@ -19,6 +19,7 @@ CREATE TABLE users (
 	email VARCHAR(255) UNIQUE NOT NULL,
 	password VARCHAR(250) NOT NULL,
 	constraint pk_users_id primary key(id),
+	role_id INTEGER REFERENCES roles(id) NOT NULL,
 	UNIQUE (email)
 );
 

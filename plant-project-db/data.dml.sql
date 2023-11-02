@@ -10,9 +10,9 @@ INSERT INTO roles
 	('ROLE_ADMIN'), ('ROLE_USER');
 
 INSERT INTO users
-	(first_name, last_name, email, password)
+	(first_name, last_name, email, password, role_id)
 	VALUES
-	('Damla', 'Test', 'dont@testme', '12345678Test');
+	('Damla', 'Test', 'dont@testme', '12345678Test', (SELECT r.id FROM roles r WHERE r.role_name = 'ROLE_ADMIN'));
 
 INSERT INTO hydration_levels
 	(hydration_code, hydration_name, logical_order)

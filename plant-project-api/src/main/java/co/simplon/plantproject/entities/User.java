@@ -1,8 +1,11 @@
 package co.simplon.plantproject.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
@@ -12,10 +15,13 @@ public class User extends AbstractEntity {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
     @Column(name = "password")
     private String password;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     public User() {
 	super();
@@ -54,11 +60,20 @@ public class User extends AbstractEntity {
 	this.password = password;
     }
 
+    public Role getRole() {
+	return role;
+    }
+
+    public void setRole(Role role) {
+	this.role = role;
+    }
+
     @Override
     public String toString() {
 	return "{firstName=" + firstName + ", lastName="
 		+ lastName + ", email=" + email
-		+ ", password=" + password + "}";
+		+ ", password=" + password + ", role="
+		+ role + "}";
     }
 
 }

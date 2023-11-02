@@ -2,6 +2,8 @@ package co.simplon.plantproject.controllers;
 
 import java.util.Collection;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +20,6 @@ import co.simplon.plantproject.dtos.PlantForUpdate;
 import co.simplon.plantproject.dtos.PlantItem;
 import co.simplon.plantproject.dtos.PlantUpdateDto;
 import co.simplon.plantproject.services.PlantService;
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/plants")

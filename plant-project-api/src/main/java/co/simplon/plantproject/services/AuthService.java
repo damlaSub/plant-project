@@ -8,6 +8,8 @@ public interface AuthService {
 
     public void signUp(SignUpCredentials inputs);
 
+    public Boolean existsByEmail(String email);
+
     public TokenInfo signIn(SingInCredentials inputs);
 
 }

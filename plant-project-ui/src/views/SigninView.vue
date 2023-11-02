@@ -1,8 +1,8 @@
 <script setup>
-  import Login from "../components/authentication/Login.vue";
+  import Signin from "../components/authentication/Signin.vue";
   import myLogo from "../assets/myLogo.png";
 </script>
 
 <template>
-  <Login />
+  <Signin />
 </template>
