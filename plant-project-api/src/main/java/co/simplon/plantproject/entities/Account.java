@@ -1,13 +1,29 @@
-package co.simplon.plantproject.dtos;
+package co.simplon.plantproject.entities;
 
-public class SignUpCredentials {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "accounts")
+public class Account extends AbstractEntity {
+
+    @Column(name = "first_name")
     private String firstName;
+    @Column(name = "last_name")
     private String lastName;
+    @Column(name = "email", unique = true)
     private String email;
+    @Column(name = "password")
     private String password;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "role_id", updatable = false)
+    private Role role;
 
-    public SignUpCredentials() {
+    public Account() {
 	super();
 	// TODO Auto-generated constructor stub
     }
@@ -44,11 +60,20 @@ public class SignUpCredentials {
 	this.password = password;
     }
 
+    public Role getRole() {
+	return role;
+    }
+
+    public void setRole(Role role) {
+	this.role = role;
+    }
+
     @Override
     public String toString() {
 	return "{firstName=" + firstName + ", lastName="
 		+ lastName + ", email=" + email
-		+ ", password=" + password + "}";
+		+ ", password=" + password + ", role="
+		+ role + "}";
     }
 
 }

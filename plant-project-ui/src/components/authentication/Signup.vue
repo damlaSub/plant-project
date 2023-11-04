@@ -96,6 +96,7 @@
               >
                 <div class="mb-3">
                   <input
+                    :class="{ 'is-invalid': v$.inputs.firstName.$error }"
                     id="first-name"
                     type="text"
                     class="form-control"
@@ -111,6 +112,7 @@
 
                 <div class="mb-3">
                   <input
+                    :class="{ 'is-invalid': v$.inputs.lastName.$error }"
                     id="last-name"
                     type="text"
                     class="form-control"
@@ -126,11 +128,13 @@
 
                 <div class="mb-3">
                   <input
+                    :class="{ 'is-invalid': v$.inputs.email.$error }"
                     id="email"
                     type="email"
                     class="form-control"
                     name="email"
                     placeholder="e-mail*"
+                    required
                     v-model="this.inputs.email"
                     autofocus
                   />
@@ -141,6 +145,7 @@
 
                 <div class="mb-3">
                   <input
+                    :class="{ 'is-invalid': v$.inputs.password.$error }"
                     id="password"
                     type="password"
                     class="form-control"

@@ -7,7 +7,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "roles")
 public class Role extends AbstractEntity {
-
+    @Column(name = "role_code", updatable = false)
+    private String code;
     @Column(name = "role_name", updatable = false)
     private String name;
 
@@ -15,6 +16,14 @@ public class Role extends AbstractEntity {
 
 	// TODO Auto-generated constructor stub
 
+    }
+
+    public String getCode() {
+	return code;
+    }
+
+    public void setCode(String code) {
+	this.code = code;
     }
 
     public String getName() {
@@ -27,7 +36,7 @@ public class Role extends AbstractEntity {
 
     @Override
     public String toString() {
-	return "{name=" + name + "}";
+	return "{code=" + code + ", name=" + name + "}";
     }
 
 }

@@ -1,5 +1,6 @@
 <script>
   import { useVuelidate } from "@vuelidate/core";
+  import { Toast } from "bootstrap";
   import {
     email,
     required,
@@ -48,21 +49,22 @@
             email: this.inputs.email,
             password: this.inputs.password,
           };
-          const response = await this.$axios.post("/sign-in", userData);
+          const response = await this.$axios.post("/sign-in", accountData);
           const isAdmin = userData.email.endsWith("@test.com");
           if (response.status === 200) {
-            // const token = response.data.token;
-            // localStorage.setItem("token", token);
+            console.log(response);
+            const token = response.body.token;
+            localStorage.setItem("token", token);
             if (isAdmin) {
               this.$router.push("/admin/plants");
             } else {
               this.$router.push("/");
             }
           } else {
-            console.log(error);
+            console.log(error.response.data);
           }
         } else {
-          console.log(error);
+          console.log("global error, add tooltip on the top of the form?");
         }
       },
     },
@@ -86,8 +88,13 @@
                 @submit.prevent="handleSignIn"
                 novalidate
               >
+                <!-- error toast -->
+
+                <!-- error toast -->
+
                 <div class="mb-3">
                   <input
+                    :class="{ 'is-invalid': v$.inputs.email.$error }"
                     id="email"
                     type="email"
                     class="form-control"
@@ -96,11 +103,14 @@
                     v-model="this.inputs.email"
                     autofocus
                   />
-                  <div class="invalid-feedback">Email is invalid</div>
+                  <span class="text-danger" v-if="v$.inputs.email.$error">
+                    {{ v$.inputs.email.$errors[0].$message }}</span
+                  >
                 </div>
 
                 <div class="mb-3">
                   <input
+                    :class="{ 'is-invalid': v$.inputs.password.$error }"
                     id="password"
                     type="password"
                     class="form-control"
@@ -108,7 +118,9 @@
                     placeholder="password*"
                     v-model="this.inputs.password"
                   />
-                  <div class="invalid-feedback">Password is required</div>
+                  <span class="text-danger" v-if="v$.inputs.password.$error">
+                    {{ v$.inputs.password.$errors[0].$message }}
+                  </span>
                 </div>
 
                 <div class="d-flex align-items-center">

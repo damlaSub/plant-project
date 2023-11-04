@@ -8,13 +8,13 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import co.simplon.plantproject.dtos.SignUpCredentials;
-import co.simplon.plantproject.dtos.SingInCredentials;
+import co.simplon.plantproject.dtos.AccountCreateDto;
+import co.simplon.plantproject.dtos.AccountSigninDto;
 import co.simplon.plantproject.dtos.TokenInfo;
+import co.simplon.plantproject.entities.Account;
 import co.simplon.plantproject.entities.Role;
-import co.simplon.plantproject.entities.User;
+import co.simplon.plantproject.repositories.AccountRepository;
 import co.simplon.plantproject.repositories.RoleRepository;
-import co.simplon.plantproject.repositories.UserRepository;
 import co.simplon.plantproject.utils.AuthHelper;
 
 @Service
@@ -24,15 +24,15 @@ public class AuthServiceImpl implements AuthService {
     private final AuthHelper authHelper;
 
     @Autowired(required = true)
-    private final UserRepository userRepository;
+    private final AccountRepository accountRepository;
 
     private final RoleRepository roleRepository;
 
     public AuthServiceImpl(AuthHelper authHelper,
-	    UserRepository userRepository,
+	    AccountRepository accountRepository,
 	    RoleRepository roleRepository) {
 	this.authHelper = authHelper;
-	this.userRepository = userRepository;
+	this.accountRepository = accountRepository;
 	this.roleRepository = roleRepository;
 
     }
@@ -40,35 +40,35 @@ public class AuthServiceImpl implements AuthService {
     // Sign up, sign in implementation
     @Override
     @Transactional
-    public void signUp(SignUpCredentials inputs) {
+    public void signUp(AccountCreateDto inputs) {
 
-	// Check if user already exists in db
-	if (!userRepository
+	// Check if account already exists in db
+	if (!accountRepository
 		.existsByEmail(inputs.getEmail())) {
 
-	    User user = new User();
-	    user.setFirstName(inputs.getFirstName());
-	    user.setLastName(inputs.getLastName());
-	    user.setEmail(inputs.getEmail());
+	    Account account = new Account();
+	    account.setFirstName(inputs.getFirstName());
+	    account.setLastName(inputs.getLastName());
+	    account.setEmail(inputs.getEmail());
 	    String hashPassword = authHelper
 		    .encode(inputs.getPassword());
-	    user.setPassword(hashPassword);
+	    account.setPassword(hashPassword);
 	    Set<Role> roles = new HashSet<>();
 
-	    // Assign "ROLE_ADMIN" if the user's email domain is "test.com".
-	    if (user.getEmail().endsWith("@test.com")) {
+	    // Assign "ROLE_ADMIN" if the account's email domain is "test.com".
+	    if (account.getEmail().endsWith("@test.com")) {
 		Role adminRole = roleRepository
-			.findByName("ROLE_ADMIN");
+			.findByCode("ROLE_ADMIN");
 		roles.add(adminRole);
-		user.setRole(adminRole);
+		account.setRole(adminRole);
 	    } else {
-		Role userRole = roleRepository
-			.findByName("ROLE_USER");
-		roles.add(userRole);
-		user.setRole(userRole);
+		Role role = roleRepository
+			.findByCode("ROLE_USER");
+		roles.add(role);
+		account.setRole(role);
 	    }
 
-	    userRepository.save(user);
+	    accountRepository.save(account);
 	} else {
 	    throw new BadCredentialsException(
 		    "This email is already associated with an account.");
@@ -76,18 +76,19 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public TokenInfo signIn(SingInCredentials inputs) {
+    public TokenInfo signIn(AccountSigninDto inputs) {
 	String identifier = inputs.getEmail();
 	String candidate = inputs.getPassword();
 
-	User user = userRepository.getByEmail(identifier);
-	System.out.println(user);
+	Account account = accountRepository
+		.getByEmail(identifier);
+	System.out.println(account);
 
-	if (user != null) {
+	if (account != null) {
 	    boolean match = authHelper.matches(candidate,
-		    user.getPassword());
+		    account.getPassword());
 	    if (match) {
-		String name = user.getEmail();
+		String name = account.getEmail();
 		String token = authHelper.createJWT(null,
 			name);
 		TokenInfo tokenInfo = new TokenInfo();
@@ -106,8 +107,9 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public Boolean existsByEmail(String email) {
 
-	User user = userRepository.getByEmail(email);
+	Account account = accountRepository
+		.getByEmail(email);
 
-	return (user != null);
+	return (account != null);
     }
 }

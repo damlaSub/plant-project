@@ -1,8 +1,8 @@
 package co.simplon.plantproject.dtos;
 
-public interface RoleValues {
+public interface RoleValue {
 
     Long getId();
 
-    String getName();
+    String getCode();
 }

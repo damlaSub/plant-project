@@ -1,11 +1,11 @@
 package co.simplon.plantproject.dtos;
 
-public class SingInCredentials {
+public class AccountSigninDto {
 
     private String email;
     private String password;
 
-    public SingInCredentials() {
+    public AccountSigninDto() {
 
     }
 
