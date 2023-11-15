@@ -15,6 +15,7 @@
     },
     data() {
       return {
+        // account: null,
         inputs: {
           email: null,
           password: null,
@@ -45,28 +46,39 @@
       async handleSignIn(event) {
         const valid = await this.v$.$validate();
         if (valid) {
-          const userData = {
+          const accountData = {
             email: this.inputs.email,
             password: this.inputs.password,
           };
-          const response = await this.$axios.post("/sign-in", accountData);
-          const isAdmin = userData.email.endsWith("@test.com");
-          if (response.status === 200) {
-            console.log(response);
-            const token = response.body.token;
-            localStorage.setItem("token", token);
-            if (isAdmin) {
+          await this.$axios
+            .post("/sign-in", accountData)
+            .then((response) => {
+              // const isAdmin = accountData.email.endsWith("@test.com");
+              const token = response.body.token;
+              localStorage.setItem("token", token);
+              this.$axios.defaults.headers.common[
+                "Authorization"
+              ] = `Bearer ${token}`;
+              //$axios.get("http://your-backend-api-endpoint");
               this.$router.push("/admin/plants");
-            } else {
-              this.$router.push("/");
-            }
-          } else {
-            console.log(error.response.data);
-          }
-        } else {
-          console.log("global error, add tooltip on the top of the form?");
+
+              // if (isAdmin) {
+              //   this.$router.push("/admin/plants");
+              // } else {
+              //   this.$router.push("/");
+              // }
+            })
+            .catch((error) => {
+              console.log(error);
+              //console.log(error.response.data);
+            });
         }
       },
+      // async initAccount() {
+      //   const resp = await this.$axios.get("/accounts/${id}");
+      //   this.account = resp.body;
+      //   console.log(this.account);
+      // },
     },
   };
 </script>

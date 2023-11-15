@@ -56,7 +56,7 @@ public class PlantController {
 	service.update(id, inputs);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}/delete")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") Long id) {
 	service.delete(id);

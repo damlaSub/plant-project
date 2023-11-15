@@ -96,8 +96,11 @@ public class PlantServiceImpl implements PlantService {
 		    entity.getImage());
 	    MultipartFile file = inputs.getFile();
 	    String baseName = UUID.randomUUID().toString();
-	    String fileName = baseName + inputs.getFile()
-		    .getOriginalFilename();
+	    String fileExtention = StringUtils
+		    .getFilenameExtension(inputs.getFile()
+			    .getOriginalFilename());
+	    String fileName = baseName + "."
+		    + fileExtention;
 	    entity.setImage(fileName);
 	    store(file, fileName);
 	    oldImage.toFile().delete();

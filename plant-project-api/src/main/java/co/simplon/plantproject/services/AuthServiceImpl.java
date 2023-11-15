@@ -1,7 +1,6 @@
 package co.simplon.plantproject.services;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -9,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.simplon.plantproject.dtos.AccountCreateDto;
+import co.simplon.plantproject.dtos.AccountItem;
 import co.simplon.plantproject.dtos.AccountSigninDto;
 import co.simplon.plantproject.dtos.TokenInfo;
 import co.simplon.plantproject.entities.Account;
@@ -42,37 +42,27 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     public void signUp(AccountCreateDto inputs) {
 
-	// Check if account already exists in db
-	if (!accountRepository
-		.existsByEmail(inputs.getEmail())) {
+	Account account = new Account();
+	account.setFirstName(inputs.getFirstName());
+	account.setLastName(inputs.getLastName());
+	account.setEmail(inputs.getEmail());
+	String hashPassword = authHelper
+		.encode(inputs.getPassword());
+	account.setPassword(hashPassword);
 
-	    Account account = new Account();
-	    account.setFirstName(inputs.getFirstName());
-	    account.setLastName(inputs.getLastName());
-	    account.setEmail(inputs.getEmail());
-	    String hashPassword = authHelper
-		    .encode(inputs.getPassword());
-	    account.setPassword(hashPassword);
-	    Set<Role> roles = new HashSet<>();
-
-	    // Assign "ROLE_ADMIN" if the account's email domain is "test.com".
-	    if (account.getEmail().endsWith("@test.com")) {
-		Role adminRole = roleRepository
-			.findByCode("ROLE_ADMIN");
-		roles.add(adminRole);
-		account.setRole(adminRole);
-	    } else {
-		Role role = roleRepository
-			.findByCode("ROLE_USER");
-		roles.add(role);
-		account.setRole(role);
-	    }
-
-	    accountRepository.save(account);
+	// Assign "ROLE_ADMIN" if the account's email domain is "test.com".
+	if (account.getEmail().endsWith("@test.com")) {
+	    Role adminRole = roleRepository
+		    .findByCode("ROLE_ADMIN");
+	    account.setRole(adminRole);
 	} else {
-	    throw new BadCredentialsException(
-		    "This email is already associated with an account.");
+	    Role role = roleRepository
+		    .findByCode("ROLE_USER");
+	    account.setRole(role);
 	}
+
+	accountRepository.save(account);
+
     }
 
     @Override
@@ -96,20 +86,29 @@ public class AuthServiceImpl implements AuthService {
 		return tokenInfo;
 	    } else {
 		throw new BadCredentialsException(
-			"Wrong credentials");
+			"Invalid email or password.");
 	    }
-	} else {
+	} else if (account == null) {
 	    throw new BadCredentialsException(
-		    "Wrong credentials");
+		    "Invalid email or password.");
 	}
+	return null;
     }
 
     @Override
     public Boolean existsByEmail(String email) {
+	return this.accountRepository
+		.existsByEmail(email.toString());
 
-	Account account = accountRepository
-		.getByEmail(email);
+    }
 
-	return (account != null);
+    @Override
+    public AccountItem getAccount(Long id) {
+	return this.accountRepository.findProjectedById(id);
+    }
+
+    @Override
+    public Collection<AccountItem> getAll() {
+	return this.accountRepository.findAllProjectedBy();
     }
 }

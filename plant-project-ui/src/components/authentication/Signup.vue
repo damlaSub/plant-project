@@ -54,18 +54,19 @@
       async submitForm(event) {
         const valid = await this.v$.$validate();
         if (valid) {
-          const userData = {
+          const accountData = {
             firstName: this.inputs.firstName,
             lastName: this.inputs.lastName,
             email: this.inputs.email,
             password: this.inputs.password,
           };
           await this.$axios
-            .post("/sign-up", userData)
+            .post("/sign-up", accountData)
             .then((response) => {
               this.v$.$reset();
 
               console.log("response", response);
+
               this.$router.push("/signin");
             })
             .catch((error) => {

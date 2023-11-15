@@ -3,7 +3,7 @@
     data() {
       return {
         baseUrl: import.meta.env.VITE_IMG_BASE_URL,
-        hydratationLevels: [],
+        hydrationLevels: [],
         sunlightLevels: [],
         plants: [],
         input: "",
@@ -80,8 +80,8 @@
       Hydration <i class="bi bi-chevron-down"></i>
     </button>
     <ul class="dropdown-menu">
-      <li v-for="hydratationLevel in hydratationLevels">
-        {{ hydratationLevel.name }}
+      <li v-for="hydrationLevel in hydrationLevels">
+        {{ hydrationLevel.name }}
       </li>
     </ul>
   </div>

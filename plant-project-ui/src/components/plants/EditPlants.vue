@@ -14,16 +14,17 @@
         const resp = await this.$axios.get("/plants");
         this.plants = resp.body;
       },
-      showToast() {
-        const toastDiv = document.querySelector(".toast");
-        const toast = new Toast(toastDiv);
-        toast.show();
-      },
+      // showToast() {
+      //   const toastDiv = document.querySelector(".toast");
+      //   const toast = new Toast(toastDiv);
+      //   toast.show();
+      // },
       async handleDelete(id) {
         const resp = await this.$axios.delete(`plants/${id}`);
         if ((resp.status = 204)) {
           await this.initPlants();
-          this.showToast();
+          //this.showToast();
+          this.$toast.success("toast-global", "Plant deleted with  success.");
         } else {
           console.log(resp);
         }
@@ -84,7 +85,7 @@
         </div>
       </div>
       <!-- success toast -->
-      <div
+      <!-- <div
         class="toast align-items-center text-white bg-success border-0"
         role="alert"
         aria-live="assertive"
@@ -99,7 +100,7 @@
             aria-label="Close"
           ></button>
         </div>
-      </div>
+      </div> -->
       <!-- success toast -->
 
       <!-- toast sure? -->

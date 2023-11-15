@@ -55,7 +55,8 @@ public class SecurityConfig {
 			"/plants")
 		.permitAll()
 		.antMatchers("/plants/{id}/for-update",
-			"/plants/{id}")
+			"/plants/{id}", "/accounts",
+			"/accounts/{id}")
 		.hasAuthority("ROLE_ADMIN").anyRequest()
 		.authenticated().and()
 		.oauth2ResourceServer().jwt();
