@@ -9,23 +9,17 @@
   };
 </script>
 <template>
-  <div
-    :id="id"
-    class="toast-container align-items-center text-white bg-success border-0"
-    role="alert"
-    aria-live="assertive"
-    aria-atomic="true"
-  >
-    <div class="toast">
-      <div class="d-flex">
-        <div class="toast-body">Message</div>
+  <div :id="id" class="toast-container p-3 top-0 start-50 translate-middle-x">
+    <div class="toast shadow-sm">
+      <div class="toast-header">
+        <strong class="text-dark me-auto"></strong>
         <button
           type="button"
-          class="btn-close btn-close-white me-2 m-auto"
+          class="btn-close"
           data-bs-dismiss="toast"
-          aria-label="Close"
         ></button>
       </div>
+      <div class="toast-body"></div>
     </div>
   </div>
 </template>

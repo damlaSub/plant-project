@@ -1,13 +1,18 @@
-import { Toast } from "bootstrap";
-
-function showToast(id, color, message) {
-  const toastDiv = document.querySelector("toast-container");
-  const toast = new Toast(toastDiv);
-  console.log(toastDiv);
-  const classes = toastDiv.classList;
-  classes.add(color);
+function showToast(id, cls, message) {
+  const container = document.querySelector(`#${id}>.toast`);
+  const classes = container.classList;
+  classes.add(cls);
   const body = container.querySelector(".toast-body");
   body.textContent = message;
+  container.addEventListener(
+    "hidden.bs.toast",
+    () => {
+      classes.remove(cls);
+      body.textContent = "";
+    },
+    { once: true }
+  );
+  const toast = bootstrap.Toast.getOrCreateInstance(container);
   toast.show();
 }
 

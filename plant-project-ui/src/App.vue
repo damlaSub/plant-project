@@ -1,19 +1,12 @@
 <script setup>
   import { RouterLink, RouterView } from "vue-router";
+  import Toast from "./components/commons/Toast.vue";
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
-      <!-- <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/login">Log in</RouterLink>
-        <RouterLink to="/signup">Sign up</RouterLink>
-      </nav> -->
-    </div>
-  </header>
-
-  <RouterView />
+  <header></header>
+  <main class="container-xl">
+    <RouterView />
+  </main>
+  <div><Toast id="toast-global" /></div>
 </template>
-
-<style scoped></style>

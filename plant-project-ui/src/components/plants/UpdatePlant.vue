@@ -52,13 +52,18 @@
           formData.append("description", this.inputs.description);
           formData.append("hydrationId", this.inputs.hydrationId);
           formData.append("sunlightId", this.inputs.sunlightId);
-          const resp = await this.$axios.patch(`/plants/${this.id}`, formData);
+          const resp = await this.$axios.patch(
+            `/plants/admin/${this.id}`,
+            formData
+          );
           if (resp.status == 204) {
-            console.log("valid");
-            console.log("this.inputs.file", this.inputs.file);
+            this.v$.$reset();
+            this.$toast.success("toast-global", "Plant updated with success.");
+            this.$router.push("/admin/plants");
           } else {
             console.log("error");
             console.log(resp.status);
+            this.$toast.error("toast-global", "An error occured.");
           }
         }
       },
@@ -68,7 +73,9 @@
         }
       },
       async getPlantForUpdate() {
-        const response = await this.$axios.get(`/plants/${this.id}/for-update`);
+        const response = await this.$axios.get(
+          `/plants/admin/${this.id}/for-update`
+        );
         this.inputs = response.body;
         const data = response.body;
         this.inputs.commonName = data.commonName;
@@ -96,7 +103,7 @@
 </script>
 
 <template>
-  <div class="mb-3 p-5">
+  <div class="mt-5 mb-3 p-5">
     <h1 class="fs-4 card-title fw-bold mb-4">Update plant</h1>
     <div class="col-md-2">
       <img :src="fileSystem + inputs.image" class="rounded img-fluid" />

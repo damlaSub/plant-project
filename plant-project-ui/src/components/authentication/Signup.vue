@@ -60,17 +60,16 @@
             email: this.inputs.email,
             password: this.inputs.password,
           };
+          localStorage.clear();
           await this.$axios
             .post("/sign-up", accountData)
             .then((response) => {
               this.v$.$reset();
-
               console.log("response", response);
-
               this.$router.push("/signin");
             })
             .catch((error) => {
-              console.log(error.response.data);
+              console.log(error);
             });
         }
       },
@@ -80,13 +79,13 @@
 
 <template>
   <main class="h-100">
-    <div class="container h-100">
+    <div class="container h-100 mt-5">
       <div class="row justify-content-sm-center vh-100">
         <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
           <div class="card shadow-lg">
             <div class="card-body">
               <div class="text-center my-1">
-                <img src="/src/assets/myLogo.png" alt="logo" width="100" />
+                <img src="/src/assets/logo.png" alt="logo" width="100" />
               </div>
               <h1 class="fs-4 card-title fw-bold mb-4">Create an account</h1>
               <form

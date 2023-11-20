@@ -34,14 +34,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
-            <li class="nav-item fs-5">
-              <RouterLink :to="{ name: 'signin' }" class="navbar-brand"
-                >Sign in</RouterLink
-              >
-            </li>
-            <li class="nav-item fs-5">
-              <RouterLink :to="{ name: 'signup' }" class="navbar-brand"
-                >Sign up</RouterLink
+            <li class="nav-item">
+              <RouterLink :to="{ name: 'edit' }" class="navbar-brand"
+                >Plants</RouterLink
               >
             </li>
             <li class="nav-item fs-5">

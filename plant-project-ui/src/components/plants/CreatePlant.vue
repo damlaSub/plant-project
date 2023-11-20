@@ -49,15 +49,16 @@
             formData.append(key, value);
           }
         });
-
-        const resp = await this.$axios.post("/plants", formData);
+        const resp = await this.$axios.post("/plants/admin/create", formData);
         if (resp.status === 204) {
           Object.assign(this.inputs, this.$options.data().inputs);
-
           this.v$.$reset();
           event.target.reset();
+          this.$toast.success("toast-global", "Plant created with success.");
+          this.$router.push("/admin/plants");
         } else {
           console.log("error");
+          this.$toast.error("toast-global", "An error occured.");
         }
       },
       async initSunlightLevels() {
@@ -77,7 +78,7 @@
 </script>
 
 <template>
-  <div class="mb-3 p-5">
+  <div class="mt-5 mb-3 p-5">
     <h1 class="fs-4 card-title fw-bold mb-4">Create a plant</h1>
     <form class="row g-3 needs-validation" novalidate @submit.prevent="submit">
       <div class="col-md-4">

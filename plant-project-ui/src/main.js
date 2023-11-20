@@ -4,6 +4,8 @@ import router from "./router"; // Import the router configuration
 import axios from "./plugins/axios";
 import toast from "./plugins/toast";
 
+import "/index.css";
+
 const app = createApp(App);
 
 app.use(router); // Add the router

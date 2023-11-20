@@ -1,14 +1,11 @@
 package co.simplon.plantproject.services;
 
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.simplon.plantproject.dtos.AccountCreateDto;
-import co.simplon.plantproject.dtos.AccountItem;
 import co.simplon.plantproject.dtos.AccountSigninDto;
 import co.simplon.plantproject.dtos.TokenInfo;
 import co.simplon.plantproject.entities.Account;
@@ -53,37 +50,42 @@ public class AuthServiceImpl implements AuthService {
 	// Assign "ROLE_ADMIN" if the account's email domain is "test.com".
 	if (account.getEmail().endsWith("@test.com")) {
 	    Role adminRole = roleRepository
-		    .findByCode("ROLE_ADMIN");
+		    .getReferenceByCode("ROLE_ADMIN");
 	    account.setRole(adminRole);
 	} else {
 	    Role role = roleRepository
-		    .findByCode("ROLE_USER");
+		    .getReferenceByCode("ROLE_USER");
 	    account.setRole(role);
 	}
-
+	System.out.println(account.getRole());
 	accountRepository.save(account);
 
     }
 
     @Override
+    @Transactional
     public TokenInfo signIn(AccountSigninDto inputs) {
 	String identifier = inputs.getEmail();
 	String candidate = inputs.getPassword();
 
 	Account account = accountRepository
 		.getByEmail(identifier);
-	System.out.println(account);
-
 	if (account != null) {
 	    boolean match = authHelper.matches(candidate,
 		    account.getPassword());
 	    if (match) {
-		String name = account.getEmail();
-		String token = authHelper.createJWT(null,
-			name);
+		String email = account.getEmail();
+		String roleCode = account.getRole()
+			.getCode();
+		String token = authHelper
+			.createJWT(roleCode, email);
 		TokenInfo tokenInfo = new TokenInfo();
 		tokenInfo.setToken(token);
+		tokenInfo.setRole(roleCode);
+		tokenInfo.setFirstName(
+			account.getFirstName());
 		return tokenInfo;
+
 	    } else {
 		throw new BadCredentialsException(
 			"Invalid email or password.");
@@ -100,15 +102,5 @@ public class AuthServiceImpl implements AuthService {
 	return this.accountRepository
 		.existsByEmail(email.toString());
 
-    }
-
-    @Override
-    public AccountItem getAccount(Long id) {
-	return this.accountRepository.findProjectedById(id);
-    }
-
-    @Override
-    public Collection<AccountItem> getAll() {
-	return this.accountRepository.findAllProjectedBy();
     }
 }

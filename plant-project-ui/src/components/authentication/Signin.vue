@@ -15,7 +15,6 @@
     },
     data() {
       return {
-        // account: null,
         inputs: {
           email: null,
           password: null,
@@ -43,54 +42,45 @@
       };
     },
     methods: {
-      async handleSignIn(event) {
+      showToast() {
+        const toastDiv = document.querySelector(".toast");
+        const toast = new Toast(toastDiv);
+        toast.show();
+      },
+      async handleSignIn() {
         const valid = await this.v$.$validate();
         if (valid) {
           const accountData = {
             email: this.inputs.email,
             password: this.inputs.password,
           };
+          localStorage.clear();
           await this.$axios
             .post("/sign-in", accountData)
             .then((response) => {
-              // const isAdmin = accountData.email.endsWith("@test.com");
-              const token = response.body.token;
-              localStorage.setItem("token", token);
-              this.$axios.defaults.headers.common[
-                "Authorization"
-              ] = `Bearer ${token}`;
-              //$axios.get("http://your-backend-api-endpoint");
-              this.$router.push("/admin/plants");
-
-              // if (isAdmin) {
-              //   this.$router.push("/admin/plants");
-              // } else {
-              //   this.$router.push("/");
-              // }
+              if (response.body.role.includes("_ADMIN")) {
+                this.$router.push("/admin/plants");
+              } else {
+                this.$router.push("/");
+              }
             })
             .catch((error) => {
-              console.log(error);
-              //console.log(error.response.data);
+              console.log(error.response.data);
             });
         }
       },
-      // async initAccount() {
-      //   const resp = await this.$axios.get("/accounts/${id}");
-      //   this.account = resp.body;
-      //   console.log(this.account);
-      // },
     },
   };
 </script>
 <template>
   <main class="h-100">
-    <div class="container h-100">
+    <div class="container h-100 mt-5">
       <div class="row justify-content-sm-center vh-100">
         <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
           <div class="card shadow-lg">
             <div class="card-body">
               <div class="text-center my-1">
-                <img src="/src/assets/myLogo.png" alt="logo" width="100" />
+                <img src="/src/assets/logo.png" alt="logo" width="100" />
               </div>
               <h1 class="fs-4 card-title fw-bold mb-4">Log in</h1>
               <form
@@ -101,7 +91,14 @@
                 novalidate
               >
                 <!-- error toast -->
-
+                <div
+                  class="toast position-fixed top-0 start-50 translate-middle-x d-block"
+                  role="alert"
+                  aria-live="assertive"
+                  aria-atomic="true"
+                >
+                  <div class="toast-body">401 Err msg here</div>
+                </div>
                 <!-- error toast -->
 
                 <div class="mb-3">

@@ -54,9 +54,9 @@ public class SecurityConfig {
 			"/sunlights", "/hydrations",
 			"/plants")
 		.permitAll()
-		.antMatchers("/plants/{id}/for-update",
-			"/plants/{id}", "/accounts",
-			"/accounts/{id}")
+		.antMatchers("/admin/create", "/admin/{id}",
+			"/admin/{id}/for-update",
+			"/admin/{id}/delete")
 		.hasAuthority("ROLE_ADMIN").anyRequest()
 		.authenticated().and()
 		.oauth2ResourceServer().jwt();
@@ -67,7 +67,7 @@ public class SecurityConfig {
     JwtAuthenticationConverter authenticationConverter() {
 	JwtGrantedAuthoritiesConverter authoritiesConverter = new JwtGrantedAuthoritiesConverter();
 	authoritiesConverter
-		.setAuthoritiesClaimName("roles");
+		.setAuthoritiesClaimName("role");
 	authoritiesConverter.setAuthorityPrefix("ROLE_");
 	JwtAuthenticationConverter authenticationConverter = new JwtAuthenticationConverter();
 	authenticationConverter

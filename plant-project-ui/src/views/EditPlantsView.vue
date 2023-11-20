@@ -1,8 +1,8 @@
 <script setup>
   import EditPlants from "../components/plants/EditPlants.vue";
-  import Header from "../components/commons/Header.vue";
+  import AdminHeader from "../components/commons/AdminHeader.vue";
 </script>
 <template>
-  <Header />
+  <AdminHeader />
   <EditPlants />
 </template>

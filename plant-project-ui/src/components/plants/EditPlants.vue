@@ -1,6 +1,5 @@
 <script>
   import { RouterLink } from "vue-router";
-  import { Toast } from "bootstrap";
   export default {
     data() {
       return {
@@ -12,21 +11,18 @@
     methods: {
       async initPlants() {
         const resp = await this.$axios.get("/plants");
+
         this.plants = resp.body;
       },
-      // showToast() {
-      //   const toastDiv = document.querySelector(".toast");
-      //   const toast = new Toast(toastDiv);
-      //   toast.show();
-      // },
+
       async handleDelete(id) {
-        const resp = await this.$axios.delete(`plants/${id}`);
+        const resp = await this.$axios.delete(`plants/admin/${id}/delete`);
         if ((resp.status = 204)) {
           await this.initPlants();
-          //this.showToast();
-          this.$toast.success("toast-global", "Plant deleted with  success.");
+          this.$toast.success("toast-global", "Plant deleted with success.");
         } else {
           console.log(resp);
+          this.$toast.error("toast-global", "An error occured.");
         }
       },
     },
@@ -84,24 +80,6 @@
           </button>
         </div>
       </div>
-      <!-- success toast -->
-      <!-- <div
-        class="toast align-items-center text-white bg-success border-0"
-        role="alert"
-        aria-live="assertive"
-        aria-atomic="true"
-      >
-        <div class="d-flex">
-          <div class="toast-body">Plant was deleted successfully.</div>
-          <button
-            type="button"
-            class="btn-close btn-close-white me-2 m-auto"
-            data-bs-dismiss="toast"
-            aria-label="Close"
-          ></button>
-        </div>
-      </div> -->
-      <!-- success toast -->
 
       <!-- toast sure? -->
       <!-- <div

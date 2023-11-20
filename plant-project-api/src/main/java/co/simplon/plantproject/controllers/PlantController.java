@@ -31,7 +31,7 @@ public class PlantController {
 	this.service = service;
     }
 
-    @PostMapping
+    @PostMapping("/admin/create")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void create(
 	    @ModelAttribute @Valid PlantCreateDto inputs) {
@@ -43,20 +43,20 @@ public class PlantController {
 	return service.getAll();
     }
 
-    @GetMapping("/{id}/for-update")
+    @GetMapping("/admin/{id}/for-update")
     public PlantForUpdate getForUpdate(
 	    @PathVariable("id") Long id) {
 	return service.getForUpdate(id);
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/admin/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable("id") Long id,
 	    @ModelAttribute @Valid PlantUpdateDto inputs) {
 	service.update(id, inputs);
     }
 
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping("/admin/{id}/delete")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") Long id) {
 	service.delete(id);

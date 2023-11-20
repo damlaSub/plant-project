@@ -12,7 +12,8 @@ INSERT INTO roles
 INSERT INTO accounts
 	(first_name, last_name, email, password, role_id)
 	VALUES
-	('Damla', 'Test', 'damla@test.com', '12345678Test', (SELECT r.id FROM roles r WHERE r.role_code = 'ROLE_ADMIN'));
+	('Damla', 'Test', 'damla@test.com', '$2a$11$yLWOyWk1EYm2JEwCpoTiQOP2C1.pRNeDhNQdI6PB4B8m8BXrd6zbe', (SELECT r.id FROM roles r WHERE r.role_code = 'ROLE_ADMIN')),
+	('Damla', 'Plant', 'damla@plant.com', '$2a$11$yLWOyWk1EYm2JEwCpoTiQOP2C1.pRNeDhNQdI6PB4B8m8BXrd6zbe', (SELECT r.id FROM roles r WHERE r.role_code = 'ROLE_USER'));
 
 INSERT INTO hydration_levels
 	(hydration_code, hydration_name, logical_order)
@@ -27,7 +28,7 @@ INSERT INTO sunlight_levels
 INSERT INTO plants
 	(common_name, latin_name, description, image, hydration_id, sunlight_id, added_at)
 	VALUES
-	('Calethea', 'Caletheia monstera', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',	'calethea.jpg',
+	('Calathea', 'Calatheia monstera', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',	'calathea.jpg',
 		(SELECT h.id FROM hydration_levels h WHERE h.hydration_code = 'HY01'),
 		(SELECT s.id FROM sunlight_levels s WHERE s.sunlight_code = 'SN01'), now()),
 	('Z Plant', 'Zamioculcas zamiifolia', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.', 'zplant.jpg', 

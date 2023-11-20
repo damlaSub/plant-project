@@ -1,7 +1,6 @@
 package co.simplon.plantproject.utils;
 
 import java.time.Instant;
-import java.util.List;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -31,16 +30,15 @@ public class AuthHelper {
 	return encoder.matches(candidate, hash);
     }
 
-    public String createJWT(List<String> roles,
-	    String name) {
+    public String createJWT(String role, String email) {
 	Instant now = Instant.now();
 	Instant expirationTime = now
 		.plusSeconds(expiration);
 
 	return JWT.create().withIssuer(issuer)
-		.withSubject(name).withIssuedAt(now)
+		.withSubject(email).withIssuedAt(now)
 		.withExpiresAt(expirationTime)
-		.sign(algorithm);
+		.withClaim("role", role).sign(algorithm);
     }
 
     public static class Builder {
