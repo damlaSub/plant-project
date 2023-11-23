@@ -38,7 +38,6 @@
     methods: {
       handleFileUpload(event) {
         this.inputs.file = event.target.files[0];
-        console.log(this.inputs.file.size);
       },
       async submit(event) {
         const valid = await this.v$.$validate();
@@ -57,7 +56,6 @@
           this.$toast.success("toast-global", "Plant created with success.");
           this.$router.push("/admin/plants");
         } else {
-          console.log("error");
           this.$toast.error("toast-global", "An error occured.");
         }
       },
@@ -86,7 +84,7 @@
           >Common name</label
         >
         <input
-          :class="{ 'is-invalid': v$.inputs.latinName.$error }"
+          :class="{ 'is-invalid': v$.inputs.commonName.$error }"
           v-model.trim="inputs.commonName"
           name="input-name"
           type="text"
@@ -206,20 +204,23 @@
         <span id="image-helptext" class="fw-light" v-else>Plant's image</span>
       </div>
       <div class="col-12">
-        <label for="description" class="form-label required">Description</label>
+        <label for="description" class="form-label required" maxlength="1000"
+          >Common name</label
+        >
         <textarea
           :class="{ 'is-invalid': v$.inputs.description.$error }"
           v-model.trim="inputs.description"
           name="description"
+          type="text"
           class="form-control"
           id="description"
           style="height: 100px"
-          minlength="1"
-          maxlength="1000"
+          rows="10"
           required
-        ></textarea>
+          >{{ inputs.description }}</textarea
+        >
         <span class="form-text text-danger" v-if="v$.inputs.description.$error">
-          Text with a maximum of 1000 chars
+          Maximum of 1000 chars
         </span>
         <span id="description-helptext" class="fw-light" v-else>
           Plant's description

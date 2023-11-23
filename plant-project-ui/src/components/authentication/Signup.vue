@@ -69,7 +69,7 @@
               this.$router.push("/signin");
             })
             .catch((error) => {
-              console.log(error);
+              this.$toast.error("toast-global", error.response.data);
             });
         }
       },

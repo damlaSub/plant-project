@@ -1,6 +1,5 @@
 <script>
   import { useVuelidate } from "@vuelidate/core";
-  import { Toast } from "bootstrap";
   import {
     email,
     required,
@@ -42,11 +41,6 @@
       };
     },
     methods: {
-      showToast() {
-        const toastDiv = document.querySelector(".toast");
-        const toast = new Toast(toastDiv);
-        toast.show();
-      },
       async handleSignIn() {
         const valid = await this.v$.$validate();
         if (valid) {
@@ -65,7 +59,7 @@
               }
             })
             .catch((error) => {
-              console.log(error.response.data);
+              this.$toast.error("toast-global", error.response.data);
             });
         }
       },
@@ -90,17 +84,6 @@
                 @submit.prevent="handleSignIn"
                 novalidate
               >
-                <!-- error toast -->
-                <div
-                  class="toast position-fixed top-0 start-50 translate-middle-x d-block"
-                  role="alert"
-                  aria-live="assertive"
-                  aria-atomic="true"
-                >
-                  <div class="toast-body">401 Err msg here</div>
-                </div>
-                <!-- error toast -->
-
                 <div class="mb-3">
                   <input
                     :class="{ 'is-invalid': v$.inputs.email.$error }"

@@ -115,7 +115,7 @@
             >Common name</label
           >
           <input
-            :class="{ 'is-invalid': v$.inputs.latinName.$error }"
+            :class="{ 'is-invalid': v$.inputs.commonName.$error }"
             v-model.trim="inputs.commonName"
             name="input-name"
             type="text"
@@ -224,18 +224,9 @@
             Plant's sunlight level
           </span>
         </div>
-        <div class="col-md-4 my-3">
-          <!-- <h2 class="plant_name">
-          {{ inputs.commonName }} - {{ inputs.latinName }}
-        </h2>
-        <p>Hydration level : {{ inputs.hydration.name }}</p>
-        <p>Sunlight level : {{ inputs.sunlight.name }}</p> -->
-        </div>
+        <div class="col-md-4 my-3"></div>
 
         <div class="col-md-4 my-3">
-          <!-- <label for="image" class="form-label required" maxlength="100"
-          >Image</label
-        > -->
           <input
             :class="{ 'is-invalid': v$.inputs.file.$error }"
             name="file"
@@ -253,30 +244,30 @@
           <div v-else id="image-helptext" class="fw-light">Plant's image</div>
         </div>
         <div class="col-8">
-          <label for="description" class="form-label required"
-            >Description</label
+          <label for="description" class="form-label required" maxlength="1000"
+            >Common name</label
           >
           <textarea
             :class="{ 'is-invalid': v$.inputs.description.$error }"
+            v-model.trim="inputs.description"
             name="description"
+            type="text"
             class="form-control"
             id="description"
             style="height: 100px"
-            minlength="1"
-            maxlength="1000"
-            required
             rows="10"
+            required
             >{{ inputs.description }}</textarea
           >
-          <div
-            class="form-text"
-            :class="{ 'text-danger': v$.inputs.description.$error }"
+          <span
+            class="form-text text-danger"
+            v-if="v$.inputs.description.$error"
           >
-            Text with a maximum of 1000 chars.
-          </div>
-          <div id="description-helptext" class="fw-light">
-            Plant's description.
-          </div>
+            Maximum of 1000 chars
+          </span>
+          <span id="description-helptext" class="fw-light" v-else>
+            Plant's description
+          </span>
         </div>
         <div class="d-grid d-md-flex justify-content-md-end">
           <button type="submit" class="btn">Save</button>

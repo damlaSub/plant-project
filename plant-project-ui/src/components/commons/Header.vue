@@ -56,7 +56,7 @@
 
 <style>
   .navbar {
-    background-color: #f9f5f1;
+    background-color: white;
   }
   navbar-brand {
     font-family: Chromatica, sans-serif;
