@@ -15,10 +15,10 @@ CREATE TABLE roles (
 
 CREATE TABLE accounts (
 	id SERIAL NOT NULL,
-	first_name VARCHAR(250) NOT NULL,
-	last_name VARCHAR(250) NOT NULL,
-	email VARCHAR(255) NOT NULL,
-	password VARCHAR(250) NOT NULL,
+	first_name VARCHAR(100) NOT NULL,
+	last_name VARCHAR(100) NOT NULL,
+	email VARCHAR(100) NOT NULL,
+	password VARCHAR(100) NOT NULL,
 	role_id INTEGER NOT NULL,
 	CONSTRAINT accounts_email UNIQUE (email),
 	CONSTRAINT accounts_role_id_fk FOREIGN KEY (role_id) REFERENCES roles(id),

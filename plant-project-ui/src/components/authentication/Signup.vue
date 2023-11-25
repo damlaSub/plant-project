@@ -10,7 +10,7 @@
 
   export default {
     setup() {
-      return { v$: useVuelidate() };
+      return { v$: useVuelidate({ $autoDirty: true }) };
     },
     data() {
       return {
@@ -28,11 +28,11 @@
         inputs: {
           firstName: {
             required,
-            maxLength: maxLength(250),
+            maxLength: maxLength(100),
           },
           lastName: {
             required,
-            maxLength: maxLength(250),
+            maxLength: maxLength(100),
           },
           email: {
             required,
@@ -65,7 +65,6 @@
             .post("/sign-up", accountData)
             .then((response) => {
               this.v$.$reset();
-              console.log("response", response);
               this.$router.push("/signin");
             })
             .catch((error) => {
@@ -133,7 +132,7 @@
                     type="email"
                     class="form-control"
                     name="email"
-                    placeholder="e-mail*"
+                    placeholder="e-mail* e.g. Hello42@!"
                     required
                     v-model="this.inputs.email"
                     autofocus

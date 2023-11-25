@@ -8,16 +8,15 @@ import co.simplon.plantproject.customValidation.UniqueAccountEmail;
 
 public class AccountCreateDto {
 
-    @NotBlank(message = "First name is required.")
-    @Size(min = 1, max = 250)
+    @NotBlank
+    @Size(min = 1, max = 100)
     private String firstName;
 
-    @NotBlank(message = "Last name is required.")
-    @Size(min = 1, max = 250)
+    @NotBlank
+    @Size(min = 1, max = 100)
     private String lastName;
 
-    @NotBlank(message = "Email is required.")
-    @Size(min = 1, max = 255)
+    @NotBlank
     @Email
     @UniqueAccountEmail
     private String email;

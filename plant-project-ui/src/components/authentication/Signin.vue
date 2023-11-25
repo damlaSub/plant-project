@@ -10,7 +10,7 @@
 
   export default {
     setup() {
-      return { v$: useVuelidate() };
+      return { v$: useVuelidate({ $autoDirty: true }) };
     },
     data() {
       return {
@@ -59,7 +59,9 @@
               }
             })
             .catch((error) => {
-              this.$toast.error("toast-global", error.response.data);
+              if (error.response.data != undefined) {
+                this.$toast.error("toast-global", error.response.data);
+              }
             });
         }
       },

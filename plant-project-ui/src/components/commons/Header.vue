@@ -19,8 +19,8 @@
             <img
               src="../../assets/logo.png"
               alt="Bootstrap"
-              width="30"
-              height="24"
+              width="60"
+              height="48"
             />
           </a>
         </div>

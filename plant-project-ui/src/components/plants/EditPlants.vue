@@ -33,7 +33,7 @@
 </script>
 <template>
   <div class="mb-3 p-5">
-    <div class="d-grid d-md-flex justify-content-md-end">
+    <div class="d-grid d-md-flex justify-content-md-end mt-5">
       <a href="/admin/plants/create"
         ><button role="button" class="btn btn-create m-4">
           <i class="bi bi-plus-circle"></i> Create a plant

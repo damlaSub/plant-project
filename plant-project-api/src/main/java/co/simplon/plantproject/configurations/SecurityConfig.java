@@ -20,7 +20,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import co.simplon.plantproject.utils.AuthHelper;
 
 @Configuration
-
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 
 public class SecurityConfig {

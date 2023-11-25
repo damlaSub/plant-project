@@ -4,7 +4,7 @@
   import { useRoute } from "vue-router";
   export default {
     setup() {
-      return { route: useRoute(), v$: useVuelidate() };
+      return { route: useRoute(), v$: useVuelidate({ $autoDirty: true }) };
     },
     data() {
       return {
@@ -46,12 +46,15 @@
           const formData = new FormData();
           if (this.inputs.file != null) {
             formData.append("image", this.inputs.file);
+            console.log("this.inputs.file", this.inputs.file);
           }
           formData.append("commonName", this.inputs.commonName);
           formData.append("latinName", this.inputs.latinName);
           formData.append("description", this.inputs.description);
           formData.append("hydrationId", this.inputs.hydrationId);
           formData.append("sunlightId", this.inputs.sunlightId);
+          console.log("formData", formData);
+          console.log("formData.image", formData.image);
           const resp = await this.$axios.patch(
             `/plants/admin/${this.id}`,
             formData

@@ -7,15 +7,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "roles")
 public class Role extends AbstractEntity {
+
     @Column(name = "role_code", updatable = false)
     private String code;
+
     @Column(name = "role_name", updatable = false)
     private String name;
 
     public Role() {
-
-	// TODO Auto-generated constructor stub
-
     }
 
     public String getCode() {

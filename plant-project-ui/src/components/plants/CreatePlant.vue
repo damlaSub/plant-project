@@ -3,7 +3,7 @@
   import { maxLength, minValue, required } from "@vuelidate/validators";
   export default {
     setup() {
-      return { v$: useVuelidate() };
+      return { v$: useVuelidate({ $autoDirty: true }) };
     },
     data() {
       return {
@@ -205,7 +205,7 @@
       </div>
       <div class="col-12">
         <label for="description" class="form-label required" maxlength="1000"
-          >Common name</label
+          >Description</label
         >
         <textarea
           :class="{ 'is-invalid': v$.inputs.description.$error }"

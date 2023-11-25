@@ -44,7 +44,7 @@
   };
 </script>
 <template>
-  <div class="input-group mt-5 mb-3 p-5">
+  <div class="input-group mt-5 mb-3 p-5 mt-5">
     <span class="input-group-text" id="basic-addon1"
       ><i class="bi bi-search"></i
     ></span>

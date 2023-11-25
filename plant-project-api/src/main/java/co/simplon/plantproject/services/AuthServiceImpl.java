@@ -34,7 +34,6 @@ public class AuthServiceImpl implements AuthService {
 
     }
 
-    // Sign up, sign in implementation
     @Override
     @Transactional
     public void signUp(AccountCreateDto inputs) {
@@ -47,8 +46,7 @@ public class AuthServiceImpl implements AuthService {
 		.encode(inputs.getPassword());
 	account.setPassword(hashPassword);
 
-	// Assign "ROLE_ADMIN" if the account's email domain is "test.com".
-	if (account.getEmail().endsWith("@test.com")) {
+	if (account.getEmail().endsWith("@plantme.com")) {
 	    Role adminRole = roleRepository
 		    .getReferenceByCode("ROLE_ADMIN");
 	    account.setRole(adminRole);
@@ -57,9 +55,7 @@ public class AuthServiceImpl implements AuthService {
 		    .getReferenceByCode("ROLE_USER");
 	    account.setRole(role);
 	}
-	System.out.println(account.getRole());
 	accountRepository.save(account);
-
     }
 
     @Override

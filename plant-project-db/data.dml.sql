@@ -12,8 +12,8 @@ INSERT INTO roles
 INSERT INTO accounts
 	(first_name, last_name, email, password, role_id)
 	VALUES
-	('Damla', 'Test', 'damla@test.com', '$2a$11$yLWOyWk1EYm2JEwCpoTiQOP2C1.pRNeDhNQdI6PB4B8m8BXrd6zbe', (SELECT r.id FROM roles r WHERE r.role_code = 'ROLE_ADMIN')),
-	('Damla', 'Plant', 'damla@plant.com', '$2a$11$yLWOyWk1EYm2JEwCpoTiQOP2C1.pRNeDhNQdI6PB4B8m8BXrd6zbe', (SELECT r.id FROM roles r WHERE r.role_code = 'ROLE_USER'));
+	('Damla', 'Plant', 'damla@plantme.com', '$2a$11$yLWOyWk1EYm2JEwCpoTiQOP2C1.pRNeDhNQdI6PB4B8m8BXrd6zbe', (SELECT r.id FROM roles r WHERE r.role_code = 'ROLE_ADMIN')),
+	('Damla', 'Test', 'damla@test.com', '$2a$11$yLWOyWk1EYm2JEwCpoTiQOP2C1.pRNeDhNQdI6PB4B8m8BXrd6zbe', (SELECT r.id FROM roles r WHERE r.role_code = 'ROLE_USER'));
 
 INSERT INTO hydration_levels
 	(hydration_code, hydration_name, logical_order)
