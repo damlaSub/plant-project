@@ -2,7 +2,6 @@ package co.simplon.plantproject.controllers;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,8 +16,11 @@ import co.simplon.plantproject.services.AuthService;
 @RestController
 public class AuthController {
 
-    @Autowired
     private AuthService service;
+
+    public AuthController(AuthService service) {
+	this.service = service;
+    }
 
     @PostMapping("/sign-up")
     @ResponseStatus(HttpStatus.NO_CONTENT)
