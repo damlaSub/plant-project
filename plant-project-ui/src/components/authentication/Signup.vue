@@ -193,7 +193,13 @@
             <div class="card-footer py-3 border-0">
               <div class="text-center">
                 Already have an account?
-                <a href="/signin" class="text-dark">Sign in</a>
+
+                <RouterLink
+                  :to="{ name: 'signin' }"
+                  title="signin"
+                  class="text-dark route"
+                  >Sign in</RouterLink
+                >
               </div>
             </div>
           </div>
@@ -234,5 +240,8 @@
   #remember:focus {
     border-color: #355e3b;
     box-shadow: 0 0 0 0.2rem #355e3b;
+  }
+  .route {
+    text-decoration: none;
   }
 </style>

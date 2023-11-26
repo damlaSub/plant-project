@@ -78,7 +78,7 @@
               <div class="text-center my-1">
                 <img src="/src/assets/logo.png" alt="logo" width="100" />
               </div>
-              <h1 class="fs-4 card-title fw-bold mb-4">Log in</h1>
+              <h1 class="fs-4 card-title fw-bold mb-4">Sign in</h1>
               <form
                 method="POST"
                 class="needs-validation login-form"
@@ -119,10 +119,10 @@
 
                 <div class="d-flex align-items-center">
                   <div class="mb-2 w-100">
-                    <a href="" class="float-start"> Forgot Password? </a>
+                    <a href="" class="float-start acc"> Forgot Password? </a>
                   </div>
                   <button type="submit" class="btn ms-auto submit">
-                    Login
+                    Sign&nbsp;in
                   </button>
                 </div>
               </form>
@@ -130,7 +130,12 @@
             <div class="card-footer py-3 border-0">
               <div class="text-center">
                 Don't have an account?
-                <a href="/signup" class="text-dark">Sign up</a>
+                <RouterLink
+                  :to="{ name: 'signup' }"
+                  title="signup"
+                  class="text-dark route"
+                  >Sign up</RouterLink
+                >
               </div>
             </div>
           </div>
@@ -146,11 +151,13 @@
   main {
     background-color: #f9f5f1;
   }
-  a {
+  .acc,
+  .route {
     text-decoration: none;
     color: #212529;
   }
-  a:hover {
+  .acc:hover,
+  .route:hover {
     color: #355e3b;
   }
   .submit {
