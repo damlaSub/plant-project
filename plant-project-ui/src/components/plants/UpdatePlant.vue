@@ -17,7 +17,7 @@
           commonName: null,
           latinName: null,
           description: null,
-          image: null,
+          image: undefined,
           hydrationId: 0,
           sunlightId: 0,
         },
@@ -45,7 +45,7 @@
         if (valid) {
           const formData = new FormData();
           if (this.inputs.file != null) {
-            formData.append("image", this.inputs.file);
+            formData.append("file", this.inputs.file);
             console.log("this.inputs.file", this.inputs.file);
           }
           formData.append("commonName", this.inputs.commonName);
