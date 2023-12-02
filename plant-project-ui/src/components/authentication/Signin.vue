@@ -59,6 +59,7 @@
                 this.$router.push("/");
               }
             })
+
             .catch((error) => {
               if (error.response.data != undefined) {
                 this.$toast.error("toast-global", error.response.data);
