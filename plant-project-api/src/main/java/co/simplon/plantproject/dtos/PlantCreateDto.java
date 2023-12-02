@@ -2,6 +2,7 @@ package co.simplon.plantproject.dtos;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
@@ -14,10 +15,12 @@ public class PlantCreateDto {
 
     @NotBlank
     @Size(max = 100)
+    @Pattern(regexp = "^[a-zA-Z-éàâèêôûîç'’ ]+$")
     private String commonName;
 
     @NotBlank
     @Size(max = 200)
+    @Pattern(regexp = "^[a-zA-Z-éàâèêôûîç'’ ]+$")
     private String latinName;
 
     @NotBlank

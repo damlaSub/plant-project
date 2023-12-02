@@ -1,11 +1,12 @@
 <script>
   import { useVuelidate } from "@vuelidate/core";
+  import { helpers } from "@vuelidate/validators";
   import {
     email,
     required,
     maxLength,
     minLength,
-    // sameAs,
+    sameAs,
   } from "@vuelidate/validators";
 
   export default {
@@ -17,7 +18,7 @@
         inputs: {
           email: null,
           password: null,
-          // confirm: null,
+          confirm: null,
         },
       };
     },
@@ -32,11 +33,10 @@
             required,
             minLength: minLength(8),
             maxLength: maxLength(32),
+            pattern: helpers.regex(
+              /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,32}$/
+            ),
           },
-          // confirm: {
-          //   required,
-          //   sameAs: sameAs(this.inputs.password),
-          // },
         },
       };
     },
@@ -54,6 +54,7 @@
             .then((response) => {
               if (response.body.role.includes("_ADMIN")) {
                 this.$router.push("/admin/plants");
+                console.log(token.getRole);
               } else {
                 this.$router.push("/");
               }

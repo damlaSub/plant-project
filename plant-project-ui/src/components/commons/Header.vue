@@ -1,6 +1,13 @@
 <script>
   import { RouterLink } from "vue-router";
   export default {
+    data() {
+      return {
+        // isAuthenticated:
+        //   localStorage.getItem(isAuthenticated) != undefined &&
+        //   localStorage.getItem(isAuthenticated) == true,
+      };
+    },
     methods: {
       signout() {
         localStorage.clear();

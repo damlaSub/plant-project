@@ -1,11 +1,12 @@
 <script>
   import { useVuelidate } from "@vuelidate/core";
+  import { helpers } from "@vuelidate/validators";
   import {
     email,
     required,
     maxLength,
     minLength,
-    // sameAs,
+    sameAs,
   } from "@vuelidate/validators";
 
   export default {
@@ -39,14 +40,22 @@
             email,
           },
           password: {
-            required,
-            minLength: minLength(8),
-            maxLength: maxLength(32),
+            required: helpers.withMessage(
+              "This field cannot be empty",
+              required
+            ),
+            pattern:
+              //helpers.withMessage(
+              helpers.regex(
+                /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,32}$/
+              ),
+            // "Password must have at least 1 upper and lower letter, at least 1 digit, at least 1 of #?!@$%^&*-"
+            //),
           },
-          // confirm: {
-          //   required,
-          //   sameAs: sameAs(this.inputs.password),
-          // },
+          confirm: {
+            required,
+            sameAs: sameAs(this.inputs.password),
+          },
         },
       };
     },
@@ -132,7 +141,7 @@
                     type="email"
                     class="form-control"
                     name="email"
-                    placeholder="e-mail* e.g. Hello42@!"
+                    placeholder="e-mail*"
                     required
                     v-model="this.inputs.email"
                     autofocus
@@ -149,15 +158,18 @@
                     type="password"
                     class="form-control"
                     name="password"
-                    placeholder="password*"
+                    placeholder="password*  e.g. Hello42@!"
                     v-model="this.inputs.password"
                   />
                   <span class="text-danger" v-if="v$.inputs.password.$error">
                     {{ v$.inputs.password.$errors[0].$message }}
                   </span>
+                  <!-- <div v-if="v$.password.pattern">
+                    {{ v$.password.pattern }}
+                  </div> -->
                 </div>
 
-                <!-- <div class="mb-3">
+                <div class="mb-3">
                   <div class="mb-2 w-100"></div>
                   <input
                     id="password-confirm"
@@ -170,7 +182,7 @@
                   <span class="text-danger" v-if="v$.inputs.confirm.$error">
                     {{ v$.inputs.confirm.$errors[0].$message }}
                   </span>
-                </div> -->
+                </div>
 
                 <div class="d-flex align-items-center">
                   <div class="form-check">

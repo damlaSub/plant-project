@@ -2,6 +2,7 @@ package co.simplon.plantproject.dtos;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import co.simplon.plantproject.customValidation.UniqueAccountEmail;
@@ -10,10 +11,12 @@ public class AccountCreateDto {
 
     @NotBlank
     @Size(min = 1, max = 100)
+    @Pattern(regexp = "^[a-zA-Z-éàâèêôûîç'’ ]+$")
     private String firstName;
 
     @NotBlank
     @Size(min = 1, max = 100)
+    @Pattern(regexp = "^[a-zA-Z-éàâèêôûîç'’ ]+$")
     private String lastName;
 
     @NotBlank
@@ -21,8 +24,7 @@ public class AccountCreateDto {
     @UniqueAccountEmail
     private String email;
 
-    @NotBlank
-    @Size(min = 8, max = 32)
+    @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,32}$")
     private String password;
 
     public AccountCreateDto() {

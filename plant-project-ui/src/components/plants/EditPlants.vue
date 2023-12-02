@@ -11,7 +11,6 @@
     methods: {
       async initPlants() {
         const resp = await this.$axios.get("/plants");
-
         this.plants = resp.body;
       },
 
