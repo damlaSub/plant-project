@@ -1,13 +1,7 @@
 <script>
   import { useVuelidate } from "@vuelidate/core";
   import { helpers } from "@vuelidate/validators";
-  import {
-    email,
-    required,
-    maxLength,
-    minLength,
-    sameAs,
-  } from "@vuelidate/validators";
+  import { email, required, maxLength, sameAs } from "@vuelidate/validators";
 
   export default {
     setup() {
@@ -20,7 +14,7 @@
           lastName: null,
           email: null,
           password: null,
-          // confirm: null,
+          confirm: null,
         },
       };
     },
@@ -225,18 +219,20 @@
   main {
     background-color: #f9f5f1;
   }
-
+  .route {
+    text-decoration: underline;
+  }
   .submit {
-    color: white;
-    background-color: #355e3b;
-    border-color: #355e3b;
+    color: #355e3b;
+    background-color: #f9f5f1;
+    border-color: black;
     border-radius: 12px;
     padding: 8px 18px;
   }
   .submit:hover {
-    color: white;
-    border-color: white;
-    background-color: #355e3b;
+    color: #355e3b;
+    background-color: #f9f5f1;
+    border-color: black;
     cursor: pointer;
   }
   .form-check-input:checked {
@@ -246,14 +242,13 @@
   .card-footer {
     background-color: #f4ede7;
   }
+  #first-name:focus,
+  #last-name:focus,
   #email:focus,
   #password:focus,
-  /* #password-confirm:focus, */
+  #password-confirm:focus,
   #remember:focus {
-    border-color: #355e3b;
-    box-shadow: 0 0 0 0.2rem #355e3b;
-  }
-  .route {
-    text-decoration: none;
+    border-color: black;
+    box-shadow: 0 0 0 0.01rem #355e3b;
   }
 </style>

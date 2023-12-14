@@ -62,7 +62,7 @@
   <div class="d-grid gap-2 d-md-flex justify-content-md-end px-5">
     <button
       type="button"
-      class="btn"
+      class="btn-down"
       data-bs-toggle="dropdown"
       aria-expanded="false"
     >
@@ -74,7 +74,7 @@
 
     <button
       type="button"
-      class="btn"
+      class="btn-down"
       data-bs-toggle="dropdown"
       aria-expanded="false"
     >
@@ -98,7 +98,7 @@
         <div class="p-3">
           <img
             :src="baseUrl + plant.image"
-            class="card-img-top"
+            class="card-img-top plant-img"
             :alt="plant.name"
           />
         </div>
@@ -124,7 +124,7 @@
             <p class="card-text">{{ plant.description }}</p>
           </div>
           <div class="d-grid d-md-flex justify-content-md-end">
-            <button type="button" class="btn btn-light">+</button>
+            <button type="button" class="btn btn-add">+</button>
           </div>
         </div>
       </div>
@@ -132,17 +132,22 @@
   </div>
 </template>
 <style>
-  .btn,
-  button {
-    color: white;
-    background-color: #355e3b;
-    border-color: #355e3b;
+  .btn-add {
+    color: #355e3b;
+    background-color: #f9f5f1;
+    border-color: black;
+    border-radius: 6%;
+    padding: 1% 4%;
   }
-  .btn:hover,
-  button:hover {
-    color: white;
-    border-color: white;
-    background-color: #355e3b;
+  .btn-down {
+    color: #355e3b;
+    background-color: #f9f5f1;
+    border-color: black;
+    border-radius: 12px;
+    padding: 6px 14px;
+  }
+  .btn-add:hover,
+  .btn-down:hover {
     cursor: pointer;
   }
   #basic-addon1 {
@@ -150,7 +155,10 @@
   }
 
   .search:focus {
-    border-color: #355e3b;
     box-shadow: 0 0 0 0.2rem #355e3b;
+  }
+  .plant-img {
+    height: 100%;
+    width: 100%;
   }
 </style>

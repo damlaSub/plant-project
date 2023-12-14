@@ -227,24 +227,26 @@
         </span>
       </div>
       <div class="d-grid d-md-flex justify-content-md-end">
-        <button type="submit" class="btn">Save</button>
+        <button type="submit" class="btn-save">Save</button>
       </div>
     </form>
   </div>
 </template>
 
 <style>
-  .btn,
-  button {
-    color: white;
-    background-color: #355e3b;
-    border-color: #355e3b;
+  .btn-save {
+    color: #355e3b;
+    background-color: #f9f5f1;
+    border-color: black;
+    border-radius: 12px;
+    padding: 8px 18px;
+    box-shadow: 0 0 0 0.01rem black;
   }
-  .btn:hover,
-  button:hover {
-    color: white;
-    border-color: white;
-    background-color: #355e3b;
+  .btn-save:hover,
+  .btn-save:focus {
+    color: #355e3b;
+    background-color: #f9f5f1;
+    border-color: black;
     cursor: pointer;
   }
   #input-name:focus,
@@ -253,7 +255,7 @@
   #sun:focus,
   #image:focus,
   #description:focus {
-    border-color: #355e3b;
-    box-shadow: 0 0 0 0.2rem #355e3b;
+    border-color: black;
+    box-shadow: 0 0 0 0.01rem #355e3b;
   }
 </style>

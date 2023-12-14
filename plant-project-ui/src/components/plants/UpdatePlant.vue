@@ -269,21 +269,19 @@
           </span>
         </div>
         <div class="d-grid d-md-flex justify-content-md-end">
-          <button type="submit" class="btn">Save</button>
+          <button type="submit" class="btn-update">Save</button>
         </div>
       </form>
     </div>
   </div>
 </template>
 <style>
-  .btn,
-  button {
+  .btn-update {
     color: white;
     background-color: #355e3b;
     border-color: #355e3b;
   }
-  .btn:hover,
-  button:hover {
+  .btn-update:hover {
     color: white;
     border-color: white;
     background-color: #355e3b;

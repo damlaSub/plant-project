@@ -1,6 +1,11 @@
+import { reactive, watch } from "vue";
 import axios from "axios";
 
 const ACCEPTED_STATUS = [200, 201, 202, 204, 400];
+const auth = reactive({
+  isAuthenticated: false,
+  role: null,
+});
 
 export default {
   install: (app) => {
@@ -25,6 +30,8 @@ export default {
           localStorage.setItem("isAuthenticated", true);
           localStorage.setItem("role", role);
           localStorage.setItem("userName", userName);
+          auth.isAuthenticated = true;
+          auth.role = role;
         }
         return { status: status, body: body };
       },
@@ -42,6 +49,14 @@ export default {
       (error) => {
         console.log("request error");
         return Promise.reject(error);
+      }
+    );
+    watch(
+      () => [auth.isAuthenticated, auth.role],
+      ([isAuthenticated, role]) => {
+        // Do something when isAuthenticated or role changes
+        console.log("isAuthenticated:", isAuthenticated);
+        console.log("role:", role);
       }
     );
 

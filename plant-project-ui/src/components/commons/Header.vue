@@ -63,7 +63,7 @@
 
 <style>
   .navbar {
-    background-color: white;
+    background-color: #e8d9c9;
   }
   navbar-brand {
     font-family: Chromatica, sans-serif;

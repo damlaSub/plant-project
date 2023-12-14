@@ -52,16 +52,16 @@
           await this.$axios
             .post("/sign-in", accountData)
             .then((response) => {
-              if (response.body.role.includes("_ADMIN")) {
-                this.$router.push("/admin/plants");
-                console.log(token.getRole);
-              } else {
-                this.$router.push("/");
-              }
+              //if (response.body.role.includes("_ADMIN")) {
+              this.$router.push("/admin/plants");
+              console.log(token.getRole);
+              //   } else {
+              //  this.$router.push("/");
+              //   }
             })
 
             .catch((error) => {
-              if (error.response.data != undefined) {
+              if (error.response.data && error.response.data != undefined) {
                 this.$toast.error("toast-global", error.response.data);
               }
             });
@@ -154,25 +154,23 @@
     background-color: #f9f5f1;
   }
   .acc,
-  .route {
-    text-decoration: none;
-    color: #212529;
-  }
+  .route,
   .acc:hover,
   .route:hover {
-    color: #355e3b;
+    color: #212529;
   }
+
   .submit {
-    color: white;
-    background-color: #355e3b;
-    border-color: #355e3b;
+    color: #355e3b;
+    background-color: #f9f5f1;
+    border-color: black;
     border-radius: 12px;
     padding: 8px 18px;
   }
   .submit:hover {
-    color: white;
-    border-color: white;
-    background-color: #355e3b;
+    color: #355e3b;
+    background-color: #f9f5f1;
+    border-color: black;
     cursor: pointer;
   }
 
@@ -181,7 +179,7 @@
   }
   #email:focus,
   #password:focus {
-    border-color: #355e3b;
-    box-shadow: 0 0 0 0.2rem #355e3b;
+    border-color: black;
+    box-shadow: 0 0 0 0.01rem #355e3b;
   }
 </style>

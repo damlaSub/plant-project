@@ -3,6 +3,7 @@
   export default {
     data() {
       return {
+        fileSystem: import.meta.env.VITE_IMG_BASE_URL,
         toast: null,
         baseUrl: import.meta.env.VITE_IMG_BASE_URL,
         plants: [],
@@ -40,27 +41,44 @@
       >
     </div>
     <div class="container-xl">
-      <div class="row row-title fw-bold py-3">
+      <div class="row row-title fw-bold py-3 px-3">
         <div class="col">Common name</div>
         <div class="col">Latin name</div>
-        <div class="col">Description</div>
-        <div class="col">Image</div>
         <div class="col">Hydration level</div>
         <div class="col">Sunlight level</div>
         <div class="col">Action</div>
       </div>
     </div>
 
-    <div class="container-xl">
-      <div
-        v-for="plant in plants"
-        :key="plant.id"
-        class="item row py-2 border border-light border-top-0 rounded-bottom"
-      >
-        <div class="col text-truncate">{{ plant.commonName }}</div>
+    <div v-for="plant in plants" :key="plant.id" class="container-xl">
+      <div class="item row py-2 border border-top-0 rounded-bottom">
+        <div class="col">
+          <div class="row">
+            <div class="col-4">
+              <button
+                class="btn collapse-icon"
+                type="button"
+                data-bs-toggle="collapse"
+                :data-bs-target="'#collapse' + plant.id"
+                aria-expanded="false"
+                :aria-controls="'collapse' + plant.id"
+              >
+                <i
+                  class="bi bi-chevron-down"
+                  data-bs-toggle="collapse"
+                  :href="'#collapse' + plant.id"
+                  role="button"
+                  aria-expanded="false"
+                  :aria-controls="'collapse' + plant.id"
+                ></i>
+              </button>
+            </div>
+            <div class="col text-truncate">
+              {{ plant.commonName }}
+            </div>
+          </div>
+        </div>
         <div class="col text-truncate">{{ plant.latinName }}</div>
-        <div class="col text-truncate">{{ plant.description }}</div>
-        <div class="col text-truncate">{{ plant.image }}</div>
         <div class="col">{{ plant.hydration.name }}</div>
         <div class="col">{{ plant.sunlight.name }}</div>
         <div class="col">
@@ -73,76 +91,75 @@
           <button
             @click="handleDelete(plant.id)"
             type="button"
-            class="btn btn-delete"
+            class="btn-delete"
           >
             <i class="bi bi-trash"></i>
           </button>
         </div>
       </div>
-
-      <!-- toast sure? -->
-      <!-- <div
-        aria-live="polite"
-        aria-atomic="true"
-        class="d-flex justify-content-center align-items-center w-100"
-      >
-        <div
-          class="toast top-50 start-50 translate-middle"
-          role="alert"
-          aria-live="assertive"
-          aria-atomic="true"
-          data-bs-autohide="false"
-        >
-          <div class="toast-body">
-            Delete this item ?
-            <div class="mt-2 pt-2 border-top">
-              <button
-                class="btn btn-primary btn-sm"
-                @click="handleDelete(plant.id)"
-              >
-                Delete
-              </button>
-              <button
-                type="button"
-                class="btn btn-secondary btn-sm"
-                data-bs-dismiss="toast"
-              >
-                Cancel
-              </button>
-            </div>
+      <div class="row border border-top-0 rounded-bottom detail-view">
+        <div class="collapse row" :id="'collapse' + plant.id">
+          <div
+            class="clearfix col-4 d-flex justify-content-center align-items-center"
+          >
+            <img
+              :src="fileSystem + plant.image"
+              class="rounded-circle img-edit"
+            />
+          </div>
+          <div class="col-8 d-flex justify-content-center align-items-center">
+            <p>
+              {{ plant.description }}
+            </p>
           </div>
         </div>
-      </div> -->
-      <!-- toast -->
+      </div>
     </div>
   </div>
 </template>
 <style>
   .btn-create {
-    color: white;
-    background-color: #355e3b;
-    border-color: #355e3b;
+    color: #355e3b;
+    background-color: #f9f5f1;
+    border-color: black;
+    border-radius: 12px;
+    padding: 6px 14px;
   }
-  .btn-create:hover {
-    color: white;
-    border-color: white;
-    background-color: #355e3b;
+  .btn-create:hover,
+  .btn-create:focus {
+    color: #355e3b;
+    background-color: #f9f5f1;
+    border-color: #355e3b;
+    border-radius: 12px;
+    padding: 6px 14px;
     cursor: pointer;
   }
   .row-title {
-    background-color: #f9f5f1;
+    background-color: #e8d9c9;
   }
-  .bi-pencil,
-  .bi-pencil:hover,
-  .bi-pencil:focus {
+  .item {
+    border-color: #e8d9c9;
+  }
+  .item:hover,
+  .item:hover .btn-delete,
+  .item:hover ~ .detail-view {
+    background-color: #f0e6db;
+  }
+
+  .bi-pencil {
     color: green;
   }
-  .btn-delete,
-  .btn-delete:hover,
-  .btn-delete:focus {
+  .btn-delete {
     color: red;
+    background-color: #f9f5f1;
+    border-style: none;
   }
-  .item:hover {
-    background-color: #f8f9fa;
+  .img-edit {
+    width: 70%;
+    height: 70%;
+    border-radius: 50%;
+  }
+  .collapse-icon {
+    border-style: none;
   }
 </style>

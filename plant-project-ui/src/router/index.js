@@ -22,19 +22,19 @@ const router = createRouter({
       path: "/admin/plants/create",
       name: "create",
       component: () => import("../views/CreatePlantView.vue"),
-      meta: { requiresAuth: true, role: "ROLE_ADMIN" },
+      meta: { requiresAuth: true, role: "ADMIN" },
     },
     {
       path: "/admin/plants",
       name: "edit",
       component: () => import("../views/EditPlantsView.vue"),
-      meta: { requiresAuth: true, role: "ROLE_ADMIN" },
+      meta: { requiresAuth: true, role: "ADMIN" },
     },
     {
       path: "/admin/plants/:id/update",
       name: "update",
       component: () => import("../views/UpdatePlantView.vue"),
-      meta: { requiresAuth: true, role: "ROLE_ADMIN" },
+      meta: { requiresAuth: true, role: "ADMIN" },
     },
   ],
 });
@@ -44,10 +44,7 @@ router.beforeEach((to, from, next) => {
     // Redirect to sign in if trying to access a protected route without authentication
     next("/signin");
     // Redirect to landing page if role_user trying to access an  protected role_admin route
-  } else if (
-    to.meta.role == "ROLE_ADMIN" &&
-    localStorage.role.includes("_USER")
-  ) {
+  } else if (to.meta.role == "ADMIN" && localStorage.role.includes("_USER")) {
     next("/");
   } else {
     // Continue to the requested route

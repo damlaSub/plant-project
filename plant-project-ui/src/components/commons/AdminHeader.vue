@@ -15,7 +15,7 @@
     <header class="fixed-top">
       <nav class="navbar navbar-expand-md container-xl">
         <div class="container">
-          <a class="navbar-brand" href="/">
+          <a class="navbar-brand" href="/admin/plants">
             <img
               src="../../assets/logo.png"
               alt="Bootstrap"
@@ -34,11 +34,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
-            <li class="nav-item">
-              <RouterLink :to="{ name: 'edit' }" class="navbar-brand"
-                >Plants</RouterLink
-              >
-            </li>
             <li class="nav-item fs-5">
               <a @click="signout" class="signout">Sign out</a>
             </li>
@@ -51,7 +46,7 @@
 
 <style>
   .navbar {
-    background-color: white;
+    background-color: #e8d9c9;
   }
   navbar-brand {
     font-family: Chromatica, sans-serif;
