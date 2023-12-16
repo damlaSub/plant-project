@@ -11,42 +11,70 @@
 </script>
 
 <template>
-  <div>
-    <header class="fixed-top">
-      <nav class="navbar navbar-expand-md container-xl">
-        <div class="container">
-          <a class="navbar-brand" href="/admin/plants">
-            <img
-              src="../../assets/logo.png"
-              alt="Bootstrap"
-              width="30"
-              height="24"
-            />
-          </a>
-        </div>
+  <header class="fixed-top">
+    <nav
+      class="navbar navbar-expand-lg bg-body-tertiary"
+      style="background-color: #e8d9c9"
+    >
+      <div class="container-fluid">
+        <RouterLink :to="{ name: 'edit' }" class="navbar-brand">
+          <img
+            src="../../assets/logo.png"
+            alt="Bootstrap"
+            width="60"
+            height="48"
+        /></RouterLink>
         <button
-          class="navbar-toggler me-2"
+          class="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
+          data-bs-target="#navbarScroll"
+          aria-controls="navbarScroll"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item fs-5">
-              <a @click="signout" class="signout">Sign out</a>
+        <div class="collapse navbar-collapse" id="navbarScroll">
+          <ul
+            class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll"
+            style="--bs-scroll-height: 100px"
+          >
+            <li class="nav-item">
+              <a
+                class="nav-link active navbar-brand"
+                aria-current="page"
+                href="/admin/plants"
+                >Home</a
+              >
             </li>
           </ul>
+          <li class="nav-item dropdown">
+            <ul class="navbar-nav">
+              <ul>
+                <li class="nav-item fs-5">
+                  <a><i class="bi bi-person-circle"></i></a>
+                </li>
+              </ul>
+              <ul>
+                <li><span>userName </span></li>
+                <li>
+                  <a @click="signout" class="signout"
+                    >Sign out <i class="bi bi-box-arrow-right"></i
+                  ></a>
+                </li>
+              </ul>
+            </ul>
+          </li>
         </div>
-      </nav>
-    </header>
-  </div>
+      </div>
+    </nav>
+  </header>
 </template>
 
 <style>
-  .navbar {
-    background-color: #e8d9c9;
+  li {
+    list-style-type: none;
   }
   navbar-brand {
     font-family: Chromatica, sans-serif;

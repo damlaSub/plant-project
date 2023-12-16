@@ -5,6 +5,9 @@
 </script>
 
 <template>
+  <header>
+    <RouterView name="navbar" />
+  </header>
   <main class="container-xl">
     <RouterView />
   </main>

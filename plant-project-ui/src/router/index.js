@@ -6,7 +6,10 @@ const router = createRouter({
     {
       path: "/",
       name: "home",
-      component: () => import("../views/HomeView.vue"),
+      components: {
+        navbar: () => import("../components/commons/Header.vue"),
+        default: () => import("../views/HomeView.vue"),
+      },
     },
     {
       path: "/signin",
@@ -21,19 +24,28 @@ const router = createRouter({
     {
       path: "/admin/plants/create",
       name: "create",
-      component: () => import("../views/CreatePlantView.vue"),
+      components: {
+        navbar: () => import("../components/commons/AdminHeader.vue"),
+        default: () => import("../views/CreatePlantView.vue"),
+      },
       meta: { requiresAuth: true, role: "ADMIN" },
     },
     {
       path: "/admin/plants",
       name: "edit",
-      component: () => import("../views/EditPlantsView.vue"),
+      components: {
+        navbar: () => import("../components/commons/AdminHeader.vue"),
+        default: () => import("../views/EditPlantsView.vue"),
+      },
       meta: { requiresAuth: true, role: "ADMIN" },
     },
     {
       path: "/admin/plants/:id/update",
       name: "update",
-      component: () => import("../views/UpdatePlantView.vue"),
+      components: {
+        navbar: () => import("../components/commons/AdminHeader.vue"),
+        default: () => import("../views/UpdatePlantView.vue"),
+      },
       meta: { requiresAuth: true, role: "ADMIN" },
     },
   ],

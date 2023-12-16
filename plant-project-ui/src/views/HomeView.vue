@@ -3,6 +3,5 @@
   import Header from "../components/commons/Header.vue";
 </script>
 <template>
-  <Header />
   <Home />
 </template>
