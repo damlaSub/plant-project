@@ -57,6 +57,7 @@ export default {
         // Do something when isAuthenticated or role changes
         console.log("isAuthenticated:", isAuthenticated);
         console.log("role:", role);
+        console.log("userName:", localStorage.userName);
       }
     );
 

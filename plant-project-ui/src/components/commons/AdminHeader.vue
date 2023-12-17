@@ -1,6 +1,20 @@
 <script>
   import { RouterLink } from "vue-router";
+  import { ref, onMounted } from "vue";
   export default {
+    setup() {
+      const userName = ref("");
+      onMounted(() => {
+        try {
+          userName.value = localStorage.getItem("userName") || "";
+        } catch (error) {
+          console.error("Error retrieving userName from localStorage:", error);
+        }
+      });
+      return {
+        userName,
+      };
+    },
     methods: {
       signout() {
         localStorage.clear();
@@ -45,7 +59,7 @@
                 class="nav-link active navbar-brand"
                 aria-current="page"
                 href="/admin/plants"
-                >Home</a
+                >Admin Home</a
               >
             </li>
           </ul>
@@ -57,7 +71,9 @@
                 </li>
               </ul>
               <ul>
-                <li><span>userName </span></li>
+                <li>
+                  <span>{{ userName }} </span>
+                </li>
                 <li>
                   <a @click="signout" class="signout"
                     >Sign out <i class="bi bi-box-arrow-right"></i

@@ -1,3 +1,29 @@
+<script>
+  import { RouterLink } from "vue-router";
+  import { ref, onMounted } from "vue";
+  export default {
+    setup() {
+      const userName = ref("");
+      onMounted(() => {
+        try {
+          userName.value = localStorage.getItem("userName") || "";
+        } catch (error) {
+          console.error("Error retrieving userName from localStorage:", error);
+        }
+      });
+      return {
+        userName,
+      };
+    },
+    methods: {
+      signout() {
+        localStorage.clear();
+        this.$router.push("/signin");
+      },
+    },
+  };
+</script>
+
 <template>
   <header class="fixed-top">
     <nav
@@ -5,13 +31,13 @@
       style="background-color: #e8d9c9"
     >
       <div class="container-fluid">
-        <a class="navbar-brand" href="/"
-          ><img
+        <RouterLink :to="{ name: 'user-home' }" class="navbar-brand">
+          <img
             src="../../assets/logo.png"
             alt="Bootstrap"
             width="60"
             height="48"
-        /></a>
+        /></RouterLink>
         <button
           class="navbar-toggler"
           type="button"
@@ -29,23 +55,28 @@
             style="--bs-scroll-height: 100px"
           >
             <li class="nav-item">
-              <RouterLink :to="{ name: 'home' }" class="navbar-brand"
-                >Home</RouterLink
+              <RouterLink :to="{ name: 'user-home' }" class="navbar-brand"
+                >User Home</RouterLink
               >
             </li>
           </ul>
           <li class="nav-item dropdown">
             <ul class="navbar-nav">
-              <li class="nav-item fs-5">
-                <RouterLink :to="{ name: 'signin' }" class="navbar-brand"
-                  >Sign in</RouterLink
-                >
-              </li>
-              <li class="nav-item fs-5">
-                <RouterLink :to="{ name: 'signup' }" class="navbar-brand"
-                  >Sign up</RouterLink
-                >
-              </li>
+              <ul>
+                <li class="nav-item fs-5">
+                  <a><i class="bi bi-person-circle"></i></a>
+                </li>
+              </ul>
+              <ul>
+                <li>
+                  <span>{{ userName }} </span>
+                </li>
+                <li>
+                  <a @click="signout" class="signout"
+                    >Sign out <i class="bi bi-box-arrow-right"></i
+                  ></a>
+                </li>
+              </ul>
             </ul>
           </li>
         </div>
@@ -53,6 +84,7 @@
     </nav>
   </header>
 </template>
+
 <style>
   li {
     list-style-type: none;
@@ -61,5 +93,16 @@
     font-family: Chromatica, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  a.signout,
+  a.signout:hover,
+  a.signout:focus {
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+    white-space: nowrap;
+    padding: 5px 0px;
+    margin: 0px 16px 0px 0px;
   }
 </style>

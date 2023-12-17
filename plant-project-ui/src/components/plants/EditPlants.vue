@@ -108,7 +108,7 @@
             />
           </div>
           <div class="col-8 d-flex justify-content-center align-items-center">
-            <p>
+            <p class="col-12 overflow-auto">
               {{ plant.description }}
             </p>
           </div>

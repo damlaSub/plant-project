@@ -55,9 +55,6 @@
               //if (response.body.role.includes("_ADMIN")) {
               this.$router.push("/admin/plants");
               console.log(token.getRole);
-              //   } else {
-              //  this.$router.push("/");
-              //   }
             })
 
             .catch((error) => {

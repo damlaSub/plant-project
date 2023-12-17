@@ -48,6 +48,24 @@ const router = createRouter({
       },
       meta: { requiresAuth: true, role: "ADMIN" },
     },
+    {
+      path: "/dashboard",
+      name: "dashboard",
+      components: {
+        navbar: () => import("../components/commons/UserHeader.vue"),
+        default: () => import("../views/UserDashboardView.vue"),
+      },
+      meta: { requiresAuth: true, role: "USER" },
+    },
+    {
+      path: "/user/home",
+      name: "user-home",
+      components: {
+        navbar: () => import("../components/commons/UserHeader.vue"),
+        default: () => import("../views/HomeView.vue"),
+      },
+      meta: { requiresAuth: true, role: "USER" },
+    },
   ],
 });
 
@@ -57,7 +75,7 @@ router.beforeEach((to, from, next) => {
     next("/signin");
     // Redirect to landing page if role_user trying to access an  protected role_admin route
   } else if (to.meta.role == "ADMIN" && localStorage.role.includes("_USER")) {
-    next("/");
+    next("/user/home");
   } else {
     // Continue to the requested route
     next();

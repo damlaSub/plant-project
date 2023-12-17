@@ -121,7 +121,7 @@
             </ul>
           </div>
           <div class="d-flex align-items-center">
-            <p class="card-text">{{ plant.description }}</p>
+            <p class="card-text text-truncate">{{ plant.description }}</p>
           </div>
           <div class="d-grid d-md-flex justify-content-md-end">
             <button type="button" class="btn btn-add">+</button>
