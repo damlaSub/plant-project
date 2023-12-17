@@ -37,29 +37,25 @@
           <li class="nav-item dropdown">
             <ul class="navbar-nav">
               <li class="nav-item fs-5">
-                <RouterLink :to="{ name: 'signin' }" class="navbar-brand"
-                  >Sign in</RouterLink
-                >
+                <RouterLink :to="{ name: 'signin' }" class="navbar-brand">{{
+                  $t("auth.signIn")
+                }}</RouterLink>
               </li>
               <li class="nav-item fs-5">
-                <RouterLink :to="{ name: 'signup' }" class="navbar-brand"
-                  >Sign up</RouterLink
-                >
+                <RouterLink :to="{ name: 'signup' }" class="navbar-brand">{{
+                  $t("auth.signUp")
+                }}</RouterLink>
               </li>
             </ul>
           </li>
         </div>
       </div>
+      <div class="locale-changer"></div>
     </nav>
   </header>
 </template>
 <style>
   li {
     list-style-type: none;
-  }
-  navbar-brand {
-    font-family: Chromatica, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
 </style>

@@ -66,7 +66,7 @@
       data-bs-toggle="dropdown"
       aria-expanded="false"
     >
-      Sunligt <i class="bi bi-chevron-down"></i>
+      {{ $t("title.sun") }} <i class="bi bi-chevron-down"></i>
     </button>
     <ul class="dropdown-menu">
       <li v-for="sunlightLevel in sunlightLevels">{{ sunlightLevel.name }}</li>
@@ -78,7 +78,7 @@
       data-bs-toggle="dropdown"
       aria-expanded="false"
     >
-      Hydration <i class="bi bi-chevron-down"></i>
+      {{ $t("title.hyd") }} <i class="bi bi-chevron-down"></i>
     </button>
     <ul class="dropdown-menu">
       <li v-for="hydrationLevel in hydrationLevels">
@@ -90,7 +90,7 @@
     class="p-5 item error text-danger"
     v-if="input && !filteredPlantList().length"
   >
-    <p>No results found!</p>
+    <p>{{ $t("title.noResult") }}</p>
   </div>
   <div class="row row-cols-md-4 g-3 p-5">
     <div class="col" v-for="plant in filteredPlantList()" :key="plant.id">

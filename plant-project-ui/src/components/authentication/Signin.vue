@@ -92,7 +92,7 @@
                     type="email"
                     class="form-control"
                     name="email"
-                    placeholder="e-mail*"
+                    :placeholder="$t('auth.email')"
                     v-model="this.inputs.email"
                     autofocus
                   />
@@ -108,7 +108,7 @@
                     type="password"
                     class="form-control"
                     name="password"
-                    placeholder="password*"
+                    :placeholder="$t('auth.psw')"
                     v-model="this.inputs.password"
                   />
                   <span class="text-danger" v-if="v$.inputs.password.$error">
@@ -118,22 +118,29 @@
 
                 <div class="d-flex align-items-center">
                   <div class="mb-2 w-100">
-                    <a href="" class="float-start acc"> Forgot Password? </a>
+                    <a href="" class="float-start acc">
+                      {{ $t("auth.forgot") }}</a
+                    >
                   </div>
-                  <button type="submit" class="btn ms-auto submit">
-                    Sign&nbsp;in
+                  <button
+                    type="submit"
+                    class="btn btn-save"
+                    style="white-space: nowrap"
+                  >
+                    {{ $t("auth.signIn") }}
                   </button>
                 </div>
               </form>
             </div>
             <div class="card-footer py-3 border-0">
               <div class="text-center">
-                Don't have an account?
+                {{ $t("auth.accQuest") }}
                 <RouterLink
                   :to="{ name: 'signup' }"
                   title="signup"
                   class="text-dark route"
-                  >Sign up</RouterLink
+                >
+                  {{ $t("auth.signUp") }}</RouterLink
                 >
               </div>
             </div>
@@ -157,26 +164,7 @@
     color: #212529;
   }
 
-  .submit {
-    color: #355e3b;
-    background-color: #f9f5f1;
-    border-color: black;
-    border-radius: 12px;
-    padding: 8px 18px;
-  }
-  .submit:hover {
-    color: #355e3b;
-    background-color: #f9f5f1;
-    border-color: black;
-    cursor: pointer;
-  }
-
   .card-footer {
     background-color: #f4ede7;
-  }
-  #email:focus,
-  #password:focus {
-    border-color: black;
-    box-shadow: 0 0 0 0.01rem #355e3b;
   }
 </style>

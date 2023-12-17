@@ -53,10 +53,10 @@
           Object.assign(this.inputs, this.$options.data().inputs);
           this.v$.$reset();
           event.target.reset();
-          this.$toast.success("toast-global", "Plant created with success.");
+          this.$toast.success("toast-global", this.$t("success.create"));
           this.$router.push("/admin/plants");
         } else {
-          this.$toast.error("toast-global", "An error occured.");
+          this.$toast.error("toast-global", this.$t("error.err"));
         }
       },
       async initSunlightLevels() {
@@ -77,12 +77,12 @@
 
 <template>
   <div class="mt-5 mb-3 p-5">
-    <h1 class="fs-4 card-title fw-bold mb-4">Create a plant</h1>
+    <h1 class="fs-4 card-title fw-bold mb-4">{{ $t("title.createPlant") }}</h1>
     <form class="row g-3 needs-validation" novalidate @submit.prevent="submit">
       <div class="col-md-4">
-        <label for="input-name" class="form-label required" maxlength="100"
-          >Common name</label
-        >
+        <label for="input-name" class="form-label required" maxlength="100">{{
+          $t("title.common")
+        }}</label>
         <input
           :class="{ 'is-invalid': v$.inputs.commonName.$error }"
           v-model.trim="inputs.commonName"
@@ -93,16 +93,16 @@
           required
         />
         <span class="form-text text-danger" v-if="v$.inputs.commonName.$error">
-          Maximum of 100 chars
+          {{ $t("error.common") }}
         </span>
         <span id="input-name-helptext" class="fw-light" v-else>
-          Plant's common name
+          {{ $t("helper.common") }}
         </span>
       </div>
       <div class="col-md-8">
-        <label for="latin" class="form-label required" maxlength="200"
-          >Latin name</label
-        >
+        <label for="latin" class="form-label required" maxlength="200">{{
+          $t("title.latin")
+        }}</label>
         <input
           :class="{ 'is-invalid': v$.inputs.latinName.$error }"
           v-model.trim="inputs.latinName"
@@ -113,16 +113,16 @@
           required
         />
         <span class="form-text text-danger" v-if="v$.inputs.latinName.$error">
-          Maximum of 200 chars
+          {{ $t("error.latin") }}
         </span>
         <span id="latin-helptext" class="fw-light" v-else>
-          Plant's latin name
+          {{ $t("helper.latin") }}
         </span>
       </div>
       <div class="col-md-4">
-        <label for="hydrationId" class="form-label required"
-          >Hydratation level</label
-        >
+        <label for="hydrationId" class="form-label required">{{
+          $t("title.hydration")
+        }}</label>
         <select
           :class="{ 'is-invalid': v$.inputs.hydrationId.$error }"
           v-model.number="inputs.hydrationId"
@@ -131,7 +131,7 @@
           id="hydrationId"
         >
           <option selected disabled value="0">
-            Select an hydratation level
+            {{ $t("title.selectHyd") }}
           </option>
           <option
             v-for="hydrationLevel in hydrationLevels"
@@ -142,20 +142,20 @@
           </option>
         </select>
         <span class="form-text text-danger" v-if="v$.inputs.hydrationId.$error">
-          The value is required
+          {{ $t("error.required") }}
         </span>
         <span
           id="hydratation-helptext"
           class="fw-light"
           v-else="v$.inputs.hydrationId.$error"
         >
-          Plant's hydratation level
+          {{ $t("helper.hydration") }}
         </span>
       </div>
       <div class="col-md-4">
-        <label for="sunlightId" class="form-label required"
-          >Sunlight level</label
-        >
+        <label for="sunlightId" class="form-label required">{{
+          $t("title.sunlight")
+        }}</label>
         <select
           :class="{ 'is-invalid': v$.inputs.sunlightId.$error }"
           v-model.number="inputs.sunlightId"
@@ -163,7 +163,9 @@
           class="form-select"
           id="sunlightId"
         >
-          <option selected disabled value="0">Select a sunlight level</option>
+          <option selected disabled value="0">
+            {{ $t("title.selectSun") }}
+          </option>
           <option
             v-for="sunlightLevel in sunlightLevels"
             :key="sunlightLevel.id"
@@ -173,20 +175,20 @@
           </option>
         </select>
         <span class="form-text text-danger" v-if="v$.inputs.sunlightId.$error">
-          The value is required
+          {{ $t("error.required") }}
         </span>
         <span
           id="sunlight-helptext"
           class="fw-light"
           v-else="v$.inputs.sunlightId.$error"
         >
-          Plant's sunlight level
+          {{ $t("helper.sunlight") }}
         </span>
       </div>
       <div class="col-md-4">
-        <label for="image" class="form-label required" maxlength="100"
-          >Image</label
-        >
+        <label for="image" class="form-label required" maxlength="100">{{
+          $t("title.img")
+        }}</label>
         <input
           :class="{ 'is-invalid': v$.inputs.file.$error }"
           name="image"
@@ -199,14 +201,16 @@
           @keyup.esc=""
         />
         <span class="form-text text-danger" v-if="v$.inputs.file.$error">
-          Image size must be less than 500ko
+          {{ $t("error.img") }}
         </span>
-        <span id="image-helptext" class="fw-light" v-else>Plant's image</span>
+        <span id="image-helptext" class="fw-light" v-else>{{
+          $t("helper.img")
+        }}</span>
       </div>
       <div class="col-12">
-        <label for="description" class="form-label required" maxlength="1000"
-          >Description</label
-        >
+        <label for="description" class="form-label required" maxlength="1000">{{
+          $t("title.desc")
+        }}</label>
         <textarea
           :class="{ 'is-invalid': v$.inputs.description.$error }"
           v-model.trim="inputs.description"
@@ -220,42 +224,15 @@
           >{{ inputs.description }}</textarea
         >
         <span class="form-text text-danger" v-if="v$.inputs.description.$error">
-          Maximum of 1000 chars
+          {{ $t("error.desc") }}
         </span>
         <span id="description-helptext" class="fw-light" v-else>
-          Plant's description
+          {{ $t("helper.desc") }}
         </span>
       </div>
       <div class="d-grid d-md-flex justify-content-md-end">
-        <button type="submit" class="btn-save">Save</button>
+        <button type="submit" class="btn-save">{{ $t("btn.save") }}</button>
       </div>
     </form>
   </div>
 </template>
-
-<style>
-  .btn-save {
-    color: #355e3b;
-    background-color: #f9f5f1;
-    border-color: black;
-    border-radius: 12px;
-    padding: 8px 18px;
-    box-shadow: 0 0 0 0.01rem black;
-  }
-  .btn-save:hover,
-  .btn-save:focus {
-    color: #355e3b;
-    background-color: #f9f5f1;
-    border-color: black;
-    cursor: pointer;
-  }
-  #input-name:focus,
-  #latin:focus,
-  #water:focus,
-  #sun:focus,
-  #image:focus,
-  #description:focus {
-    border-color: black;
-    box-shadow: 0 0 0 0.01rem #355e3b;
-  }
-</style>

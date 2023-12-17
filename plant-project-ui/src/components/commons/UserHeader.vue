@@ -73,7 +73,8 @@
                 </li>
                 <li>
                   <a @click="signout" class="signout"
-                    >Sign out <i class="bi bi-box-arrow-right"></i
+                    >{{ $t("auth.signOut") }}
+                    <i class="bi bi-box-arrow-right"></i
                   ></a>
                 </li>
               </ul>
@@ -88,21 +89,5 @@
 <style>
   li {
     list-style-type: none;
-  }
-  navbar-brand {
-    font-family: Chromatica, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  a.signout,
-  a.signout:hover,
-  a.signout:focus {
-    text-decoration: none;
-    color: black;
-    cursor: pointer;
-    white-space: nowrap;
-    padding: 5px 0px;
-    margin: 0px 16px 0px 0px;
   }
 </style>

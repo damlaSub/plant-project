@@ -89,7 +89,9 @@
               <div class="text-center my-1">
                 <img src="/src/assets/logo.png" alt="logo" width="100" />
               </div>
-              <h1 class="fs-4 card-title fw-bold mb-4">Create an account</h1>
+              <h1 class="fs-4 card-title fw-bold mb-4">
+                {{ $t("title.createAcc") }}
+              </h1>
               <form
                 class="needs-validation"
                 novalidate
@@ -103,7 +105,7 @@
                     type="text"
                     class="form-control"
                     name="first-name"
-                    placeholder="first name*"
+                    :placeholder="$t('auth.firstN')"
                     v-model="this.inputs.firstName"
                     autofocus
                   />
@@ -119,7 +121,7 @@
                     type="text"
                     class="form-control"
                     name="last-name"
-                    placeholder="last name*"
+                    :placeholder="$t('auth.lastN')"
                     v-model="this.inputs.lastName"
                     autofocus
                   />
@@ -135,7 +137,7 @@
                     type="email"
                     class="form-control"
                     name="email"
-                    placeholder="e-mail*"
+                    :placeholder="$t('auth.email')"
                     required
                     v-model="this.inputs.email"
                     autofocus
@@ -152,7 +154,7 @@
                     type="password"
                     class="form-control"
                     name="password"
-                    placeholder="password*  e.g. Hello42@!"
+                    :placeholder="$t('auth.psw')"
                     v-model="this.inputs.password"
                   />
                   <span class="text-danger" v-if="v$.inputs.password.$error">
@@ -170,7 +172,7 @@
                     type="password"
                     class="form-control"
                     name="password-confirm"
-                    placeholder="confirm password*"
+                    :placeholder="$t('auth.confirmPsw')"
                     v-model="this.inputs.confirm"
                   />
                   <span class="text-danger" v-if="v$.inputs.confirm.$error">
@@ -186,25 +188,25 @@
                       id="remember"
                       class="form-check-input"
                     />
-                    <label for="remember" class="form-check-label"
-                      >Remember Me</label
-                    >
+                    <label for="remember" class="form-check-label">{{
+                      $t("auth.remember")
+                    }}</label>
                   </div>
-                  <button type="submit" class="btn ms-auto submit">
-                    Sign up
+                  <button type="submit" class="btn ms-auto btn-save">
+                    {{ $t("auth.signUp") }}
                   </button>
                 </div>
               </form>
             </div>
             <div class="card-footer py-3 border-0">
               <div class="text-center">
-                Already have an account?
+                {{ $t("auth.haveAcc") }}
 
                 <RouterLink
                   :to="{ name: 'signin' }"
                   title="signin"
                   class="text-dark route"
-                  >Sign in</RouterLink
+                  >{{ $t("auth.signIn") }}</RouterLink
                 >
               </div>
             </div>
@@ -222,33 +224,11 @@
   .route {
     text-decoration: underline;
   }
-  .submit {
-    color: #355e3b;
-    background-color: #f9f5f1;
-    border-color: black;
-    border-radius: 12px;
-    padding: 8px 18px;
-  }
-  .submit:hover {
-    color: #355e3b;
-    background-color: #f9f5f1;
-    border-color: black;
-    cursor: pointer;
-  }
   .form-check-input:checked {
     background-color: #355e3b;
     border-color: #355e3b;
   }
   .card-footer {
     background-color: #f4ede7;
-  }
-  #first-name:focus,
-  #last-name:focus,
-  #email:focus,
-  #password:focus,
-  #password-confirm:focus,
-  #remember:focus {
-    border-color: black;
-    box-shadow: 0 0 0 0.01rem #355e3b;
   }
 </style>

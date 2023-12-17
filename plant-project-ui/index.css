@@ -7,6 +7,55 @@ body {
       background-color: #f9f5f1;
   
   }
-  
+
   code {font-family: Chromatica, sans-serif;
+  }
+  navbar-brand {
+    font-family: Chromatica, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  a.signout,
+  a.signout:hover,
+  a.signout:focus {
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+    white-space: nowrap;
+    padding: 5px 0px;
+    margin: 0px 16px 0px 0px;
+  }
+  .btn-save {
+    color: #355e3b;
+    background-color: #f9f5f1;
+    border-color: black;
+    border-radius: 12px;
+    padding: 8px 18px;
+    box-shadow: 0 0 0 0.01rem black;
+  }
+  .btn-save:hover,
+  .btn-save:focus {
+    color: #355e3b;
+    background-color: #f9f5f1;
+    border-color: black;
+    cursor: pointer;
+  }
+  #input-name:focus,
+  #latin:focus,
+  #water:focus,
+  #sun:focus,
+  #image:focus,
+  #description:focus {
+    border-color: black;
+    box-shadow: 0 0 0 0.01rem #355e3b;
+  
+  }
+  #first-name:focus,
+  #last-name:focus,
+  #email:focus,
+  #password:focus,
+  #password-confirm:focus,
+  #remember:focus {
+    border-color: black;
+    box-shadow: 0 0 0 0.01rem #355e3b;
   }

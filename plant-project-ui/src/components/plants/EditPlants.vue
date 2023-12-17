@@ -19,10 +19,10 @@
         const resp = await this.$axios.delete(`plants/admin/${id}/delete`);
         if ((resp.status = 204)) {
           await this.initPlants();
-          this.$toast.success("toast-global", "Plant deleted with success.");
+          this.$toast.success("toast-global", this.$t("success.delete"));
         } else {
           console.log(resp);
-          this.$toast.error("toast-global", "An error occured.");
+          this.$toast.error("toast-global", this.$t("error.err"));
         }
       },
     },
@@ -34,19 +34,19 @@
 <template>
   <div class="mb-3 p-5">
     <div class="d-grid d-md-flex justify-content-md-end mt-5">
-      <a href="/admin/plants/create"
+      <a class="create-a" href="/admin/plants/create"
         ><button role="button" class="btn btn-create m-4">
-          <i class="bi bi-plus-circle"></i> Create a plant
+          <i class="bi bi-plus-circle"></i> {{ $t("title.createPlant") }}
         </button></a
       >
     </div>
     <div class="container-xl">
       <div class="row row-title fw-bold py-3 px-3">
-        <div class="col">Common name</div>
-        <div class="col">Latin name</div>
-        <div class="col">Hydration level</div>
-        <div class="col">Sunlight level</div>
-        <div class="col">Action</div>
+        <div class="col">{{ $t("title.common") }}</div>
+        <div class="col">{{ $t("title.latin") }}</div>
+        <div class="col">{{ $t("title.hydration") }}</div>
+        <div class="col">{{ $t("title.sunlight") }}</div>
+        <div class="col">{{ $t("title.action") }}</div>
       </div>
     </div>
 
@@ -118,7 +118,8 @@
   </div>
 </template>
 <style>
-  .btn-create {
+  .btn-create,
+  .create-a {
     color: #355e3b;
     background-color: #f9f5f1;
     border-color: black;
@@ -126,7 +127,11 @@
     padding: 6px 14px;
   }
   .btn-create:hover,
-  .btn-create:focus {
+  .create-a:hover,
+  .create-a:focus,
+  .create-a:active,
+  .btn-create:focus,
+  .btn-create:active {
     color: #355e3b;
     background-color: #f9f5f1;
     border-color: #355e3b;
