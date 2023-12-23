@@ -56,7 +56,7 @@
           <div class="row">
             <div class="col-4">
               <button
-                class="btn collapse-icon"
+                class="btn collapse-btn collapsed"
                 type="button"
                 data-bs-toggle="collapse"
                 :data-bs-target="'#collapse' + plant.id"
@@ -64,7 +64,7 @@
                 :aria-controls="'collapse' + plant.id"
               >
                 <i
-                  class="bi bi-chevron-down"
+                  class="bi bi-chevron-up collapse-icon"
                   data-bs-toggle="collapse"
                   :href="'#collapse' + plant.id"
                   role="button"
@@ -164,7 +164,25 @@
     height: 70%;
     border-radius: 50%;
   }
-  .collapse-icon {
+  .collapsing {
+    transition-duration: 0.1s; /* Adjust this value as needed */
+  }
+  button.btn.btn-collapse {
+    position: relative;
+  }
+  button.btn.collapse-btn,
+  button.btn.collapse-btn.collapsed {
     border-style: none;
+  }
+  button.btn.collapse-btn .collapse-icon {
+    border-style: none;
+    position: absolute;
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;
+  }
+  button.btn.collapse-btn.collapsed .collapse-icon {
+    transform: rotate(
+      180deg
+    ); /* Rotate the icon when the class 'rotated' is present */
   }
 </style>
