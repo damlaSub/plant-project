@@ -1,13 +1,7 @@
 <script>
   import { useVuelidate } from "@vuelidate/core";
   import { helpers } from "@vuelidate/validators";
-  import {
-    email,
-    required,
-    maxLength,
-    minLength,
-    sameAs,
-  } from "@vuelidate/validators";
+  import { email, required, maxLength, minLength } from "@vuelidate/validators";
 
   export default {
     setup() {
@@ -50,7 +44,7 @@
           };
           localStorage.clear();
           await this.$axios
-            .post("/sign-in", accountData)
+            .post("/auth/sign-in", accountData)
             .then((response) => {
               //if (response.body.role.includes("_ADMIN")) {
               this.$router.push("/admin/plants");

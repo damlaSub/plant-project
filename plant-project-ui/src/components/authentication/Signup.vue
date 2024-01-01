@@ -65,7 +65,7 @@
           };
           localStorage.clear();
           await this.$axios
-            .post("/sign-up", accountData)
+            .post("/auth/sign-up", accountData)
             .then((response) => {
               this.v$.$reset();
               this.$router.push("/signin");
