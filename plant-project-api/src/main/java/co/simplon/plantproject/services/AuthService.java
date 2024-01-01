@@ -2,6 +2,8 @@ package co.simplon.plantproject.services;
 
 import co.simplon.plantproject.dtos.AccountCreateDto;
 import co.simplon.plantproject.dtos.AccountSigninDto;
+import co.simplon.plantproject.dtos.RefreshTokenRequest;
+import co.simplon.plantproject.dtos.RefreshTokenResponse;
 import co.simplon.plantproject.dtos.TokenInfo;
 
 public interface AuthService {
@@ -11,5 +13,8 @@ public interface AuthService {
     public Boolean existsByEmail(String email);
 
     public TokenInfo signIn(AccountSigninDto inputs);
+
+    public RefreshTokenResponse refreshToken(
+	    RefreshTokenRequest request);
 
 }

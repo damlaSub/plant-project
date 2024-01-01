@@ -1,16 +1,11 @@
 package co.simplon.plantproject.dtos;
 
-public class TokenInfo {
+public class RefreshTokenResponse {
 
     private String token;
-
-    private String role;
-
-    private String firstName;
-
     private String refreshToken;
 
-    public TokenInfo() {
+    public RefreshTokenResponse() {
 	// TODO Auto-generated constructor stub
 	super();
     }
@@ -23,22 +18,6 @@ public class TokenInfo {
 	this.token = token;
     }
 
-    public String getRole() {
-	return role;
-    }
-
-    public void setRole(String role) {
-	this.role = role;
-    }
-
-    public String getFirstName() {
-	return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-	this.firstName = firstName;
-    }
-
     public String getRefreshToken() {
 	return refreshToken;
     }
@@ -49,9 +28,8 @@ public class TokenInfo {
 
     @Override
     public String toString() {
-	return "{token=" + token + ", role=" + role
-		+ ", firstName=" + firstName
-		+ ", refreshToken=" + refreshToken + "}";
+	return "{token=" + token + ", refreshToken="
+		+ refreshToken + "}";
     }
 
 }

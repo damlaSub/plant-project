@@ -1,5 +1,7 @@
 package co.simplon.plantproject.repositories;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import co.simplon.plantproject.entities.Account;
@@ -7,8 +9,8 @@ import co.simplon.plantproject.entities.Account;
 public interface AccountRepository
 	extends JpaRepository<Account, Long> {
 
-    Boolean existsByEmail(String email);
+    Boolean existsByEmailIgnoreCase(String email);
 
-    Account getByEmail(String email);
+    Optional<Account> findByEmailIgnoreCase(String email);
 
 }

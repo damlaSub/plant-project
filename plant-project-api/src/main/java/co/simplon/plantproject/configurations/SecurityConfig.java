@@ -32,9 +32,11 @@ public class SecurityConfig {
     private String secret;
     @Value("${plant.auth.tokenExpiration}")
     private long tokenExpiration;
+    @Value("${plant.auth.refreshTokenExpiration}")
+    private long refreshTokenExpiration;
 
     @Bean
-    public AuthHelper authHelper() {
+    AuthHelper authHelper() {
 	Algorithm algorithm = Algorithm.HMAC256(secret);
 	PasswordEncoder encoder = new BCryptPasswordEncoder(
 		rounds);
@@ -45,13 +47,25 @@ public class SecurityConfig {
     }
 
     @Bean
+    AuthHelper refreshTokenHelper() {
+	Algorithm algorithm = Algorithm.HMAC256(secret);
+	PasswordEncoder encoder = new BCryptPasswordEncoder(
+		rounds);
+
+	return new AuthHelper.Builder().algorithm(algorithm)
+		.passwordEncoder(encoder).issuer(issuer)
+		.expiration(refreshTokenExpiration).build();
+    }
+
+    @Bean
     SecurityFilterChain securityFilterChain(
 	    HttpSecurity http) throws Exception {
 	http.cors().and().csrf().disable()
 		.authorizeRequests()
-		.antMatchers("/sign-up", "/sign-in", "/",
-			"/sunlights", "/hydrations",
-			"/plants")
+		.antMatchers("/auth/sign-up",
+			"/auth/sign-in",
+			"/auth/refresh-token", "/sunlights",
+			"/hydrations", "/plants")
 		.permitAll()
 		.antMatchers("/admin/create", "/admin/{id}",
 			"/admin/{id}/for-update",

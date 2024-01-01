@@ -1,5 +1,7 @@
 package co.simplon.plantproject.services;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
@@ -7,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import co.simplon.plantproject.dtos.AccountCreateDto;
 import co.simplon.plantproject.dtos.AccountSigninDto;
+import co.simplon.plantproject.dtos.RefreshTokenRequest;
+import co.simplon.plantproject.dtos.RefreshTokenResponse;
 import co.simplon.plantproject.dtos.TokenInfo;
 import co.simplon.plantproject.entities.Account;
 import co.simplon.plantproject.entities.Role;
@@ -64,14 +68,14 @@ public class AuthServiceImpl implements AuthService {
 	String identifier = inputs.getEmail();
 	String candidate = inputs.getPassword();
 
-	Account account = accountRepository
-		.getByEmail(identifier);
-	if (account != null) {
+	Optional<Account> account = accountRepository
+		.findByEmailIgnoreCase(identifier);
+	if (account.isPresent()) {
 	    boolean match = authHelper.matches(candidate,
-		    account.getPassword());
+		    account.get().getPassword());
 	    if (match) {
-		String email = account.getEmail();
-		String roleCode = account.getRole()
+		String email = account.get().getEmail();
+		String roleCode = account.get().getRole()
 			.getCode();
 		String token = authHelper
 			.createJWT(roleCode, email);
@@ -79,24 +83,47 @@ public class AuthServiceImpl implements AuthService {
 		tokenInfo.setToken(token);
 		tokenInfo.setRole(roleCode);
 		tokenInfo.setFirstName(
-			account.getFirstName());
+			account.get().getFirstName());
+		String refreshToken = authHelper
+			.createRefreshJWT(email);
+		tokenInfo.setRefreshToken(refreshToken);
 		return tokenInfo;
 
 	    } else {
 		throw new BadCredentialsException(
 			"Invalid email or password.");
 	    }
-	} else if (account == null) {
+	} else {
 	    throw new BadCredentialsException(
 		    "Invalid email or password.");
 	}
-	return null;
     }
 
     @Override
     public Boolean existsByEmail(String email) {
 	return this.accountRepository
-		.existsByEmail(email.toString());
+		.existsByEmailIgnoreCase(email.toString());
+
+    }
+
+    @Override
+    public RefreshTokenResponse refreshToken(
+	    RefreshTokenRequest request) {
+
+	String email = authHelper
+		.getEmailFromToken(
+			request.getRefreshToken());
+	Optional<Account> account = accountRepository
+		.findByEmailIgnoreCase(email);
+	String roleCode = account.get().getRole().getCode();
+	String token = authHelper.createJWT(roleCode,
+		email);
+	RefreshTokenResponse refreshTokenResponse = new RefreshTokenResponse();
+	refreshTokenResponse.setToken(token);
+	String refreshToken = authHelper
+		.createRefreshJWT(email);
+	refreshTokenResponse.setRefreshToken(refreshToken);
+	return refreshTokenResponse;
 
     }
 }

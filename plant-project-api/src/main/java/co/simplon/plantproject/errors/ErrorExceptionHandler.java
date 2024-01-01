@@ -20,5 +20,11 @@ public class ErrorExceptionHandler
 		new HttpHeaders(), HttpStatus.UNAUTHORIZED,
 		null);
     }
+    /*
+     * @ExceptionHandler(value = NoSuchElementException.class) protected
+     * ResponseEntity<Object> handleNoSuchElementException( NoSuchElementException
+     * ex) { String body = ex.getMessage(); return handleExceptionInternal(ex, body,
+     * new HttpHeaders(), HttpStatus.UNAUTHORIZED, null); }
+     */
 
 }
