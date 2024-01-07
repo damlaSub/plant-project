@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import co.simplon.plantproject.dtos.AccountCreateDto;
 import co.simplon.plantproject.dtos.AccountSigninDto;
 import co.simplon.plantproject.dtos.RefreshTokenRequest;
-import co.simplon.plantproject.dtos.RefreshTokenResponse;
 import co.simplon.plantproject.dtos.TokenInfo;
 import co.simplon.plantproject.services.AuthService;
 
@@ -40,15 +39,9 @@ public class AuthController {
     }
 
     @PostMapping("/refresh-token")
-    public RefreshTokenResponse refreshtoken(
+    public TokenInfo refreshtoken(
 	    @Valid @RequestBody RefreshTokenRequest request) {
 	return service.refreshToken(request);
     }
-
-//    @PostMapping("/refresh-token")
-//    public RefreshTokenResponse refreshtoken(
-//	    @Valid @RequestBody RefreshTokenRequest request) {
-//	return service.refreshToken(request);
-//    }
 
 }

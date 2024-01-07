@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import co.simplon.plantproject.dtos.AccountCreateDto;
 import co.simplon.plantproject.dtos.AccountSigninDto;
 import co.simplon.plantproject.dtos.RefreshTokenRequest;
-import co.simplon.plantproject.dtos.RefreshTokenResponse;
 import co.simplon.plantproject.dtos.TokenInfo;
 import co.simplon.plantproject.entities.Account;
 import co.simplon.plantproject.entities.Role;
@@ -74,21 +73,8 @@ public class AuthServiceImpl implements AuthService {
 	    boolean match = authHelper.matches(candidate,
 		    account.get().getPassword());
 	    if (match) {
-		String email = account.get().getEmail();
-		String roleCode = account.get().getRole()
-			.getCode();
-		String token = authHelper
-			.createJWT(roleCode, email);
-		TokenInfo tokenInfo = new TokenInfo();
-		tokenInfo.setToken(token);
-		tokenInfo.setRole(roleCode);
-		tokenInfo.setFirstName(
-			account.get().getFirstName());
-		String refreshToken = authHelper
-			.createRefreshJWT(email);
-		tokenInfo.setRefreshToken(refreshToken);
-		return tokenInfo;
-
+		return createTokenFromAccount(
+			account.get());
 	    } else {
 		throw new BadCredentialsException(
 			"Invalid email or password.");
@@ -107,23 +93,32 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public RefreshTokenResponse refreshToken(
+    public TokenInfo refreshToken(
 	    RefreshTokenRequest request) {
 
-	String email = authHelper
-		.getEmailFromToken(
-			request.getRefreshToken());
+	String email = authHelper.getEmailFromToken(
+		request.getRefreshToken());
 	Optional<Account> account = accountRepository
 		.findByEmailIgnoreCase(email);
-	String roleCode = account.get().getRole().getCode();
+	return createTokenFromAccount(account.orElseThrow(
+		() -> new BadCredentialsException(
+			"Invalid email")));
+
+    }
+
+    public TokenInfo createTokenFromAccount(
+	    Account account) {
+	String email = account.getEmail();
+	String roleCode = account.getRole().getCode();
 	String token = authHelper.createJWT(roleCode,
 		email);
-	RefreshTokenResponse refreshTokenResponse = new RefreshTokenResponse();
-	refreshTokenResponse.setToken(token);
+	TokenInfo tokenInfo = new TokenInfo();
+	tokenInfo.setToken(token);
+	tokenInfo.setRole(roleCode);
+	tokenInfo.setFirstName(account.getFirstName());
 	String refreshToken = authHelper
 		.createRefreshJWT(email);
-	refreshTokenResponse.setRefreshToken(refreshToken);
-	return refreshTokenResponse;
-
+	tokenInfo.setRefreshToken(refreshToken);
+	return tokenInfo;
     }
 }
