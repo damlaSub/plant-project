@@ -1,5 +1,6 @@
 import { reactive, watch } from "vue";
 import axios from "axios";
+import Base64 from "base-64";
 
 const ACCEPTED_STATUS = [200, 201, 202, 204, 400];
 const auth = reactive({
@@ -36,26 +37,29 @@ export default {
           auth.role = role;
         }
         return { status: status, body: body };
+      },
+      (error) => {
+        if (error.response && error.response.status === 401) {
+          // Unauthorized, possibly due to an expired token
+          // Log the user out and redirect to the login page
+          localStorage.clear();
+          $router.push("/signin");
+        }
+        return Promise.reject(error);
       }
-      // (error) => {
-      //   if (error.response && error.response.status === 401) {
-      //     // Unauthorized, possibly due to an expired token
-      //     // Log the user out and redirect to the login page
-      //     localStorage.clear();
-      //     $router.push("/signin");
-      //   }
-      //   return Promise.reject(error);
-      // }
     );
     axiosInstance.interceptors.request.use(
       (config) => {
         const token = localStorage.getItem("token");
         if (token) {
           // Check if the token is expired or not
-          const decodedToken = parseJwt(token);
-          if (decodedToken.exp * 1000 < Date.now()) {
+          const expirationDate = getExpirationTime(token);
+          console.log(expirationDate * 1000 < Date.now());
+          if (expirationDate < Date.now()) {
+            console.log(expirationDate, Date.now());
             // Token is expired, attempt to refresh it
             return refreshToken().then((newToken) => {
+              console.log(config.headers.Authorization);
               config.headers.Authorization = `Bearer ${newToken}`;
               return config;
             });
@@ -71,18 +75,20 @@ export default {
       }
     );
 
-    function parseJwt(token) {
-      const base64Url = token.split(".")[1];
-      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-      const jsonPayload = decodeURIComponent(
-        atob(base64)
-          .split("")
-          .map(function (c) {
-            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-          })
-          .join("")
-      );
-      return JSON.parse(jsonPayload);
+    function getExpirationTime(token) {
+      // Split the token into its parts (header, payload, signature)
+      const [header, payload] = token.split(".").slice(0, 2);
+
+      // Decode the base64-encoded payload
+      const decodedPayload = JSON.parse(Base64.decode(payload));
+
+      // Extract the "exp" (expiration) claim from the payload
+      const expirationTime = decodedPayload.exp;
+
+      // Convert the expiration time to a human-readable date
+      const expirationDate = new Date(expirationTime * 1000);
+
+      return expirationDate;
     }
 
     async function refreshToken() {
@@ -106,12 +112,14 @@ export default {
             headers: {
               "Content-Type": "application/json",
             },
-            body: refreshToken,
+            body: JSON.stringify({ refreshToken: refreshToken }),
           }
         );
-        console.log(response);
+        const responseData = await response.json();
+        console.log(responseData.token);
+
         // Assuming the server responds with a new token
-        const newToken = response.body.token;
+        const newToken = responseData.token;
 
         // Update the local storage with the new token
         localStorage.setItem("token", newToken);
@@ -119,6 +127,13 @@ export default {
       } catch (error) {
         // Handle the error, possibly log the user out
         console.error("Token refresh failed:", error);
+        // Check if it's a network error or a 401 status code
+        if (error.response && error.response.status === 401) {
+          // Unauthorized, possibly due to an expired token
+          // Log the user out and redirect to the login page
+          localStorage.clear();
+          $router.push("/signin");
+        }
         throw error; // Propagate the error
       }
     }
