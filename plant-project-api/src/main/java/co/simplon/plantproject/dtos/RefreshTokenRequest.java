@@ -1,10 +1,8 @@
 package co.simplon.plantproject.dtos;
 
-import javax.validation.constraints.NotBlank;
-
 public class RefreshTokenRequest {
 
-    @NotBlank
+    @jakarta.validation.constraints.NotBlank
     private String refreshToken;
 
     public String getRefreshToken() {

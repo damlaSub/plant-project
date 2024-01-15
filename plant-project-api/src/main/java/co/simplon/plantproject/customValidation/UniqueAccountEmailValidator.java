@@ -1,11 +1,10 @@
 package co.simplon.plantproject.customValidation;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-
 import org.springframework.security.authentication.BadCredentialsException;
 
 import co.simplon.plantproject.services.AuthService;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 public class UniqueAccountEmailValidator implements
 	ConstraintValidator<UniqueAccountEmail, String> {

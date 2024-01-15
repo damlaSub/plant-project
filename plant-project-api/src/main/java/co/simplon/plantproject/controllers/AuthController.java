@@ -1,7 +1,5 @@
 package co.simplon.plantproject.controllers;
 
-import javax.validation.Valid;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +12,7 @@ import co.simplon.plantproject.dtos.AccountSigninDto;
 import co.simplon.plantproject.dtos.RefreshTokenRequest;
 import co.simplon.plantproject.dtos.TokenInfo;
 import co.simplon.plantproject.services.AuthService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/auth")

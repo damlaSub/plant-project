@@ -2,8 +2,6 @@ package co.simplon.plantproject.controllers;
 
 import java.util.Collection;
 
-import javax.validation.Valid;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +18,7 @@ import co.simplon.plantproject.dtos.PlantForUpdate;
 import co.simplon.plantproject.dtos.PlantItem;
 import co.simplon.plantproject.dtos.PlantUpdateDto;
 import co.simplon.plantproject.services.PlantService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/plants")
@@ -45,20 +44,20 @@ public class PlantController {
 
     @GetMapping("/admin/{id}/for-update")
     public PlantForUpdate getForUpdate(
-	    @PathVariable("id") Long id) {
+	    @PathVariable Long id) {
 	return service.getForUpdate(id);
     }
 
     @PatchMapping("/admin/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable("id") Long id,
+    public void update(@PathVariable Long id,
 	    @ModelAttribute @Valid PlantUpdateDto inputs) {
 	service.update(id, inputs);
     }
 
     @DeleteMapping("/admin/{id}/delete")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("id") Long id) {
+    public void delete(@PathVariable Long id) {
 	service.delete(id);
     }
 
