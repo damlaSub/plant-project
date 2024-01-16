@@ -50,13 +50,17 @@ public class SecurityConfig {
 
     @Bean
     AuthHelper refreshTokenHelper() {
+//	System.out.println("Refresh Token Expiration: "
+//		+ refreshTokenExpiration);
 	Algorithm algorithm = Algorithm.HMAC256(secret);
 	PasswordEncoder encoder = new BCryptPasswordEncoder(
 		rounds);
 
 	return new AuthHelper.Builder().algorithm(algorithm)
 		.passwordEncoder(encoder).issuer(issuer)
-		.expiration(refreshTokenExpiration).build();
+		.refreshTokenExpiration(
+			refreshTokenExpiration)
+		.build();
     }
 
     @Bean

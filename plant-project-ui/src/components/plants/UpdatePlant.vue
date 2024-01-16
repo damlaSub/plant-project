@@ -33,7 +33,7 @@
           sunlightId: { required, minValue: minValue(1) },
           file: {
             maxValue: (file) => {
-              return file === undefined || file.size < 512000;
+              return file !== undefined && file.size < 512000;
             },
           },
         },
@@ -52,7 +52,7 @@
           formData.append("description", this.inputs.description);
           formData.append("hydrationId", this.inputs.hydrationId);
           formData.append("sunlightId", this.inputs.sunlightId);
-          const resp = await this.$axios.patch(
+          const resp = await this.$axios.put(
             `/plants/admin/${this.id}`,
             formData
           );
