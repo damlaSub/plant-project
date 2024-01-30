@@ -73,8 +73,6 @@ public class PlantServiceImpl implements PlantService {
 	LocalDate addedAt = LocalDate.now();
 	entity.setAddedAt(addedAt);
 	plants.save(entity);
-	System.out.println(
-		inputs.getFile().getOriginalFilename());
 
     }
 

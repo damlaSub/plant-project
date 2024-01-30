@@ -13,4 +13,6 @@ public interface AccountRepository
 
     Optional<Account> findByEmailIgnoreCase(String email);
 
+    Account findByEmail(String email);
+
 }

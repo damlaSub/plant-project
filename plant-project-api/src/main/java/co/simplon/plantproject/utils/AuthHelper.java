@@ -46,7 +46,8 @@ public class AuthHelper {
 
     public String createRefreshJWT(String email) {
 	Instant now = Instant.now();
-	Instant expirationTime = now.plusSeconds(7776000);
+	Instant expirationTime = now
+		.plusSeconds(refreshTokenExpiration);
 
 	return JWT.create().withIssuer(issuer)
 		.withSubject(email).withIssuedAt(now)
@@ -103,5 +104,4 @@ public class AuthHelper {
 	    return new AuthHelper(this);
 	}
     }
-
 }

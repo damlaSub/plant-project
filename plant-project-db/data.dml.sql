@@ -52,4 +52,11 @@ INSERT INTO plants
 	('Livistona', 'Livistona affredi', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.', 'livistona.jpg',
 		(SELECT h.id FROM hydration_levels h WHERE h.hydration_code = 'HY01'),
 		(SELECT s.id FROM sunlight_levels s WHERE s.sunlight_code = 'SN03'), now());	
+
+INSERT INTO account_plants
+	(account_id, plant_id)
+	VALUES
+	('2', '2'),
+	('2', '7'),
+	('2', '5');
 	

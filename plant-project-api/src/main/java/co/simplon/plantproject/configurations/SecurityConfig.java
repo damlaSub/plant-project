@@ -16,7 +16,6 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.auth0.jwt.algorithms.Algorithm;
 
@@ -45,19 +44,7 @@ public class SecurityConfig {
 
 	return new AuthHelper.Builder().algorithm(algorithm)
 		.passwordEncoder(encoder).issuer(issuer)
-		.expiration(tokenExpiration).build();
-    }
-
-    @Bean
-    AuthHelper refreshTokenHelper() {
-//	System.out.println("Refresh Token Expiration: "
-//		+ refreshTokenExpiration);
-	Algorithm algorithm = Algorithm.HMAC256(secret);
-	PasswordEncoder encoder = new BCryptPasswordEncoder(
-		rounds);
-
-	return new AuthHelper.Builder().algorithm(algorithm)
-		.passwordEncoder(encoder).issuer(issuer)
+		.expiration(tokenExpiration)
 		.refreshTokenExpiration(
 			refreshTokenExpiration)
 		.build();
@@ -71,15 +58,13 @@ public class SecurityConfig {
 			"/auth/sign-in", "/auth/sign-up",
 			"/auth/refresh-token")
 		.permitAll()
-		.requestMatchers(new AntPathRequestMatcher(
-			"/sunlights"))
+		.requestMatchers("/sunlights",
+			"/hydrations", "/plants")
 		.permitAll()
-		.requestMatchers(new AntPathRequestMatcher(
-			"/hydrations"))
-		.permitAll()
-		.requestMatchers(new AntPathRequestMatcher(
-			"/plants"))
-		.permitAll()
+		.requestMatchers("/my-plants/user/{id}",
+			"/my-plants/user/add",
+			"/my-plants/{id}/delete")
+		.hasAuthority("ROLE_ROLE_USER")
 		.requestMatchers("/admin/create",
 			"/admin/{id}",
 			"/admin/{id}/for-update",
