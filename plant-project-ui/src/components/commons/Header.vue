@@ -7,7 +7,7 @@
       <div class="container-fluid">
         <a class="navbar-brand" href="/"
           ><img
-            src="../../assets/logo.png"
+            src="../../assets/plant.png"
             alt="Bootstrap"
             width="60"
             height="48"
@@ -29,9 +29,10 @@
             style="--bs-scroll-height: 100px"
           >
             <li class="nav-item">
-              <RouterLink :to="{ name: 'home' }" class="navbar-brand"
-                >Home</RouterLink
-              >
+              <RouterLink
+                :to="{ name: 'home' }"
+                class="navbar-brand"
+              ></RouterLink>
             </li>
           </ul>
           <li class="nav-item dropdown">

@@ -33,7 +33,7 @@
       <div class="container-fluid">
         <RouterLink :to="{ name: 'user-home' }" class="navbar-brand">
           <img
-            src="../../assets/logo.png"
+            src="../../assets/plant.png"
             alt="Bootstrap"
             width="60"
             height="48"
@@ -55,16 +55,25 @@
             style="--bs-scroll-height: 100px"
           >
             <li class="nav-item">
-              <RouterLink :to="{ name: 'user-home' }" class="navbar-brand"
-                >User Home</RouterLink
-              >
+              <RouterLink
+                :to="{ name: 'user-home' }"
+                class="navbar-brand"
+              ></RouterLink>
             </li>
           </ul>
           <li class="nav-item dropdown">
             <ul class="navbar-nav">
               <ul>
                 <li class="nav-item fs-5">
-                  <a><i class="bi bi-person-circle"></i></a>
+                  <button
+                    class="user-icon"
+                    type="button"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasRight"
+                    aria-controls="offcanvasRight"
+                  >
+                    <i class="bi bi-person-circle"></i>
+                  </button>
                 </li>
               </ul>
               <ul>
@@ -89,5 +98,9 @@
 <style>
   li {
     list-style-type: none;
+  }
+  .user-icon {
+    background-color: #e8d9c9;
+    border-style: none;
   }
 </style>

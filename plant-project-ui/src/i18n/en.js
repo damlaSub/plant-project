@@ -29,6 +29,9 @@ const messages = {
     selectHyd: "Select an hydratation level",
     selectSun: "Select a sunlight level",
     noResult: "No results found!",
+    myPlants: "My plants",
+    home: "Home",
+    dashboard: "My account",
   },
   helper: {
     common: "Plant's common name",

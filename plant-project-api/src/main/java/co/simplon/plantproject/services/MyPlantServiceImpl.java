@@ -33,17 +33,13 @@ public class MyPlantServiceImpl implements MyPlantService {
     }
 
     @Override
-    public Collection<MyPlantDetail> getAll(Long id) {
+    public Collection<MyPlantDetail> getAll() {
 	String email = SecurityContextHolder.getContext()
 		.getAuthentication().getName();
 	Account account = accountRepo.findByEmail(email);
 	Long accountId = account.getId();
-	if (accountId.equals(id)) {
-	    return myPlantRepo.findByAccountId(id);
-	} else {
-	    return null;
-	    // check it!
-	}
+	return myPlantRepo.findByAccountId(accountId);
+
     }
 
     @Override

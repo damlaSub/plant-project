@@ -1,4 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
+import navigationGuard from "./navigationGuard ";
+
+const admin = "ADMIN";
+const user = "USER";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -10,6 +14,7 @@ const router = createRouter({
         navbar: () => import("../components/commons/Header.vue"),
         default: () => import("../views/HomeView.vue"),
       },
+      meta: { requiresAuth: false },
     },
     {
       path: "/signin",
@@ -28,7 +33,7 @@ const router = createRouter({
         navbar: () => import("../components/commons/AdminHeader.vue"),
         default: () => import("../views/CreatePlantView.vue"),
       },
-      meta: { requiresAuth: true, role: "ADMIN" },
+      meta: { requiresAuth: true, role: admin },
     },
     {
       path: "/admin/plants",
@@ -37,7 +42,7 @@ const router = createRouter({
         navbar: () => import("../components/commons/AdminHeader.vue"),
         default: () => import("../views/EditPlantsView.vue"),
       },
-      meta: { requiresAuth: true, role: "ADMIN" },
+      meta: { requiresAuth: true, role: admin },
     },
     {
       path: "/admin/plants/:id/update",
@@ -46,7 +51,7 @@ const router = createRouter({
         navbar: () => import("../components/commons/AdminHeader.vue"),
         default: () => import("../views/UpdatePlantView.vue"),
       },
-      meta: { requiresAuth: true, role: "ADMIN" },
+      meta: { requiresAuth: true, role: admin },
     },
     {
       path: "/dashboard",
@@ -55,31 +60,19 @@ const router = createRouter({
         navbar: () => import("../components/commons/UserHeader.vue"),
         default: () => import("../views/UserDashboardView.vue"),
       },
-      meta: { requiresAuth: true, role: "USER" },
+      meta: { requiresAuth: true, role: user },
     },
     {
       path: "/user/home",
       name: "user-home",
       components: {
         navbar: () => import("../components/commons/UserHeader.vue"),
-        default: () => import("../views/HomeView.vue"),
+        default: () => import("../views/UserHomeView.vue"),
       },
-      meta: { requiresAuth: true, role: "USER" },
+      meta: { requiresAuth: true, role: user },
     },
   ],
 });
 
-router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth && localStorage.isAuthenticated == undefined) {
-    // Redirect to sign in if trying to access a protected route without authentication
-    next("/signin");
-    // Redirect to landing page if role_user trying to access an  protected role_admin route
-  } else if (to.meta.role == "ADMIN" && localStorage.role.includes("_USER")) {
-    next("/user/home");
-  } else {
-    // Continue to the requested route
-    next();
-  }
-});
-
+router.beforeEach(navigationGuard);
 export default router;

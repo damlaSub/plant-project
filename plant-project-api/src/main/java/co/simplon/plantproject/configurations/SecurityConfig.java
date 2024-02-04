@@ -104,5 +104,4 @@ public class SecurityConfig {
 		secret.getBytes(), "HmacSHA256");
 	return NimbusJwtDecoder.withSecretKey(key).build();
     }
-
 }

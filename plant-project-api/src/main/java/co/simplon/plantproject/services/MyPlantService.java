@@ -7,7 +7,7 @@ import co.simplon.plantproject.dtos.MyPlantDetail;
 
 public interface MyPlantService {
 
-    Collection<MyPlantDetail> getAll(Long id);
+    Collection<MyPlantDetail> getAll();
 
     void add(MyPlantAddDto inputs);
 

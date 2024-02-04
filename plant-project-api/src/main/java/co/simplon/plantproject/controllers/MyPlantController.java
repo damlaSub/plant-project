@@ -27,10 +27,9 @@ public class MyPlantController {
 	this.service = service;
     }
 
-    @GetMapping("user/{id}")
-    public Collection<MyPlantDetail> getAll(
-	    @PathVariable Long id) {
-	return service.getAll(id);
+    @GetMapping("user")
+    public Collection<MyPlantDetail> getAll() {
+	return service.getAll();
 
     }
 

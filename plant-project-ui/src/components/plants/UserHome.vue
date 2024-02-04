@@ -9,6 +9,8 @@
         sunlightLevels: [],
         plants: [],
         input: "",
+        myPlants: [],
+        plantId: null,
       };
     },
     methods: {
@@ -24,6 +26,10 @@
         const resp = await this.$axios.get("/plants");
         this.plants = resp.body;
       },
+      async initMyPlants() {
+        const resp = await this.$axios.get("/my-plants/user");
+        this.myPlants = resp.body;
+      },
       filteredPlantList() {
         return this.plants.filter(
           (plant) =>
@@ -33,11 +39,25 @@
               .includes(this.input.toLocaleLowerCase())
         );
       },
+      async addPlant(plant) {
+        const plantData = {
+          plantId: plant.id,
+        };
+
+        //!!check if already isExist in db before adding
+
+        await this.$axios
+          .post("my-plants/user/add", plantData)
+          .then((response) => {
+            console.log(response);
+          });
+      },
     },
     beforeMount() {
       this.initHydrationLevels();
       this.initSunlightLevels();
       this.initPlants();
+      this.initMyPlants();
     },
     mounted() {
       this.filteredPlantList();
@@ -127,7 +147,9 @@
             <p class="card-text text-truncate">{{ plant.description }}</p>
           </div>
           <div class="d-grid d-md-flex justify-content-md-end">
-            <button type="button" class="btn btn-add">+</button>
+            <button @click="addPlant(plant)" type="button" class="btn btn-add">
+              +
+            </button>
           </div>
         </div>
       </div>
