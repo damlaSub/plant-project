@@ -96,29 +96,31 @@ public class AuthServiceImpl implements AuthService {
     public TokenInfo refreshToken(
 	    RefreshTokenRequest request) {
 
-	String email = authHelper.getEmailFromToken(
-		request.getRefreshToken());
+	String idAsString = authHelper
+		.getIdFromToken(request.getRefreshToken());
+	Long id = Long.parseLong(idAsString);
 	Optional<Account> account = accountRepository
-		.findByEmailIgnoreCase(email);
+		.findById(id);
 	return createTokenFromAccount(account.orElseThrow(
 		() -> new BadCredentialsException(
 			"Invalid email")));
-
+	// change error type!
     }
 
+    @Override
     public TokenInfo createTokenFromAccount(
 	    Account account) {
-	String email = account.getEmail();
+	String id = String.valueOf(account.getId());
 	String roleCode = account.getRole().getCode();
-	String token = authHelper.createJWT(roleCode,
-		email);
+	String token = authHelper.createJWT(roleCode, id);
 	TokenInfo tokenInfo = new TokenInfo();
 	tokenInfo.setToken(token);
 	tokenInfo.setRole(roleCode);
 	tokenInfo.setFirstName(account.getFirstName());
 	String refreshToken = authHelper
-		.createRefreshJWT(email);
+		.createRefreshJWT(id);
 	tokenInfo.setRefreshToken(refreshToken);
 	return tokenInfo;
     }
+
 }

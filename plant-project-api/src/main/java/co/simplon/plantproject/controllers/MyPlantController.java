@@ -40,9 +40,9 @@ public class MyPlantController {
 	service.add(inputs);
     }
 
-    @DeleteMapping("{id}/delete")
+    @DeleteMapping("/{plantId}/delete")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) {
-	service.delete(id);
+    public void delete(@PathVariable Long plantId) {
+	service.delete(plantId);
     }
 }

@@ -11,6 +11,6 @@ public interface MyPlantService {
 
     void add(MyPlantAddDto inputs);
 
-    void delete(Long id);
+    void delete(Long plantId);
 
 }

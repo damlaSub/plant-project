@@ -1,7 +1,10 @@
 package co.simplon.plantproject.services;
 
 import java.util.Collection;
+import java.util.Objects;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,37 +37,52 @@ public class MyPlantServiceImpl implements MyPlantService {
 
     @Override
     public Collection<MyPlantDetail> getAll() {
-	String email = SecurityContextHolder.getContext()
-		.getAuthentication().getName();
-	Account account = accountRepo.findByEmail(email);
-	Long accountId = account.getId();
-	return myPlantRepo.findByAccountId(accountId);
+	Long id = getAccountId();
+	return myPlantRepo.findByAccountId(id);
 
     }
 
     @Override
     @Transactional
     public void add(MyPlantAddDto inputs) {
-	String email = SecurityContextHolder.getContext()
-		.getAuthentication().getName();
-	Account account = accountRepo.findByEmail(email);
-	MyPlant entity = new MyPlant();
-	if ((account.getId() != null) & account.getRole()
-		.getCode().contains("USER")) {
-	    Long plantId = inputs.getPlantId();
-	    Plant plant = plantRepo.findById(plantId).get();
-	    entity.setPlant(plant);
-	    entity.setAccount(account);
-	    myPlantRepo.save(entity);
+	Long accountId = getAccountId();
+	if ((Objects.nonNull(accountId))) {
+	    Account account = accountRepo
+		    .findById(accountId).orElse(null);
+	    if ((Objects.nonNull(account))) {
+		MyPlant entity = new MyPlant();
+		Long plantId = inputs.getPlantId();
+		Plant plant = plantRepo.findById(plantId)
+			.orElse(null);
+		if ((Objects.nonNull(plant))) {
+		    entity.setPlant(plant);
+		    entity.setAccount(account);
+		    myPlantRepo.save(entity);
+		}
+	    }
 	}
     }
 
     @Override
     @Transactional
-    public void delete(Long id) {
-	MyPlant entity = myPlantRepo.findById(id).get();
+    public void delete(Long plantId) {
+	Long accountId = getAccountId();
+	MyPlant entity = myPlantRepo
+		.findByAccountIdAndPlantId(accountId,
+			plantId);
 	myPlantRepo.delete(entity);
 
+    }
+
+    public Long getAccountId() {
+	Authentication authentication = SecurityContextHolder
+		.getContext().getAuthentication();
+	if (!(authentication instanceof AnonymousAuthenticationToken)) {
+	    String currentAccountId = authentication
+		    .getName();
+	    return Long.parseLong(currentAccountId);
+	}
+	return null;
     }
 
 }

@@ -20,4 +20,9 @@ public interface MyPlantRepository
 	    + "WHERE a.id = :accountId", nativeQuery = true)
     Collection<MyPlantDetail> findByAccountId(
 	    @Param("accountId") Long accountId);
+
+    @Query(value = "SELECT ac.* FROM account_plants ac JOIN plants p ON ac.plant_id = p.id JOIN accounts a ON ac.account_id = a.id WHERE ac.plant_id = :plantId AND ac.account_id = :accountId", nativeQuery = true)
+    MyPlant findByAccountIdAndPlantId(
+	    @Param("accountId") Long accountId,
+	    @Param("plantId") Long plantId);
 }

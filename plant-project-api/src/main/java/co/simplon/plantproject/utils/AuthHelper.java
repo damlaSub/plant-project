@@ -33,29 +33,29 @@ public class AuthHelper {
 	return encoder.matches(candidate, hash);
     }
 
-    public String createJWT(String role, String email) {
+    public String createJWT(String role, String id) {
 	Instant now = Instant.now();
 	Instant expirationTime = now
 		.plusSeconds(expiration);
 
 	return JWT.create().withIssuer(issuer)
-		.withSubject(email).withIssuedAt(now)
+		.withSubject(id).withIssuedAt(now)
 		.withExpiresAt(expirationTime)
 		.withClaim("role", role).sign(algorithm);
     }
 
-    public String createRefreshJWT(String email) {
+    public String createRefreshJWT(String id) {
 	Instant now = Instant.now();
 	Instant expirationTime = now
 		.plusSeconds(refreshTokenExpiration);
 
 	return JWT.create().withIssuer(issuer)
-		.withSubject(email).withIssuedAt(now)
+		.withSubject(id).withIssuedAt(now)
 		.withExpiresAt(expirationTime)
 		.sign(algorithm);
     }
 
-    public String getEmailFromToken(String refreshToken) {
+    public String getIdFromToken(String refreshToken) {
 	DecodedJWT decodedJWT = JWT.require(algorithm)
 		.build().verify(refreshToken);
 
