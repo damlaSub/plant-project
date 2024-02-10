@@ -25,7 +25,7 @@
 </script>
 
 <template>
-  <header class="fixed-top">
+  <header class="fixed-top px-5">
     <nav
       class="navbar navbar-expand-lg bg-body-tertiary"
       style="background-color: #e8d9c9"
@@ -63,10 +63,10 @@
           </ul>
           <li class="nav-item dropdown">
             <ul class="navbar-nav">
-              <ul>
+              <ul class="px-3">
                 <li class="nav-item fs-5">
                   <button
-                    class="user-icon"
+                    class="user-icon d-md-block d-none"
                     type="button"
                     data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasRight"
@@ -76,15 +76,33 @@
                   </button>
                 </li>
               </ul>
-              <ul>
-                <li>
+              <ul class="px-3">
+                <li class="d-md-block d-none">
                   <span>{{ userName }} </span>
                 </li>
+                <li class="d-md-none d-block">
+                  <i class="bi bi-person-circle canva"></i>
+                  <span>{{ userName }} </span>
+                </li>
+                <li class="d-md-none d-block">
+                  <i class="bi bi-house-door canva"></i>
+                  <RouterLink
+                    :to="{ name: 'user-home' }"
+                    class="user-home-link"
+                    >{{ $t("title.home") }}</RouterLink
+                  >
+                </li>
+                <li class="d-md-none d-block">
+                  <i class="bi bi-flower1 canva"></i>
+                  <RouterLink :to="{ name: 'dashboard' }" class="my-plant">{{
+                    $t("title.myPlants")
+                  }}</RouterLink>
+                </li>
                 <li>
+                  <i class="bi bi-box-arrow-right"></i>
                   <a @click="signout" class="signout"
                     >{{ $t("auth.signOut") }}
-                    <i class="bi bi-box-arrow-right"></i
-                  ></a>
+                  </a>
                 </li>
               </ul>
             </ul>

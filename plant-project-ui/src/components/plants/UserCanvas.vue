@@ -47,7 +47,7 @@
           }}</RouterLink>
         </li>
         <li>
-          <i class="bi bi-heart canva"></i>
+          <i class="bi bi-flower1 canva"></i>
           <RouterLink :to="{ name: 'dashboard' }" class="my-plant">{{
             $t("title.myPlants")
           }}</RouterLink>

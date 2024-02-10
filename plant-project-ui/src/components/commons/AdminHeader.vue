@@ -25,7 +25,7 @@
 </script>
 
 <template>
-  <header class="fixed-top">
+  <header class="fixed-top px-5">
     <nav
       class="navbar navbar-expand-lg bg-body-tertiary"
       style="background-color: #e8d9c9"
@@ -64,12 +64,12 @@
           </ul>
           <li class="nav-item dropdown">
             <ul class="navbar-nav">
-              <ul>
+              <ul class="px-3">
                 <li class="nav-item fs-5">
                   <a><i class="bi bi-person-circle"></i></a>
                 </li>
               </ul>
-              <ul>
+              <ul class="px-3">
                 <li>
                   <span>{{ userName }} </span>
                 </li>

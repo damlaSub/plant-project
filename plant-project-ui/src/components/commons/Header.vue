@@ -1,5 +1,5 @@
 <template>
-  <header class="fixed-top">
+  <header class="fixed-top px-5">
     <nav
       class="navbar navbar-expand-lg bg-body-tertiary"
       style="background-color: #e8d9c9"

@@ -1,6 +1,4 @@
 <script>
-  import UserCanvas from "./UserCanvas.vue";
-
   export default {
     data() {
       return {
@@ -42,11 +40,9 @@
     mounted() {
       this.filteredPlantList();
     },
-    components: { UserCanvas },
   };
 </script>
 <template>
-  <UserCanvas />
   <div class="input-group mt-5 mb-3 p-5 mt-5">
     <span class="input-group-text" id="basic-addon1"
       ><i class="bi bi-search"></i
@@ -127,7 +123,9 @@
             <p class="card-text text-truncate">{{ plant.description }}</p>
           </div>
           <div class="d-grid d-md-flex justify-content-md-end">
-            <button type="button" class="btn btn-add">+</button>
+            <button @click="addPlant(plant)" type="button" class="btn btn-add">
+              +
+            </button>
           </div>
         </div>
       </div>

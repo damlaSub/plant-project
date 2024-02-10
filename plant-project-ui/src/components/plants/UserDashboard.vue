@@ -1,11 +1,12 @@
 <script>
   import UserCanvas from "./UserCanvas.vue";
+  import UserCards from "./UserCards.vue";
+
   export default {
-    components: { UserCanvas },
+    components: { UserCanvas, UserCards },
   };
 </script>
-
 <template>
   <UserCanvas />
-  <div class="mt-5 mb-3 p-5">User Dashborad</div>
+  <UserCards />
 </template>

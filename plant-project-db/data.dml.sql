@@ -13,6 +13,7 @@ INSERT INTO accounts
 	(first_name, last_name, email, password, role_id)
 	VALUES
 	('Damla', 'Plant', 'damla@plantme.com', '$2a$11$Qs5QuF6Y5ihMU758PPZMleWxuYvFrLkyE2i0Gl00pqYbMfFt6voYC', (SELECT r.id FROM roles r WHERE r.role_code = 'ROLE_ADMIN')),
+	('Lindsay', 'Test', 'test@test.com', '$2a$11$Qs5QuF6Y5ihMU758PPZMleWxuYvFrLkyE2i0Gl00pqYbMfFt6voYC', (SELECT r.id FROM roles r WHERE r.role_code = 'ROLE_USER')),
 	('Damla', 'Test', 'damla@test.com', '$2a$11$Qs5QuF6Y5ihMU758PPZMleWxuYvFrLkyE2i0Gl00pqYbMfFt6voYC', (SELECT r.id FROM roles r WHERE r.role_code = 'ROLE_USER'));
 
 INSERT INTO hydration_levels
@@ -56,7 +57,10 @@ INSERT INTO plants
 INSERT INTO account_plants
 	(account_id, plant_id)
 	VALUES
+	('2', '1'),
 	('2', '2'),
-	('2', '7'),
-	('2', '5');
+	('2', '3'),
+	('3', '6'),
+	('3', '7'),
+	('3', '8');
 	
