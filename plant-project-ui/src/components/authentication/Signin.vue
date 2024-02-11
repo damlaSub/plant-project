@@ -14,6 +14,7 @@
           password: null,
           confirm: null,
         },
+        showErrorTooltip: false,
       };
     },
     validations() {
@@ -46,17 +47,24 @@
           await this.$axios
             .post("/auth/sign-in", accountData)
             .then((response) => {
-              //if (response.body.role.includes("_ADMIN")) {
-              this.$router.push("/admin/plants");
-              console.log(token.getRole);
+              if (response.body.role.includes("ADMIN")) {
+                this.$router.push("/admin/plants");
+              }
+              if (response.body.role.includes("USER")) {
+                this.$router.push("/user/home");
+              }
             })
 
             .catch((error) => {
-              if (error.response.data && error.response.data != undefined) {
-                this.$toast.error("toast-global", error.response.data);
+              if (error.response.data && error.response.status === 401) {
+                (this.showErrorTooltip = true),
+                  this.$tooltip.error("tooltip-global", error.response.data);
               }
             });
         }
+      },
+      hideTooltip() {
+        this.showErrorTooltip = false;
       },
     },
   };
@@ -69,7 +77,7 @@
           <div class="card shadow-lg">
             <div class="card-body">
               <div class="text-center my-1">
-                <img src="/src/assets/logo.png" alt="logo" width="100" />
+                <img src="/src/assets/plant.png" alt="logo" width="100" />
               </div>
               <h1 class="fs-4 card-title fw-bold mb-4">Sign in</h1>
               <form
@@ -79,8 +87,13 @@
                 @submit.prevent="handleSignIn"
                 novalidate
               >
+                <div class="tooltip-wrapper mb-3">
+                  <Tooltip v-if="showErrorTooltip" id="tooltip-global" />
+                </div>
+
                 <div class="mb-3">
                   <input
+                    @input="hideTooltip"
                     :class="{ 'is-invalid': v$.inputs.email.$error }"
                     id="email"
                     type="email"
@@ -97,6 +110,7 @@
 
                 <div class="mb-3">
                   <input
+                    @input="hideTooltip"
                     :class="{ 'is-invalid': v$.inputs.password.$error }"
                     id="password"
                     type="password"
@@ -161,4 +175,22 @@
   .card-footer {
     background-color: #f4ede7;
   }
+
+  /* #tooltip-global.text-bg-danger {
+    /* margin-bottom: 150px; */
+  /*  display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: white;
+    background-color: red;
+    background-clip: padding-box;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.375rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  } */
 </style>

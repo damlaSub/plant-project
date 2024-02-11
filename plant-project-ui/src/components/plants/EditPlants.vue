@@ -89,6 +89,9 @@
             <i class="bi bi-pencil"></i>
           </RouterLink>
           <button
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="Tooltip on top"
             @click="handleDelete(plant.id)"
             type="button"
             class="btn-delete"

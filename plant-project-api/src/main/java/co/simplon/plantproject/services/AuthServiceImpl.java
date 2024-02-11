@@ -77,11 +77,11 @@ public class AuthServiceImpl implements AuthService {
 			account.get());
 	    } else {
 		throw new BadCredentialsException(
-			"Invalid email or password.");
+			"Invalid email or password");
 	    }
 	} else {
 	    throw new BadCredentialsException(
-		    "Invalid email or password.");
+		    "Invalid email or password");
 	}
     }
 

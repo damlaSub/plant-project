@@ -1,7 +1,7 @@
 <script setup>
   import { RouterLink, RouterView } from "vue-router";
-  // import Header from "./components/commons/Header.vue";
   import Toast from "./components/commons/Toast.vue";
+  import Tooltip from "./components/commons/Tooltip.vue";
 </script>
 
 <template>
@@ -9,7 +9,14 @@
     <RouterView name="navbar" />
   </header>
   <main class="container-xl">
-    <RouterView />
+    <div class="router-view-wrapper">
+      <RouterView />
+    </div>
   </main>
   <div><Toast id="toast-global" /></div>
 </template>
+<style>
+  .router-view-wrapper {
+    position: relative;
+  }
+</style>

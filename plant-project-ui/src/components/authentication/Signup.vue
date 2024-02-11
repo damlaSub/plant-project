@@ -16,6 +16,7 @@
           password: null,
           confirm: null,
         },
+        showErrorTooltip: false,
       };
     },
     validations() {
@@ -71,9 +72,13 @@
               this.$router.push("/signin");
             })
             .catch((error) => {
-              this.$toast.error("toast-global", error.response.data);
+              (this.showErrorTooltip = true),
+                this.$tooltip.error("tooltip-global", error.response.data);
             });
         }
+      },
+      hideTooltip() {
+        this.showErrorTooltip = false;
       },
     },
   };
@@ -87,7 +92,7 @@
           <div class="card shadow-lg">
             <div class="card-body">
               <div class="text-center my-1">
-                <img src="/src/assets/logo.png" alt="logo" width="100" />
+                <img src="/src/assets/plant.png" alt="logo" width="100" />
               </div>
               <h1 class="fs-4 card-title fw-bold mb-4">
                 {{ $t("title.createAcc") }}
@@ -98,8 +103,12 @@
                 @submit.prevent="submitForm"
                 autocomplete="off"
               >
+                <div class="tooltip-wrapper mb-3">
+                  <Tooltip v-if="showErrorTooltip" id="tooltip-global" />
+                </div>
                 <div class="mb-3">
                   <input
+                    @input="hideTooltip"
                     :class="{ 'is-invalid': v$.inputs.firstName.$error }"
                     id="first-name"
                     type="text"
@@ -116,6 +125,7 @@
 
                 <div class="mb-3">
                   <input
+                    @input="hideTooltip"
                     :class="{ 'is-invalid': v$.inputs.lastName.$error }"
                     id="last-name"
                     type="text"
@@ -132,6 +142,7 @@
 
                 <div class="mb-3">
                   <input
+                    @input="hideTooltip"
                     :class="{ 'is-invalid': v$.inputs.email.$error }"
                     id="email"
                     type="email"
@@ -149,6 +160,7 @@
 
                 <div class="mb-3">
                   <input
+                    @input="hideTooltip"
                     :class="{ 'is-invalid': v$.inputs.password.$error }"
                     id="password"
                     type="password"
@@ -168,6 +180,7 @@
                 <div class="mb-3">
                   <div class="mb-2 w-100"></div>
                   <input
+                    @input="hideTooltip"
                     id="password-confirm"
                     type="password"
                     class="form-control"
@@ -183,6 +196,7 @@
                 <div class="d-flex align-items-center">
                   <div class="form-check">
                     <input
+                      @input="hideTooltip"
                       type="checkbox"
                       name="remember"
                       id="remember"

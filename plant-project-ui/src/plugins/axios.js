@@ -40,19 +40,31 @@ async function handleResponse(response) {
 
 function handleErrorResponse(error) {
   if (error.response && error.response.status === 401) {
-    handleUnauthorizedError();
+    // Only handle refreshToken failure here, other 401 errors will be handled by handleRequest function
+    if (
+      error.response.data &&
+      error.response.data.message === "RefreshToken failed"
+    ) {
+      handleRefreshTokenError();
+    }
   }
   return Promise.reject(error);
 }
 
-function handleRequest(config) {
+async function handleRequest(config) {
   const token = localStorage.getItem("token");
+  const refreshToken = localStorage.getItem("refreshToken");
 
-  if (token && isTokenExpired(token)) {
-    return refreshToken().then((newToken) => {
+  if (token && isTokenExpired(token) && refreshToken) {
+    try {
+      const newToken = await refreshToken();
       config.headers.Authorization = `Bearer ${newToken}`;
-      return config;
-    });
+    } catch (error) {
+      // Handle refreshToken failure here
+      console.error("RefreshToken failed:", error);
+      handleRefreshTokenError();
+      return Promise.reject(error);
+    }
   } else if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -122,6 +134,10 @@ async function refreshToken() {
 }
 
 function handleUnauthorizedError() {
+  console.log(response);
+}
+
+function handleRefreshTokenError() {
   localStorage.clear();
   $router.push("/signin");
 }
