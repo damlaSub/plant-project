@@ -24,7 +24,7 @@ public class UniqueAccountEmailValidator implements
 	if ((Objects.nonNull(email))
 		&& this.service.existsByEmail(email)) {
 	    throw new BadCredentialsException(
-		    "This email is already associated with an account.");
+		    "This email is already associated with an account");
 	}
 	return true;
 

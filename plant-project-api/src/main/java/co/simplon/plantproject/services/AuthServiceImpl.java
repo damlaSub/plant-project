@@ -101,10 +101,9 @@ public class AuthServiceImpl implements AuthService {
 	Long id = Long.parseLong(idAsString);
 	Optional<Account> account = accountRepository
 		.findById(id);
-	return createTokenFromAccount(account.orElseThrow(
-		() -> new BadCredentialsException(
-			"Invalid email")));
-	// change error type!
+	return createTokenFromAccount(account
+		.orElseThrow(() -> new RuntimeException(
+			"Token creation failed")));
     }
 
     @Override
