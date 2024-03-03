@@ -50,7 +50,8 @@
           .post("my-plants/user/add", plantData)
           .then((response) => {
             console.log(response);
-          });
+            this.$toast.success("toast-global", this.$t("success.add"));
+          }); //already exist in list err add
       },
     },
     beforeMount() {

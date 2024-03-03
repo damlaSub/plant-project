@@ -14,6 +14,7 @@
       },
       async deletePlant(id) {
         await this.$axios.delete(`my-plants/${id}/delete`).then((response) => {
+          this.$toast.success("toast-global", this.$t("success.delete"));
           this.initMyPlants();
           console.log(response);
         });

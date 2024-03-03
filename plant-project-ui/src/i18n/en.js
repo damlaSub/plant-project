@@ -50,6 +50,7 @@ const messages = {
     err: "An error occured.",
   },
   success: {
+    add: "Plant added with success.",
     create: "Plant created with success.",
     update: "Plant updated with success.",
     delete: "Plant deleted with success.",

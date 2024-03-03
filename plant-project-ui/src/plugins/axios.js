@@ -40,13 +40,7 @@ async function handleResponse(response) {
 
 function handleErrorResponse(error) {
   if (error.response && error.response.status === 401) {
-    // Only handle refreshToken failure here, other 401 errors will be handled by handleRequest function
-    if (
-      error.response.data &&
-      error.response.data.message === "RefreshToken failed"
-    ) {
-      handleRefreshTokenError();
-    }
+    handleRefreshTokenError();
   }
   return Promise.reject(error);
 }
@@ -57,10 +51,9 @@ async function handleRequest(config) {
 
   if (token && isTokenExpired(token) && refreshToken) {
     try {
-      const newToken = await refreshToken();
+      const newToken = await refreshJWToken();
       config.headers.Authorization = `Bearer ${newToken}`;
     } catch (error) {
-      // Handle refreshToken failure here
       console.error("RefreshToken failed:", error);
       handleRefreshTokenError();
       return Promise.reject(error);
@@ -98,7 +91,7 @@ function getExpirationTime(token) {
   return new Date(expirationTime * 1000);
 }
 
-async function refreshToken() {
+async function refreshJWToken() {
   const refreshToken = localStorage.getItem("refreshToken");
 
   if (!refreshToken) {
@@ -124,17 +117,8 @@ async function refreshToken() {
     return newToken;
   } catch (error) {
     console.error("Token refresh failed:", error);
-
-    if (error.response && error.response.status === 401) {
-      handleUnauthorizedError();
-    }
-
-    throw error;
+    handleRefreshTokenError();
   }
-}
-
-function handleUnauthorizedError() {
-  console.log(response);
 }
 
 function handleRefreshTokenError() {
