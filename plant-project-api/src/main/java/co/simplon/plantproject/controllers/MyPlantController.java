@@ -2,6 +2,7 @@ package co.simplon.plantproject.controllers;
 
 import java.util.Collection;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,22 +28,24 @@ public class MyPlantController {
 	this.service = service;
     }
 
-    @GetMapping("user")
+    @GetMapping
     public Collection<MyPlantDetail> getAll() {
 	return service.getAll();
 
     }
 
-    @PostMapping("user/add")
+    @PostMapping("/add")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void add(
-	    @Valid @RequestBody MyPlantAddDto inputs) {
+	    @Valid @RequestBody MyPlantAddDto inputs)
+	    throws BadRequestException {
 	service.add(inputs);
     }
 
     @DeleteMapping("/{plantId}/delete")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long plantId) {
+    public void delete(@PathVariable Long plantId)
+	    throws BadRequestException {
 	service.delete(plantId);
     }
 }

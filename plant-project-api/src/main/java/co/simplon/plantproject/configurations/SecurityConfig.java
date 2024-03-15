@@ -58,17 +58,18 @@ public class SecurityConfig {
 			"/auth/sign-in", "/auth/sign-up",
 			"/auth/refresh-token")
 		.permitAll()
-		.requestMatchers("/sunlights",
-			"/hydrations", "/plants")
+		.requestMatchers(HttpMethod.GET,
+			"/sunlights", "/hydrations",
+			"/plants")
 		.permitAll()
-		.requestMatchers("/my-plants/user/{id}",
-			"/my-plants/user/add",
+		.requestMatchers("/my-plants/{id}",
+			"/my-plants/add",
 			"/my-plants/{id}/delete")
-		.hasAuthority("ROLE_ROLE_USER")
-		.requestMatchers("/admin/create",
-			"/admin/{id}",
-			"/admin/{id}/for-update",
-			"/admin/{id}/delete")
+		.hasAuthority("ROLE_USER")
+		.requestMatchers("/plants/admin/create",
+			"/plants/admin/{id}",
+			"/plants/admin/{id}/for-update",
+			"/plants/admin/{id}/delete")
 		.hasAuthority("ROLE_ADMIN").anyRequest()
 		.authenticated())
 		.oauth2ResourceServer(
@@ -76,13 +77,13 @@ public class SecurityConfig {
 			    try {
 				jwt.decoder(jwtDecoder());
 			    } catch (Exception e) {
-				// TODO Auto-generated catch block
+				// TODO custom error
 				e.printStackTrace();
 			    }
 			}))
 		.csrf(AbstractHttpConfigurer::disable);
-
 	return http.build();
+
     }
 
     @Bean

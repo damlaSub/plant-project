@@ -3,6 +3,7 @@ package co.simplon.plantproject.services;
 import java.util.Collection;
 import java.util.Objects;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -44,7 +45,8 @@ public class MyPlantServiceImpl implements MyPlantService {
 
     @Override
     @Transactional
-    public void add(MyPlantAddDto inputs) {
+    public void add(MyPlantAddDto inputs)
+	    throws BadRequestException {
 	Long accountId = getAccountId();
 	if ((Objects.nonNull(accountId))) {
 	    Account account = accountRepo
@@ -54,10 +56,14 @@ public class MyPlantServiceImpl implements MyPlantService {
 		Long plantId = inputs.getPlantId();
 		Plant plant = plantRepo.findById(plantId)
 			.orElse(null);
-		if ((Objects.nonNull(plant))) {
+		if (Objects.nonNull(plant)
+			&& !myPlant(plantId)) {
 		    entity.setPlant(plant);
 		    entity.setAccount(account);
 		    myPlantRepo.save(entity);
+		} else if (myPlant(plantId)) {
+		    throw new BadRequestException(
+			    "Plant already exists in my plants");
 		}
 	    }
 	}
@@ -65,8 +71,13 @@ public class MyPlantServiceImpl implements MyPlantService {
 
     @Override
     @Transactional
-    public void delete(Long plantId) {
+    public void delete(Long plantId)
+	    throws BadRequestException {
 	Long accountId = getAccountId();
+	if (!myPlant(plantId)) {
+	    throw new BadRequestException(
+		    "Plant does not exists in my plants");
+	}
 	MyPlant entity = myPlantRepo
 		.findByAccountIdAndPlantId(accountId,
 			plantId);
@@ -83,6 +94,15 @@ public class MyPlantServiceImpl implements MyPlantService {
 	    return Long.parseLong(currentAccountId);
 	}
 	return null;
+    }
+
+    @Override
+    public boolean myPlant(Long plantId) {
+	Long accountId = getAccountId();
+	return Objects.nonNull(
+		myPlantRepo.findByAccountIdAndPlantId(
+			accountId, plantId));
+
     }
 
 }

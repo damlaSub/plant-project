@@ -34,13 +34,11 @@ public class AuthServiceImpl implements AuthService {
 	this.authHelper = authHelper;
 	this.accountRepository = accountRepository;
 	this.roleRepository = roleRepository;
-
     }
 
     @Override
     @Transactional
     public void signUp(AccountCreateDto inputs) {
-
 	Account account = new Account();
 	account.setFirstName(inputs.getFirstName());
 	account.setLastName(inputs.getLastName());
@@ -48,7 +46,6 @@ public class AuthServiceImpl implements AuthService {
 	String hashPassword = authHelper
 		.encode(inputs.getPassword());
 	account.setPassword(hashPassword);
-
 	if (account.getEmail().endsWith("@plantme.com")) {
 	    Role adminRole = roleRepository
 		    .getReferenceByCode("ROLE_ADMIN");
@@ -66,7 +63,6 @@ public class AuthServiceImpl implements AuthService {
     public TokenInfo signIn(AccountSigninDto inputs) {
 	String identifier = inputs.getEmail();
 	String candidate = inputs.getPassword();
-
 	Optional<Account> account = accountRepository
 		.findByEmailIgnoreCase(identifier);
 	if (account.isPresent()) {
@@ -89,7 +85,6 @@ public class AuthServiceImpl implements AuthService {
     public Boolean existsByEmail(String email) {
 	return this.accountRepository
 		.existsByEmailIgnoreCase(email.toString());
-
     }
 
     @Override
