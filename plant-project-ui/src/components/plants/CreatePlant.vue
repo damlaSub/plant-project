@@ -22,8 +22,16 @@
     validations() {
       return {
         inputs: {
-          commonName: { required, maxLength: maxLength(100) },
-          latinName: { required, maxLength: maxLength(200) },
+          commonName: {
+            required,
+            pattern: helpers.regex(/^[a-zA-Z-éàâèêôûîç'’ ]{1,100}$/),
+            maxLength: maxLength(100),
+          },
+          latinName: {
+            required,
+            pattern: helpers.regex(/^[a-zA-Z-éàâèêôûîç'’ ]{1,100}$/),
+            maxLength: maxLength(200),
+          },
           description: { required, maxLength: maxLength(1000) },
           hydrationId: { required, minValue: minValue(1) },
           sunlightId: { required, minValue: minValue(1) },

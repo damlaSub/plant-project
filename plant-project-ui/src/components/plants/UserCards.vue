@@ -9,7 +9,7 @@
     },
     methods: {
       async initMyPlants() {
-        const resp = await this.$axios.get("/my-plants/user");
+        const resp = await this.$axios.get("/my-plants");
         this.myPlants = resp.body;
       },
       async deletePlant(id) {

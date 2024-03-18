@@ -39,11 +39,11 @@ async function handleResponse(response) {
 }
 
 function handleErrorResponse(error) {
-  if (error.response && error.response.status === 401) {
-    handleRefreshTokenError();
-  } else if (error.response && error.response.status === 403) {
-    handleForbiddenError();
-  }
+  // if (error.response && error.response.status === 401) {
+  //   handleRefreshTokenError();
+  // } else if (error.response && error.response.status === 403) {
+  //   handleForbiddenError();
+  // }
   return Promise.reject(error);
 }
 

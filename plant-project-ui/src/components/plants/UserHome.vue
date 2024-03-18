@@ -27,7 +27,7 @@
         this.plants = resp.body;
       },
       async initMyPlants() {
-        const resp = await this.$axios.get("/my-plants/user");
+        const resp = await this.$axios.get("/my-plants");
         this.myPlants = resp.body;
       },
       filteredPlantList() {
@@ -46,12 +46,10 @@
 
         //!!check if already isExist in db before adding
 
-        await this.$axios
-          .post("my-plants/user/add", plantData)
-          .then((response) => {
-            console.log(response);
-            this.$toast.success("toast-global", this.$t("success.add"));
-          }); //already exist in list err add
+        await this.$axios.post("my-plants/add", plantData).then((response) => {
+          console.log(response);
+          this.$toast.success("toast-global", this.$t("success.add"));
+        }); //already exist in list err add
       },
     },
     beforeMount() {

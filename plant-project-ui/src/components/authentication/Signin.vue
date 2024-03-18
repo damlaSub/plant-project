@@ -58,7 +58,10 @@
             .catch((error) => {
               if (error.response.data && error.response.status === 401) {
                 (this.showErrorTooltip = true),
-                  this.$tooltip.error("tooltip-global", error.response.data);
+                  this.$tooltip.error(
+                    "tooltip-global",
+                    error.response.data.description
+                  );
               }
             });
         }

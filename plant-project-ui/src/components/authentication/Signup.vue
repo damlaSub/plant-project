@@ -1,7 +1,13 @@
 <script>
   import { useVuelidate } from "@vuelidate/core";
   import { helpers } from "@vuelidate/validators";
-  import { email, required, maxLength, sameAs } from "@vuelidate/validators";
+  import {
+    email,
+    required,
+    maxLength,
+    minLength,
+    sameAs,
+  } from "@vuelidate/validators";
 
   export default {
     setup() {
@@ -24,10 +30,14 @@
         inputs: {
           firstName: {
             required,
+            pattern: helpers.regex(/^[a-zA-Z-éàâèêôûîç'’ ]{1,100}$/),
+            minLength: minLength(1),
             maxLength: maxLength(100),
           },
           lastName: {
             required,
+            pattern: helpers.regex(/^[a-zA-Z-éàâèêôûîç'’ ]{1,100}$/),
+            minLength: minLength(1),
             maxLength: maxLength(100),
           },
           email: {
@@ -55,7 +65,7 @@
       };
     },
     methods: {
-      async submitForm(event) {
+      async submitForm() {
         const valid = await this.v$.$validate();
         if (valid) {
           const accountData = {
@@ -68,12 +78,19 @@
           await this.$axios
             .post("/auth/sign-up", accountData)
             .then((response) => {
-              this.v$.$reset();
-              this.$router.push("/signin");
+              if (response.status === 204) {
+                this.v$.$reset();
+                this.$router.push("/signin");
+              }
             })
             .catch((error) => {
-              (this.showErrorTooltip = true),
-                this.$tooltip.error("tooltip-global", error.response.data);
+              if (error.response.status === 401) {
+                (this.showErrorTooltip = true),
+                  this.$tooltip.error(
+                    "tooltip-global",
+                    error.response.data.description
+                  );
+              }
             });
         }
       },
