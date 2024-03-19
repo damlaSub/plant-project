@@ -6,6 +6,7 @@ import co.simplon.plantproject.customValidation.FileType;
 import co.simplon.plantproject.customValidation.MaxSize;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
@@ -13,10 +14,12 @@ public class PlantUpdateDto {
 
     @NotBlank
     @Size(max = 100)
+    @Pattern(regexp = "^[a-zA-Z-éàâèêôûîç'’ ]+$")
     private String commonName;
 
     @NotBlank
     @Size(max = 200)
+    @Pattern(regexp = "^[a-zA-Z-éàâèêôûîç'’ ]+$")
     private String latinName;
 
     @NotBlank

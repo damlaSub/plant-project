@@ -13,6 +13,7 @@ import co.simplon.plantproject.dtos.RefreshTokenRequest;
 import co.simplon.plantproject.dtos.TokenInfo;
 import co.simplon.plantproject.entities.Account;
 import co.simplon.plantproject.entities.Role;
+import co.simplon.plantproject.errors.ResourceNotFoundException;
 import co.simplon.plantproject.repositories.AccountRepository;
 import co.simplon.plantproject.repositories.RoleRepository;
 import co.simplon.plantproject.utils.AuthHelper;
@@ -48,11 +49,11 @@ public class AuthServiceImpl implements AuthService {
 	account.setPassword(hashPassword);
 	if (account.getEmail().endsWith("@plantme.com")) {
 	    Role adminRole = roleRepository
-		    .getReferenceByCode("ROLE_ADMIN");
+		    .getReferenceByCode("ADMIN");
 	    account.setRole(adminRole);
 	} else {
 	    Role role = roleRepository
-		    .getReferenceByCode("ROLE_USER");
+		    .getReferenceByCode("USER");
 	    account.setRole(role);
 	}
 	accountRepository.save(account);
@@ -94,11 +95,13 @@ public class AuthServiceImpl implements AuthService {
 	String idAsString = authHelper
 		.getIdFromToken(request.getRefreshToken());
 	Long id = Long.parseLong(idAsString);
-	Optional<Account> account = accountRepository
-		.findById(id);
+	Optional<Account> account = Optional.ofNullable(
+		accountRepository.findById(id).orElseThrow(
+			() -> new ResourceNotFoundException(
+				"Account not found")));
 	return createTokenFromAccount(account
 		.orElseThrow(() -> new RuntimeException(
-			"Token creation failed")));
+			"An error occured during refresh token creation")));
     }
 
     @Override
@@ -111,8 +114,14 @@ public class AuthServiceImpl implements AuthService {
 	tokenInfo.setToken(token);
 	tokenInfo.setRole(roleCode);
 	tokenInfo.setFirstName(account.getFirstName());
-	String refreshToken = authHelper
-		.createRefreshJWT(id);
+	String refreshToken;
+	try {
+	    refreshToken = authHelper.createRefreshJWT(id);
+	} catch (Exception e) {
+	    throw new RuntimeException(
+		    "An error occured during token creation",
+		    e);
+	}
 	tokenInfo.setRefreshToken(refreshToken);
 	return tokenInfo;
     }

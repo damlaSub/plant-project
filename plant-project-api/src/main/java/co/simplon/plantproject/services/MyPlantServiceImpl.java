@@ -1,7 +1,8 @@
 package co.simplon.plantproject.services;
 
-import java.util.Collection;
+import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.Set;
 
 import org.apache.coyote.BadRequestException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -37,7 +38,7 @@ public class MyPlantServiceImpl implements MyPlantService {
     }
 
     @Override
-    public Collection<MyPlantDetail> getAll() {
+    public Set<MyPlantDetail> getAll() {
 	Long id = getAccountId();
 	return myPlantRepo.findByAccountId(id);
 
@@ -57,11 +58,11 @@ public class MyPlantServiceImpl implements MyPlantService {
 		Plant plant = plantRepo.findById(plantId)
 			.orElse(null);
 		if (Objects.nonNull(plant)
-			&& !myPlant(plantId)) {
+			&& !exists(plantId)) {
 		    entity.setPlant(plant);
 		    entity.setAccount(account);
 		    myPlantRepo.save(entity);
-		} else if (myPlant(plantId)) {
+		} else if (exists(plantId)) {
 		    throw new BadRequestException(
 			    "Plant already exists in my plants");
 		}
@@ -72,10 +73,10 @@ public class MyPlantServiceImpl implements MyPlantService {
     @Override
     @Transactional
     public void delete(Long plantId)
-	    throws BadRequestException {
+	    throws NoSuchElementException {
 	Long accountId = getAccountId();
-	if (!myPlant(plantId)) {
-	    throw new BadRequestException(
+	if (!exists(plantId)) {
+	    throw new NoSuchElementException(
 		    "Plant does not exists in my plants");
 	}
 	MyPlant entity = myPlantRepo
@@ -97,7 +98,7 @@ public class MyPlantServiceImpl implements MyPlantService {
     }
 
     @Override
-    public boolean myPlant(Long plantId) {
+    public boolean exists(Long plantId) {
 	Long accountId = getAccountId();
 	return Objects.nonNull(
 		myPlantRepo.findByAccountIdAndPlantId(

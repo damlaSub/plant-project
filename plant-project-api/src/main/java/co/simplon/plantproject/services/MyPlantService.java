@@ -1,6 +1,6 @@
 package co.simplon.plantproject.services;
 
-import java.util.Collection;
+import java.util.Set;
 
 import org.apache.coyote.BadRequestException;
 
@@ -9,13 +9,13 @@ import co.simplon.plantproject.dtos.MyPlantDetail;
 
 public interface MyPlantService {
 
-    Collection<MyPlantDetail> getAll();
+    Set<MyPlantDetail> getAll();
 
     void add(MyPlantAddDto inputs)
 	    throws BadRequestException;
 
     void delete(Long plantId) throws BadRequestException;
 
-    boolean myPlant(Long plantId);
+    boolean exists(Long plantId);
 
 }

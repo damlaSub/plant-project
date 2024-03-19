@@ -1,6 +1,6 @@
 package co.simplon.plantproject.controllers;
 
-import java.util.Collection;
+import java.util.Set;
 
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
@@ -29,7 +29,7 @@ public class MyPlantController {
     }
 
     @GetMapping
-    public Collection<MyPlantDetail> getAll() {
+    public Set<MyPlantDetail> getAll() {
 	return service.getAll();
 
     }

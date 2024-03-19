@@ -1,6 +1,6 @@
 package co.simplon.plantproject.repositories;
 
-import java.util.Collection;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,7 +18,7 @@ public interface MyPlantRepository
 	    + "JOIN account_plants ac ON p.id = ac.plant_id "
 	    + "JOIN accounts a ON ac.account_id = a.id "
 	    + "WHERE a.id = :accountId", nativeQuery = true)
-    Collection<MyPlantDetail> findByAccountId(
+    Set<MyPlantDetail> findByAccountId(
 	    @Param("accountId") Long accountId);
 
     @Query(value = "SELECT ac.* FROM account_plants ac JOIN plants p ON ac.plant_id = p.id JOIN accounts a ON ac.account_id = a.id WHERE ac.plant_id = :plantId AND ac.account_id = :accountId", nativeQuery = true)
