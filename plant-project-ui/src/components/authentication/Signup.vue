@@ -22,6 +22,10 @@
           password: null,
           confirm: null,
         },
+        pswRegex: helpers.regex(
+          /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,32}$/
+        ),
+        namesRegex: helpers.regex(/^[a-zA-Z-éàâèêôûîç'’ ]{1,100}$/),
         showErrorTooltip: false,
       };
     },
@@ -30,13 +34,13 @@
         inputs: {
           firstName: {
             required,
-            pattern: helpers.regex(/^[a-zA-Z-éàâèêôûîç'’ ]{1,100}$/),
+            pattern: this.namesRegex,
             minLength: minLength(1),
             maxLength: maxLength(100),
           },
           lastName: {
             required,
-            pattern: helpers.regex(/^[a-zA-Z-éàâèêôûîç'’ ]{1,100}$/),
+            pattern: this.namesRegex,
             minLength: minLength(1),
             maxLength: maxLength(100),
           },
@@ -51,9 +55,7 @@
             ),
             pattern:
               //helpers.withMessage(
-              helpers.regex(
-                /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,32}$/
-              ),
+              this.pswRegex,
             // "Password must have at least 1 upper and lower letter, at least 1 digit, at least 1 of #?!@$%^&*-"
             //),
           },

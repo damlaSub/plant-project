@@ -9,6 +9,9 @@
     },
     data() {
       return {
+        pswPattern: helpers.regex(
+          /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,32}$/
+        ),
         inputs: {
           email: null,
           password: null,
@@ -28,9 +31,7 @@
             required,
             minLength: minLength(8),
             maxLength: maxLength(32),
-            pattern: helpers.regex(
-              /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,32}$/
-            ),
+            pattern: this.pswPattern,
           },
         },
       };

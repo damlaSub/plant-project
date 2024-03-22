@@ -3,10 +3,17 @@
     <div
       class="container h-100 mt-5 d-flex justify-content-center align-items-center"
     >
-      <img src="/images/404.jpg" alt="404" class="responsive-image" />
-      <button class="btn position-absolute bottom-0 start-0 mb-3 ml-3">
-        Go to Home Page ...
-      </button>
+      <div>
+        <h1>404</h1>
+        <h2>Page Not Found</h2>
+        <h3>The page does not exist or is deleted</h3>
+        <div></div>
+        <RouterLink :to="{ name: 'home' }">
+          <button class="btn button">
+            <i class="bi bi-sign-turn-left"></i> Go Home
+          </button></RouterLink
+        >
+      </div>
     </div>
   </main>
 </template>

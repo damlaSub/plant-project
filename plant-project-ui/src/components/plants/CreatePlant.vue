@@ -17,6 +17,7 @@
           hydrationId: 0,
           sunlightId: 0,
         },
+        namesRegex: helpers.regex(/^[a-zA-Z-éàâèêôûîç'’ ]{1,100}$/),
       };
     },
     validations() {
@@ -24,12 +25,12 @@
         inputs: {
           commonName: {
             required,
-            pattern: helpers.regex(/^[a-zA-Z-éàâèêôûîç'’ ]{1,100}$/),
+            pattern: this.namesRegex,
             maxLength: maxLength(100),
           },
           latinName: {
             required,
-            pattern: helpers.regex(/^[a-zA-Z-éàâèêôûîç'’ ]{1,100}$/),
+            pattern: this.namesRegex,
             maxLength: maxLength(200),
           },
           description: { required, maxLength: maxLength(1000) },

@@ -1,6 +1,11 @@
 <script>
   import { useVuelidate } from "@vuelidate/core";
-  import { maxLength, minValue, required } from "@vuelidate/validators";
+  import {
+    helpers,
+    maxLength,
+    minValue,
+    required,
+  } from "@vuelidate/validators";
   import { useRoute } from "vue-router";
   export default {
     setup() {
@@ -11,6 +16,7 @@
         fileSystem: import.meta.env.VITE_IMG_BASE_URL,
         sizeFile: true,
         id: this.route.params.id,
+        namesRegex: helpers.regex(/^[a-zA-Z-éàâèêôûîç'’ ]{1,100}$/),
         hydrationLevels: [],
         sunlightLevels: [],
         inputs: {
@@ -28,12 +34,12 @@
         inputs: {
           commonName: {
             required,
-            pattern: helpers.regex(/^[a-zA-Z-éàâèêôûîç'’ ]{1,100}$/),
+            pattern: this.namesRegex,
             maxLength: maxLength(100),
           },
           latinName: {
             required,
-            pattern: helpers.regex(/^[a-zA-Z-éàâèêôûîç'’ ]{1,100}$/),
+            pattern: this.namesRegex,
             maxLength: maxLength(200),
           },
           description: { required, maxLength: maxLength(1000) },
