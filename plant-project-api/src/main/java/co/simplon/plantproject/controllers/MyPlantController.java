@@ -1,5 +1,6 @@
 package co.simplon.plantproject.controllers;
 
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.coyote.BadRequestException;
@@ -48,4 +49,10 @@ public class MyPlantController {
 	    throws BadRequestException {
 	service.delete(plantId);
     }
+
+    @GetMapping("/status")
+    public Map<Long, Boolean> getPlantStatus() {
+	return service.getPlantStatus();
+    }
+
 }

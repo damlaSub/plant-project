@@ -1,5 +1,8 @@
 package co.simplon.plantproject.services;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Set;
@@ -13,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import co.simplon.plantproject.dtos.MyPlantAddDto;
 import co.simplon.plantproject.dtos.MyPlantDetail;
+import co.simplon.plantproject.dtos.PlantItem;
 import co.simplon.plantproject.entities.Account;
 import co.simplon.plantproject.entities.MyPlant;
 import co.simplon.plantproject.entities.Plant;
@@ -39,8 +43,7 @@ public class MyPlantServiceImpl implements MyPlantService {
 
     @Override
     public Set<MyPlantDetail> getAll() {
-	Long id = getAccountId();
-	return myPlantRepo.findByAccountId(id);
+	return myPlantRepo.findByAccountId(getAccountId());
 
     }
 
@@ -74,13 +77,12 @@ public class MyPlantServiceImpl implements MyPlantService {
     @Transactional
     public void delete(Long plantId)
 	    throws NoSuchElementException {
-	Long accountId = getAccountId();
 	if (!exists(plantId)) {
 	    throw new NoSuchElementException(
 		    "Plant does not exists in my plants");
 	}
 	MyPlant entity = myPlantRepo
-		.findByAccountIdAndPlantId(accountId,
+		.findByAccountIdAndPlantId(getAccountId(),
 			plantId);
 	myPlantRepo.delete(entity);
 
@@ -104,6 +106,28 @@ public class MyPlantServiceImpl implements MyPlantService {
 		myPlantRepo.findByAccountIdAndPlantId(
 			accountId, plantId));
 
+    }
+
+    @Override
+    public Map<Long, Boolean> getPlantStatus() {
+
+	Collection<PlantItem> plants = plantRepo
+		.findAllProjectedBy();
+	Set<MyPlantDetail> myPlants = myPlantRepo
+		.findByAccountId(getAccountId());
+
+	Map<Long, Boolean> myPlantStatus = new HashMap<>();
+	for (PlantItem plant : plants) {
+	    Boolean isMyPlant = false;
+	    for (MyPlantDetail myPlant : myPlants) {
+		if (plant.getId().equals(myPlant.getId())) {
+		    isMyPlant = true;
+
+		}
+	    }
+	    myPlantStatus.put(plant.getId(), isMyPlant);
+	}
+	return myPlantStatus;
     }
 
 }

@@ -8,8 +8,8 @@
         hydrationLevels: [],
         sunlightLevels: [],
         plants: [],
+        plantStatus: {},
         input: "",
-        myPlants: [],
         plantId: null,
       };
     },
@@ -26,10 +26,12 @@
         const resp = await this.$axios.get("/plants");
         this.plants = resp.body;
       },
-      async initMyPlants() {
-        const resp = await this.$axios.get("/my-plants");
-        this.myPlants = resp.body;
+
+      async initPlantStatus() {
+        const resp = await this.$axios.get("/my-plants/status");
+        this.plantStatus = resp.body;
       },
+
       filteredPlantList() {
         return this.plants.filter(
           (plant) =>
@@ -44,19 +46,22 @@
           plantId: plant.id,
         };
 
-        //!!check if already isExist in db before adding
-
         await this.$axios.post("my-plants/add", plantData).then((response) => {
-          console.log(response);
-          this.$toast.success("toast-global", this.$t("success.add"));
-        }); //already exist in list err add
+          if (response.status === 204) {
+            console.log(response);
+            this.initPlantStatus();
+            this.$toast.success("toast-global", this.$t("success.add"));
+          } else {
+            this.$toast.error("toast-global", this.$t("error.err"));
+          }
+        });
       },
     },
     beforeMount() {
       this.initHydrationLevels();
       this.initSunlightLevels();
       this.initPlants();
-      this.initMyPlants();
+      this.initPlantStatus();
     },
     mounted() {
       this.filteredPlantList();
@@ -146,7 +151,12 @@
             <p class="card-text text-truncate">{{ plant.description }}</p>
           </div>
           <div class="d-grid d-md-flex justify-content-md-end">
-            <button @click="addPlant(plant)" type="button" class="btn btn-add">
+            <button
+              @click="addPlant(plant)"
+              :disabled="plantStatus[plant.id] === true"
+              type="button"
+              class="btn btn-add"
+            >
               +
             </button>
           </div>

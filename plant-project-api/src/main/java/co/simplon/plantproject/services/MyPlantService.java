@@ -1,5 +1,6 @@
 package co.simplon.plantproject.services;
 
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.coyote.BadRequestException;
@@ -17,5 +18,7 @@ public interface MyPlantService {
     void delete(Long plantId) throws BadRequestException;
 
     boolean exists(Long plantId);
+
+    Map<Long, Boolean> getPlantStatus();
 
 }

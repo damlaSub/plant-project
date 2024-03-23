@@ -12,11 +12,12 @@
         const resp = await this.$axios.get("/my-plants");
         this.myPlants = resp.body;
       },
+
       async deletePlant(id) {
         await this.$axios.delete(`my-plants/${id}/delete`).then((response) => {
           this.$toast.success("toast-global", this.$t("success.delete"));
           this.initMyPlants();
-          console.log(response);
+          this.initPlantStatus();
         });
       },
     },
@@ -61,9 +62,9 @@
             <button
               @click="deletePlant(plant.id)"
               type="button"
-              class="btn btn-add"
+              class="btn btn-delete"
             >
-              -
+              <i class="bi bi-trash"></i>
             </button>
           </div>
         </div>
@@ -72,12 +73,10 @@
   </div>
 </template>
 <style>
-  .btn-add {
-    color: #355e3b;
+  .btn-delete {
+    color: red;
     background-color: #f9f5f1;
-    border-color: black;
-    border-radius: 6%;
-    padding: 1% 4%;
+    border-style: none;
   }
   .btn-down {
     color: #355e3b;

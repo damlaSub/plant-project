@@ -1,5 +1,6 @@
 <script>
   import { useVuelidate } from "@vuelidate/core";
+  import { helpers } from "@vuelidate/validators";
   import { maxLength, minValue, required } from "@vuelidate/validators";
   export default {
     setup() {

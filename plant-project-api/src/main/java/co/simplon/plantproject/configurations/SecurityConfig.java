@@ -64,7 +64,8 @@ public class SecurityConfig {
 		.permitAll()
 		.requestMatchers("/my-plants/{id}",
 			"/my-plants/add",
-			"/my-plants/{id}/delete")
+			"/my-plants/{id}/delete",
+			"/my-plants/status")
 		.hasAuthority("ROLE_USER")
 		.requestMatchers("/plants/admin/create",
 			"/plants/admin/{id}",
