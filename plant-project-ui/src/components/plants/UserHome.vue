@@ -153,7 +153,7 @@
           <div class="d-grid d-md-flex justify-content-md-end">
             <button
               @click="addPlant(plant)"
-              :disabled="plantStatus[plant.id] === true"
+              v-if="plantStatus[plant.id] !== true"
               type="button"
               class="btn btn-add"
             >
