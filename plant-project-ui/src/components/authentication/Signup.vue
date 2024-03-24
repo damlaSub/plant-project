@@ -262,6 +262,6 @@
     border-color: #355e3b;
   }
   .card-footer {
-    background-color: #f4ede7;
+    background-color: #c2cec4;
   }
 </style>

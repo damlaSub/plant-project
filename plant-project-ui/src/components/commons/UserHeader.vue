@@ -28,7 +28,7 @@
   <header class="fixed-top px-5">
     <nav
       class="navbar navbar-expand-lg bg-body-tertiary"
-      style="background-color: #e8d9c9"
+      style="background-color: #355e3b"
     >
       <div class="container-fluid">
         <RouterLink :to="{ name: 'user-home' }" class="navbar-brand">
@@ -118,7 +118,7 @@
     list-style-type: none;
   }
   .user-icon {
-    background-color: #e8d9c9;
+    background-color: #355e3b;
     border-style: none;
   }
 </style>

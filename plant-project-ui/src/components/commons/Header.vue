@@ -1,8 +1,11 @@
+<script>
+  import { RouterLink } from "vue-router";
+</script>
 <template>
   <header class="fixed-top px-5">
     <nav
       class="navbar navbar-expand-lg bg-body-tertiary"
-      style="background-color: #e8d9c9"
+      style="background-color: #355e3b"
     >
       <div class="container-fluid">
         <a class="navbar-brand" href="/"
@@ -58,5 +61,11 @@
 <style>
   li {
     list-style-type: none;
+  }
+  .navbar-brand {
+    font-size: 16px;
+  }
+  .navbar-brand:hover {
+    text-decoration: underline;
   }
 </style>
