@@ -77,6 +77,9 @@
     background-color: #f9f5f1;
     border-style: none;
   }
+  .btn-delete:hover {
+    color: red;
+  }
   .btn-down {
     color: #355e3b;
     background-color: #f9f5f1;

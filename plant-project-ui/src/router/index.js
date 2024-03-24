@@ -30,7 +30,7 @@ const router = createRouter({
       path: "/admin/plants/create",
       name: "create",
       components: {
-        navbar: () => import("../components/commons/AdminHeader.vue"),
+        navbar: () => import("../components/plants/admin/AdminHeader.vue"),
         default: () => import("../views/CreatePlantView.vue"),
       },
       meta: { requiresAuth: true, role: admin },
@@ -39,7 +39,7 @@ const router = createRouter({
       path: "/admin/plants",
       name: "edit",
       components: {
-        navbar: () => import("../components/commons/AdminHeader.vue"),
+        navbar: () => import("../components/plants/admin/AdminHeader.vue"),
         default: () => import("../views/EditPlantsView.vue"),
       },
       meta: { requiresAuth: true, role: admin },
@@ -48,7 +48,7 @@ const router = createRouter({
       path: "/admin/plants/:id/update",
       name: "update",
       components: {
-        navbar: () => import("../components/commons/AdminHeader.vue"),
+        navbar: () => import("../components/plants/admin/AdminHeader.vue"),
         default: () => import("../views/UpdatePlantView.vue"),
       },
       meta: { requiresAuth: true, role: admin },
@@ -57,7 +57,7 @@ const router = createRouter({
       path: "/dashboard",
       name: "dashboard",
       components: {
-        navbar: () => import("../components/commons/UserHeader.vue"),
+        navbar: () => import("../components/plants/user/UserHeader.vue"),
         default: () => import("../views/UserDashboardView.vue"),
       },
       meta: { requiresAuth: true, role: user },
@@ -66,7 +66,7 @@ const router = createRouter({
       path: "/user/home",
       name: "user-home",
       components: {
-        navbar: () => import("../components/commons/UserHeader.vue"),
+        navbar: () => import("../components/plants/user/UserHeader.vue"),
         default: () => import("../views/UserHomeView.vue"),
       },
       meta: { requiresAuth: true, role: user },

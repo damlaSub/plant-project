@@ -1,5 +1,5 @@
 <script setup>
-  import UpdatePlant from "../components/plants/UpdatePlant.vue";
+  import UpdatePlant from "../components/plants/admin/UpdatePlant.vue";
 </script>
 <template>
   <UpdatePlant />

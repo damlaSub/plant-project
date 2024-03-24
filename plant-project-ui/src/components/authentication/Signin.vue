@@ -55,7 +55,6 @@
                 this.$router.push("/user/home");
               }
             })
-
             .catch((error) => {
               if (error.response.data && error.response.status === 401) {
                 (this.showErrorTooltip = true),
@@ -63,6 +62,9 @@
                     "tooltip-global",
                     error.response.data.description
                   );
+              } else {
+                (this.showErrorTooltip = true),
+                  this.$tooltip.error("tooltip-global", this.$t("error.try"));
               }
             });
         }
@@ -179,22 +181,4 @@
   .card-footer {
     background-color: #f4ede7;
   }
-
-  /* #tooltip-global.text-bg-danger {
-    /* margin-bottom: 150px; */
-  /*  display: block;
-    width: 100%;
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: white;
-    background-color: red;
-    background-clip: padding-box;
-
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    border-radius: 0.375rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  } */
 </style>

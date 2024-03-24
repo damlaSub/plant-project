@@ -34,19 +34,23 @@
 <template>
   <div class="mb-3 p-5">
     <div class="d-grid d-md-flex justify-content-md-end mt-5">
-      <a class="create-a" href="/admin/plants/create"
-        ><button role="button" class="btn btn-create m-4">
+      <RouterLink :to="{ name: 'create' }" class="admin-create">
+        <button role="button" class="btn btn-create m-4">
           <i class="bi bi-plus-circle"></i> {{ $t("title.createPlant") }}
-        </button></a
+        </button></RouterLink
       >
     </div>
     <div class="container-xl">
       <div class="row row-title fw-bold py-3 px-3">
-        <div class="col">{{ $t("title.common") }}</div>
+        <div class="col text-center">{{ $t("title.common") }}</div>
         <div class="col">{{ $t("title.latin") }}</div>
-        <div class="col">{{ $t("title.hydration") }}</div>
-        <div class="col">{{ $t("title.sunlight") }}</div>
-        <div class="col">{{ $t("title.action") }}</div>
+        <div class="col text-center d-none d-sm-block">
+          {{ $t("title.hydration") }}
+        </div>
+        <div class="col text-center text-end d-none d-sm-block">
+          {{ $t("title.sunlight") }}
+        </div>
+        <div class="col text-end">{{ $t("title.action") }}</div>
       </div>
     </div>
 
@@ -78,10 +82,16 @@
             </div>
           </div>
         </div>
-        <div class="col text-truncate">{{ plant.latinName }}</div>
-        <div class="col">{{ plant.hydration.name }}</div>
-        <div class="col">{{ plant.sunlight.name }}</div>
-        <div class="col">
+        <div class="col text-truncate">
+          {{ plant.latinName }}
+        </div>
+        <div class="col text-center d-none d-sm-block">
+          {{ plant.hydration.name }}
+        </div>
+        <div class="col text-center d-none d-sm-block">
+          {{ plant.sunlight.name }}
+        </div>
+        <div class="col text-center">
           <RouterLink
             :to="{ name: 'update', params: { id: plant.id } }"
             title="Update plant"
@@ -168,7 +178,7 @@
     border-radius: 50%;
   }
   .collapsing {
-    transition-duration: 0.1s; /* Adjust this value as needed */
+    transition-duration: 0.1s;
   }
   button.btn.btn-collapse {
     position: relative;

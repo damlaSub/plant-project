@@ -92,6 +92,9 @@
                     "tooltip-global",
                     error.response.data.description
                   );
+              } else {
+                (this.showErrorTooltip = true),
+                  this.$tooltip.error("tooltip-global", this.$t("error.try"));
               }
             });
         }

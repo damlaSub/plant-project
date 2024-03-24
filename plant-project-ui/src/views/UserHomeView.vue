@@ -1,5 +1,5 @@
 <script setup>
-  import UserHome from "../components/plants/UserHome.vue";
+  import UserHome from "../components/plants/user/UserHome.vue";
 </script>
 <template>
   <UserHome />

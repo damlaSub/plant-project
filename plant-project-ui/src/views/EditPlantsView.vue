@@ -1,5 +1,5 @@
 <script setup>
-  import EditPlants from "../components/plants/EditPlants.vue";
+  import EditPlants from "../components/plants/admin/EditPlants.vue";
 </script>
 <template>
   <EditPlants />

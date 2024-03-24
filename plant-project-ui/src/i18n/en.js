@@ -48,6 +48,7 @@ const messages = {
     img: "Image size must be less than 500ko",
     desc: "Maximum of 1000 chars",
     err: "An error occured.",
+    try: "An error occured. Please try again",
   },
   success: {
     add: "Plant added with success.",

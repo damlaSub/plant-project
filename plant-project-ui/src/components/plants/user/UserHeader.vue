@@ -33,7 +33,7 @@
       <div class="container-fluid">
         <RouterLink :to="{ name: 'user-home' }" class="navbar-brand">
           <img
-            src="../../assets/plant.png"
+            src="../../../assets/plant.png"
             alt="Bootstrap"
             width="60"
             height="48"
@@ -66,7 +66,7 @@
               <ul class="px-3">
                 <li class="nav-item fs-5">
                   <button
-                    class="user-icon d-md-block d-none"
+                    class="user-icon d-lg-block d-none"
                     type="button"
                     data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasRight"
@@ -77,14 +77,14 @@
                 </li>
               </ul>
               <ul class="px-3">
-                <li class="d-md-block d-none">
+                <li class="d-lg-block d-none">
                   <span>{{ userName }} </span>
                 </li>
-                <li class="d-md-none d-block">
+                <li class="d-lg-none d-block">
                   <i class="bi bi-person-circle canva"></i>
                   <span>{{ userName }} </span>
                 </li>
-                <li class="d-md-none d-block">
+                <li class="d-lg-none d-block">
                   <i class="bi bi-house-door canva"></i>
                   <RouterLink
                     :to="{ name: 'user-home' }"
@@ -92,7 +92,7 @@
                     >{{ $t("title.home") }}</RouterLink
                   >
                 </li>
-                <li class="d-md-none d-block">
+                <li class="d-lg-none d-block">
                   <i class="bi bi-flower1 canva"></i>
                   <RouterLink :to="{ name: 'dashboard' }" class="my-plant">{{
                     $t("title.myPlants")

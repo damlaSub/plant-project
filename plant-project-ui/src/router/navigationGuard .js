@@ -4,7 +4,6 @@ const navigationGuard = (to, from, next) => {
   const admin = "ADMIN";
   const user = "USER";
   if (to.meta.requiresAuth && isAuthenticated == undefined) {
-    // Redirect to sign in if trying to access a protected route without authentication
     next("/signin");
   } else if (
     (to.meta.requiresAuth == false && isAuthenticated && role.includes(user)) ||

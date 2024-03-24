@@ -33,7 +33,7 @@
       <div class="container-fluid">
         <RouterLink :to="{ name: 'edit' }" class="navbar-brand">
           <img
-            src="../../assets/plant.png"
+            src="../../../assets/plant.png"
             alt="Bootstrap"
             width="60"
             height="48"
@@ -55,11 +55,7 @@
             style="--bs-scroll-height: 100px"
           >
             <li class="nav-item">
-              <a
-                class="nav-link active navbar-brand"
-                aria-current="page"
-                href="/admin/plants"
-              ></a>
+              <RouterLink :to="{ name: 'home' }"></RouterLink>
             </li>
           </ul>
           <li class="nav-item dropdown">
