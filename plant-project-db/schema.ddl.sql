@@ -64,6 +64,7 @@ CREATE TABLE account_plants (
 	id SERIAL NOT NULL,
 	account_id INTEGER NOT NULL,
 	plant_id INTEGER NOT NULL,
+	UNIQUE(account_id, plant_id),
 	CONSTRAINT accounts_account_id_fk FOREIGN KEY (account_id) REFERENCES accounts(id),
 	CONSTRAINT plants_plant_id_fk FOREIGN KEY (plant_id) REFERENCES plants(id),
 	CONSTRAINT account_plants_pk PRIMARY KEY (id)
