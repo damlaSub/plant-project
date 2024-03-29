@@ -2,8 +2,6 @@ package co.simplon.plantproject.customValidation;
 
 import java.util.Objects;
 
-import org.springframework.security.authentication.BadCredentialsException;
-
 import co.simplon.plantproject.services.AuthService;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -23,8 +21,7 @@ public class UniqueAccountEmailValidator implements
 	    ConstraintValidatorContext context) {
 	if ((Objects.nonNull(email))
 		&& this.service.existsByEmail(email)) {
-	    throw new BadCredentialsException(
-		    "This email is already associated with an account");
+	    return false;
 	}
 	return true;
 

@@ -1,11 +1,13 @@
 package co.simplon.plantproject.dtos;
 
+import co.simplon.plantproject.customValidation.SamePasswords;
 import co.simplon.plantproject.customValidation.UniqueAccountEmail;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+@SamePasswords
 public class AccountCreateDto {
 
     @NotBlank
@@ -25,6 +27,9 @@ public class AccountCreateDto {
 
     @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,32}$")
     private String password;
+
+    @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,32}$")
+    private String confirm;
 
     public AccountCreateDto() {
 	super();
@@ -63,11 +68,20 @@ public class AccountCreateDto {
 	this.password = password;
     }
 
+    public String getConfirm() {
+	return confirm;
+    }
+
+    public void setConfirm(String confirm) {
+	this.confirm = confirm;
+    }
+
     @Override
     public String toString() {
 	return "{firstName=" + firstName + ", lastName="
 		+ lastName + ", email=" + email
-		+ ", password=" + password + "}";
+		+ ", password=" + password + ", confirm="
+		+ confirm + "}";
     }
 
 }

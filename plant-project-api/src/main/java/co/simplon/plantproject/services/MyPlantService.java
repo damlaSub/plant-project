@@ -3,6 +3,8 @@ package co.simplon.plantproject.services;
 import java.util.Map;
 import java.util.Set;
 
+import javax.security.auth.login.AccountNotFoundException;
+
 import org.apache.coyote.BadRequestException;
 
 import co.simplon.plantproject.dtos.MyPlantAddDto;
@@ -13,11 +15,12 @@ public interface MyPlantService {
     Set<MyPlantDetail> getAll();
 
     void add(MyPlantAddDto inputs)
-	    throws BadRequestException;
+	    throws BadRequestException,
+	    AccountNotFoundException;
 
-    void delete(Long plantId) throws BadRequestException;
+    void delete(Long plantId);
 
-    boolean exists(Long plantId);
+    boolean existsByPlantId(Long plantId);
 
     Map<Long, Boolean> getPlantStatus();
 

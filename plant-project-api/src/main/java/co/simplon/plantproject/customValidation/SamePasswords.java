@@ -9,17 +9,15 @@ import java.lang.annotation.Target;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
-@Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = MaxSizeValidator.class)
+@Target(ElementType.TYPE)
 @Documented
-public @interface MaxSize {
+@Constraint(validatedBy = SamePasswordsValidator.class)
+public @interface SamePasswords {
 
     String message() default "";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
-
-    long maxSizeInMB() default 512;
 }

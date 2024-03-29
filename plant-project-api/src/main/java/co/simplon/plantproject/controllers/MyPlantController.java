@@ -3,6 +3,8 @@ package co.simplon.plantproject.controllers;
 import java.util.Map;
 import java.util.Set;
 
+import javax.security.auth.login.AccountNotFoundException;
+
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,7 +41,8 @@ public class MyPlantController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void add(
 	    @Valid @RequestBody MyPlantAddDto inputs)
-	    throws BadRequestException {
+	    throws BadRequestException,
+	    AccountNotFoundException {
 	service.add(inputs);
     }
 

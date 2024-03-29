@@ -3,7 +3,6 @@ package co.simplon.plantproject.services;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Set;
 
@@ -20,6 +19,7 @@ import co.simplon.plantproject.dtos.PlantItem;
 import co.simplon.plantproject.entities.Account;
 import co.simplon.plantproject.entities.MyPlant;
 import co.simplon.plantproject.entities.Plant;
+import co.simplon.plantproject.errors.AccountNotFoundException;
 import co.simplon.plantproject.repositories.AccountRepository;
 import co.simplon.plantproject.repositories.MyPlantRepository;
 import co.simplon.plantproject.repositories.PlantRepository;
@@ -50,7 +50,8 @@ public class MyPlantServiceImpl implements MyPlantService {
     @Override
     @Transactional
     public void add(MyPlantAddDto inputs)
-	    throws BadRequestException {
+	    throws BadRequestException,
+	    AccountNotFoundException {
 	Long accountId = getAccountId();
 	if ((Objects.nonNull(accountId))) {
 	    Account account = accountRepo
@@ -59,13 +60,15 @@ public class MyPlantServiceImpl implements MyPlantService {
 		MyPlant entity = new MyPlant();
 		Long plantId = inputs.getPlantId();
 		Plant plant = plantRepo.findById(plantId)
-			.orElse(null);
+			.orElseThrow(
+				() -> new AccountNotFoundException(
+					"Account not found"));
 		if (Objects.nonNull(plant)
-			&& !exists(plantId)) {
+			&& !existsByPlantId(plantId)) {
 		    entity.setPlant(plant);
 		    entity.setAccount(account);
 		    myPlantRepo.save(entity);
-		} else if (exists(plantId)) {
+		} else if (existsByPlantId(plantId)) {
 		    throw new BadRequestException(
 			    "Plant already exists in my plants");
 		}
@@ -75,12 +78,8 @@ public class MyPlantServiceImpl implements MyPlantService {
 
     @Override
     @Transactional
-    public void delete(Long plantId)
-	    throws NoSuchElementException {
-	if (!exists(plantId)) {
-	    throw new NoSuchElementException(
-		    "Plant does not exists in my plants");
-	}
+    public void delete(Long plantId) {
+
 	MyPlant entity = myPlantRepo
 		.findByAccountIdAndPlantId(getAccountId(),
 			plantId);
@@ -100,7 +99,7 @@ public class MyPlantServiceImpl implements MyPlantService {
     }
 
     @Override
-    public boolean exists(Long plantId) {
+    public boolean existsByPlantId(Long plantId) {
 	Long accountId = getAccountId();
 	return Objects.nonNull(
 		myPlantRepo.findByAccountIdAndPlantId(

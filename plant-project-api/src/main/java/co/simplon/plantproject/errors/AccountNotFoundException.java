@@ -1,10 +1,11 @@
 package co.simplon.plantproject.errors;
 
 @SuppressWarnings("serial")
-public class ResourceNotFoundException
+public class AccountNotFoundException
 	extends RuntimeException {
 
-    public ResourceNotFoundException(String msg) {
+    public AccountNotFoundException(String msg) {
 	super(msg);
     }
+
 }

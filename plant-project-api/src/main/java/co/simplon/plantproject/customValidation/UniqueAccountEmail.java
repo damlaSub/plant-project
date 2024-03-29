@@ -14,7 +14,7 @@ import jakarta.validation.Payload;
 @Documented
 @Constraint(validatedBy = UniqueAccountEmailValidator.class)
 public @interface UniqueAccountEmail {
-    String message() default "This email is already associated with an account.";
+    String message() default "";
 
     Class<?>[] groups() default {};
 

@@ -15,7 +15,7 @@ import jakarta.validation.Payload;
 @Constraint(validatedBy = FileTypeValidator.class)
 public @interface FileType {
 
-    String message() default "File type is not valid";
+    String message() default "";
 
     Class<?>[] groups() default {};
 
