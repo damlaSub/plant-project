@@ -1,5 +1,7 @@
 package co.simplon.plantproject.entities;
 
+import java.util.Objects;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -78,6 +80,27 @@ public class Account extends AbstractEntity {
 		+ lastName + ", email=" + email
 		+ ", password=" + password + ", role="
 		+ role + "}";
+    }
+
+    @Override
+    public int hashCode() {
+	return Objects.hash(email);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj) {
+	    return true;
+	}
+	if (obj == null) {
+	    return false;
+	}
+	if (getClass() != obj.getClass()) {
+	    return false;
+	}
+	Account other = (Account) obj;
+	return Objects.equals(email, other.email);
+
     }
 
 }

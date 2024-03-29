@@ -1,5 +1,7 @@
 package co.simplon.plantproject.entities;
 
+import java.util.Objects;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -36,6 +38,26 @@ public class Role extends AbstractEntity {
     @Override
     public String toString() {
 	return "{code=" + code + ", name=" + name + "}";
+    }
+
+    @Override
+    public int hashCode() {
+	return Objects.hash(code);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj) {
+	    return true;
+	}
+	if (obj == null) {
+	    return false;
+	}
+	if (getClass() != obj.getClass()) {
+	    return false;
+	}
+	Role other = (Role) obj;
+	return Objects.equals(code, other.code);
     }
 
 }

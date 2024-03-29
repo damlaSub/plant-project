@@ -1,5 +1,7 @@
 package co.simplon.plantproject.entities;
 
+import java.util.Objects;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
@@ -43,6 +45,27 @@ public class MyPlant extends AbstractEntity {
     public String toString() {
 	return "{account=" + account + ", plant=" + plant
 		+ "}";
+    }
+
+    @Override
+    public int hashCode() {
+	return Objects.hash(account, plant);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj) {
+	    return true;
+	}
+	if (obj == null) {
+	    return false;
+	}
+	if (getClass() != obj.getClass()) {
+	    return false;
+	}
+	MyPlant other = (MyPlant) obj;
+	return Objects.equals(account, other.account)
+		&& Objects.equals(plant, other.plant);
     }
 
 }
