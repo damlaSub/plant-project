@@ -31,7 +31,6 @@ public class Account extends AbstractEntity {
 
     public Account() {
 	super();
-	// TODO Auto-generated constructor stub
     }
 
     public String getFirstName() {

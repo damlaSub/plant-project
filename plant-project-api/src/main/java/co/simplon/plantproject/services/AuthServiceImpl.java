@@ -13,7 +13,7 @@ import co.simplon.plantproject.dtos.RefreshTokenRequest;
 import co.simplon.plantproject.dtos.TokenInfo;
 import co.simplon.plantproject.entities.Account;
 import co.simplon.plantproject.entities.Role;
-import co.simplon.plantproject.errors.ResourceNotFoundException;
+import co.simplon.plantproject.errors.AccountNotFoundException;
 import co.simplon.plantproject.repositories.AccountRepository;
 import co.simplon.plantproject.repositories.RoleRepository;
 import co.simplon.plantproject.utils.AuthHelper;
@@ -83,29 +83,21 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Boolean existsByEmail(String email) {
-	return this.accountRepository
-		.existsByEmailIgnoreCase(email.toString());
-    }
-
-    @Override
     public TokenInfo refreshToken(
 	    RefreshTokenRequest request) {
-
 	String idAsString = authHelper
 		.getIdFromToken(request.getRefreshToken());
 	Long id = Long.parseLong(idAsString);
 	Optional<Account> account = Optional.ofNullable(
 		accountRepository.findById(id).orElseThrow(
-			() -> new ResourceNotFoundException(
+			() -> new AccountNotFoundException(
 				"Account not found")));
 	return createTokenFromAccount(account
 		.orElseThrow(() -> new RuntimeException(
-			"An error occured during refresh token creation")));
+			"An error occured during token creation")));
     }
 
-    @Override
-    public TokenInfo createTokenFromAccount(
+    protected TokenInfo createTokenFromAccount(
 	    Account account) {
 	String id = String.valueOf(account.getId());
 	String roleCode = account.getRole().getCode();
@@ -115,15 +107,14 @@ public class AuthServiceImpl implements AuthService {
 	tokenInfo.setRole(roleCode);
 	tokenInfo.setFirstName(account.getFirstName());
 	String refreshToken;
-	try {
-	    refreshToken = authHelper.createRefreshJWT(id);
-	} catch (Exception e) {
-	    throw new RuntimeException(
-		    "An error occured during token creation",
-		    e);
-	}
+	refreshToken = authHelper.createRefreshJWT(id);
 	tokenInfo.setRefreshToken(refreshToken);
 	return tokenInfo;
     }
 
+    @Override
+    public Boolean existsByEmail(String email) {
+	return this.accountRepository
+		.existsByEmailIgnoreCase(email.toString());
+    }
 }

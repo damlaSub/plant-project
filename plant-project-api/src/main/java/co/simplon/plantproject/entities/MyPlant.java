@@ -22,7 +22,6 @@ public class MyPlant extends AbstractEntity {
 
     public MyPlant() {
 	super();
-	// TODO Auto-generated constructor stub
     }
 
     public Account getAccount() {

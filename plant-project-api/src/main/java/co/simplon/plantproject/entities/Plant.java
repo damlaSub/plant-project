@@ -23,26 +23,6 @@ public class Plant extends AbstractEntity {
     @Column(name = "description")
     private String description;
 
-    @Override
-    public int hashCode() {
-	return Objects.hash(latinName);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-	if (this == obj) {
-	    return true;
-	}
-	if (obj == null) {
-	    return false;
-	}
-	if (getClass() != obj.getClass()) {
-	    return false;
-	}
-	Plant other = (Plant) obj;
-	return Objects.equals(latinName, other.latinName);
-    }
-
     @Column(name = "image")
     private String image;
 
@@ -124,6 +104,26 @@ public class Plant extends AbstractEntity {
 		+ ", image=" + image + ", addedAt="
 		+ addedAt + ", hydration=" + hydration
 		+ ", sunlight=" + sunlight + "}";
+    }
+
+    @Override
+    public int hashCode() {
+	return Objects.hash(latinName);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj) {
+	    return true;
+	}
+	if (obj == null) {
+	    return false;
+	}
+	if (getClass() != obj.getClass()) {
+	    return false;
+	}
+	Plant other = (Plant) obj;
+	return Objects.equals(latinName, other.latinName);
     }
 
 }

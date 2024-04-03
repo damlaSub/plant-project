@@ -4,7 +4,6 @@ import co.simplon.plantproject.dtos.AccountCreateDto;
 import co.simplon.plantproject.dtos.AccountSigninDto;
 import co.simplon.plantproject.dtos.RefreshTokenRequest;
 import co.simplon.plantproject.dtos.TokenInfo;
-import co.simplon.plantproject.entities.Account;
 
 public interface AuthService {
 
@@ -16,8 +15,5 @@ public interface AuthService {
 
     public TokenInfo refreshToken(
 	    RefreshTokenRequest request);
-
-    public TokenInfo createTokenFromAccount(
-	    Account account);
 
 }

@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import org.apache.coyote.BadRequestException;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +20,7 @@ import co.simplon.plantproject.entities.Account;
 import co.simplon.plantproject.entities.MyPlant;
 import co.simplon.plantproject.entities.Plant;
 import co.simplon.plantproject.errors.AccountNotFoundException;
+import co.simplon.plantproject.errors.Conflict;
 import co.simplon.plantproject.repositories.AccountRepository;
 import co.simplon.plantproject.repositories.MyPlantRepository;
 import co.simplon.plantproject.repositories.PlantRepository;
@@ -49,29 +50,26 @@ public class MyPlantServiceImpl implements MyPlantService {
 
     @Override
     @Transactional
-    public void add(MyPlantAddDto inputs)
-	    throws BadRequestException,
-	    AccountNotFoundException {
+    public void add(MyPlantAddDto inputs) {
 	Long accountId = getAccountId();
-	if ((Objects.nonNull(accountId))) {
-	    Account account = accountRepo
-		    .findById(accountId).orElse(null);
-	    if ((Objects.nonNull(account))) {
-		MyPlant entity = new MyPlant();
-		Long plantId = inputs.getPlantId();
-		Plant plant = plantRepo.findById(plantId)
-			.orElseThrow(
-				() -> new AccountNotFoundException(
-					"Account not found"));
-		if (Objects.nonNull(plant)
-			&& !existsByPlantId(plantId)) {
-		    entity.setPlant(plant);
-		    entity.setAccount(account);
-		    myPlantRepo.save(entity);
-		} else if (existsByPlantId(plantId)) {
-		    throw new BadRequestException(
-			    "Plant already exists in my plants");
-		}
+	Account account = accountRepo.findById(accountId)
+		.orElseThrow(
+			() -> new AccountNotFoundException(
+				"Account not found"));
+
+	if ((Objects.nonNull(account))) {
+	    MyPlant entity = new MyPlant();
+	    Long plantId = inputs.getPlantId();
+	    Plant plant = plantRepo.findById(plantId)
+		    .orElse(null);
+	    if (Objects.nonNull(plant)
+		    && !existsByPlantId(plantId)) {
+		entity.setPlant(plant);
+		entity.setAccount(account);
+		myPlantRepo.save(entity);
+	    } else if (existsByPlantId(plantId)) {
+		throw new Conflict(HttpStatus.CONFLICT,
+			"Plant already exists in my plants");
 	    }
 	}
     }
@@ -121,7 +119,6 @@ public class MyPlantServiceImpl implements MyPlantService {
 	    for (MyPlantDetail myPlant : myPlants) {
 		if (plant.getId().equals(myPlant.getId())) {
 		    isMyPlant = true;
-
 		}
 	    }
 	    myPlantStatus.put(plant.getId(), isMyPlant);

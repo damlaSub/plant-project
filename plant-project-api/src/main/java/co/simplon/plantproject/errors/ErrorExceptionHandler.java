@@ -2,11 +2,11 @@ package co.simplon.plantproject.errors;
 
 import java.util.List;
 
-import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -16,8 +16,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-@RestControllerAdvice
+import com.auth0.jwt.exceptions.JWTVerificationException;
 
+@RestControllerAdvice
 class ErrorExceptionHandler
 	extends ResponseEntityExceptionHandler {
 
@@ -31,25 +32,46 @@ class ErrorExceptionHandler
 		HttpStatus.UNAUTHORIZED);
     }
 
-//    // @ExceptionHandler(HttpClientErrorException.Forbidden.class)
-//    @ExceptionHandler(Forbidden.class)
-//    protected ResponseEntity<ErrorMessage> handleForbiddenException(
-//	    HttpClientErrorException.Forbidden ex) {
-//	ErrorMessage errorMessage = new ErrorMessage(
-//		 HttpStatus.FORBIDDEN.value(),
-//		"Forbidden", ex.getMessage());
-//	return new ResponseEntity<>(errorMessage,
-//		HttpStatus.FORBIDDEN);
-//    }
-
-    @ExceptionHandler(ResourceNotFoundException.class)
-    protected ResponseEntity<ErrorMessage> handleResourceNotFoundException(
-	    ResourceNotFoundException ex) {
+    @ExceptionHandler(AccountNotFoundException.class)
+    protected ResponseEntity<ErrorMessage> handleAccountNotFoundException(
+	    AccountNotFoundException ex) {
 	ErrorMessage errorMessage = new ErrorMessage(
-		HttpStatus.NOT_FOUND.value(), "Not found",
+		HttpStatus.UNAUTHORIZED.value(),
+		"Unauthoried", ex.getMessage());
+	return new ResponseEntity<>(errorMessage,
+		HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(Conflict.class)
+    protected ResponseEntity<ErrorMessage> handleConflict(
+	    Conflict ex) {
+	ErrorMessage errorMessage = new ErrorMessage(
+		HttpStatus.CONFLICT.value(), "Conflict",
 		ex.getMessage());
 	return new ResponseEntity<>(errorMessage,
-		HttpStatus.NOT_FOUND);
+		HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(JWTVerificationException.class)
+    protected ResponseEntity<ErrorMessage> handleJWTVerificationException(
+	    JWTVerificationException ex) {
+	ErrorMessage errorMessage = new ErrorMessage(
+		HttpStatus.FORBIDDEN.value(),
+		"JWTVerificationException",
+		ex.getMessage());
+	return new ResponseEntity<>(errorMessage,
+		HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(AuthenticationServiceException.class)
+    protected ResponseEntity<ErrorMessage> handleAuthenticationServiceException(
+	    AuthenticationServiceException ex) {
+	ErrorMessage errorMessage = new ErrorMessage(
+		HttpStatus.UNAUTHORIZED.value(),
+		"AuthenticationServiceException",
+		ex.getMessage());
+	return new ResponseEntity<>(errorMessage,
+		HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(Exception.class)
@@ -62,16 +84,6 @@ class ErrorExceptionHandler
 
 	return new ResponseEntity<ErrorMessage>(message,
 		HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @ExceptionHandler(BadRequestException.class)
-    protected ResponseEntity<ErrorMessage> handleBadRequestException(
-	    BadRequestException ex) {
-	ErrorMessage errorMessage = new ErrorMessage(
-		HttpStatus.BAD_REQUEST.value(),
-		"Bad request", ex.getMessage());
-	return new ResponseEntity<>(errorMessage,
-		HttpStatus.BAD_REQUEST);
     }
 
     @Override

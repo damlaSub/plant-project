@@ -21,8 +21,6 @@ public class Sunlight extends AbstractEntity {
 
     public Sunlight() {
 
-// TODO Auto-generated constructor stub
-
     }
 
     public String getCode() {

@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -51,40 +51,37 @@ public class SecurityConfig {
     }
 
     @Bean
-    SecurityFilterChain securityFilterChain(
-	    HttpSecurity http) throws Exception {
-	http.authorizeHttpRequests(authorize -> authorize
-		.requestMatchers(HttpMethod.POST,
-			"/auth/sign-in", "/auth/sign-up",
-			"/auth/refresh-token")
-		.permitAll()
-		.requestMatchers(HttpMethod.GET,
-			"/sunlights", "/hydrations",
-			"/plants")
-		.permitAll()
-		.requestMatchers("/my-plants/{id}",
-			"/my-plants/add",
-			"/my-plants/{id}/delete",
-			"/my-plants/status")
-		.hasAuthority("ROLE_USER")
-		.requestMatchers("/plants/admin/create",
-			"/plants/admin/{id}",
-			"/plants/admin/{id}/for-update",
-			"/plants/admin/{id}/delete")
-		.hasAuthority("ROLE_ADMIN").anyRequest()
-		.authenticated())
-		.oauth2ResourceServer(
-			oauth2 -> oauth2.jwt(jwt -> {
-			    try {
-				jwt.decoder(jwtDecoder());
-			    } catch (Exception e) {
-				// TODO custom error
-				e.printStackTrace();
-			    }
-			}))
-		.csrf(AbstractHttpConfigurer::disable);
+    SecurityFilterChain filterChain(HttpSecurity http)
+	    throws Exception {
+	http.cors(Customizer.withDefaults())
+		.csrf(csrf -> csrf.disable())
+		.authorizeHttpRequests((authz) -> authz
+			.requestMatchers(HttpMethod.POST,
+				"/auth/sign-in",
+				"/auth/sign-up",
+				"/auth/refresh-token")
+			.permitAll()
+			.requestMatchers(HttpMethod.GET,
+				"/sunlights", "/hydrations",
+				"/plants")
+			.permitAll()
+			.requestMatchers("/my-plants/{id}",
+				"/my-plants/add",
+				"/my-plants/{id}/delete",
+				"/my-plants/status")
+			.hasAuthority("ROLE_USER")
+			.requestMatchers(
+				"/plants/admin/create",
+				"/plants/admin/{id}",
+				"/plants/admin/{id}/for-update",
+				"/plants/admin/{id}/delete")
+			.hasAuthority("ROLE_ADMIN")
+			.anyRequest().authenticated())
+		.oauth2ResourceServer((
+			oauth2ResourceServer) -> oauth2ResourceServer
+				.jwt(Customizer
+					.withDefaults()));
 	return http.build();
-
     }
 
     @Bean

@@ -23,8 +23,6 @@ public class Hydration extends AbstractEntity {
 
     public Hydration() {
 
-// TODO Auto-generated constructor stub
-
     }
 
     public String getCode() {
