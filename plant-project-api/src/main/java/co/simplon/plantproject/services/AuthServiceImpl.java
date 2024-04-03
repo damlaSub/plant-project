@@ -97,8 +97,7 @@ public class AuthServiceImpl implements AuthService {
 			"An error occured during token creation")));
     }
 
-    protected TokenInfo createTokenFromAccount(
-	    Account account) {
+    TokenInfo createTokenFromAccount(Account account) {
 	String id = String.valueOf(account.getId());
 	String roleCode = account.getRole().getCode();
 	String token = authHelper.createJWT(roleCode, id);

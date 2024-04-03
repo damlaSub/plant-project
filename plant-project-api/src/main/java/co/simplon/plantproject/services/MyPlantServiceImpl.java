@@ -85,7 +85,7 @@ public class MyPlantServiceImpl implements MyPlantService {
 
     }
 
-    public Long getAccountId() {
+    Long getAccountId() {
 	Authentication authentication = SecurityContextHolder
 		.getContext().getAuthentication();
 	if (!(authentication instanceof AnonymousAuthenticationToken)) {
@@ -102,12 +102,10 @@ public class MyPlantServiceImpl implements MyPlantService {
 	return Objects.nonNull(
 		myPlantRepo.findByAccountIdAndPlantId(
 			accountId, plantId));
-
     }
 
     @Override
     public Map<Long, Boolean> getPlantStatus() {
-
 	Collection<PlantItem> plants = plantRepo
 		.findAllProjectedBy();
 	Set<MyPlantDetail> myPlants = myPlantRepo
