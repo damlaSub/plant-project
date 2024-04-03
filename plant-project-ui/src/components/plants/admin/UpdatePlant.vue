@@ -76,7 +76,7 @@
             this.$router.push("/admin/plants");
           } else {
             console.log(resp.status);
-            this.$toast.error("toast-global", this.$t("error.err"));
+            this.$toast.error("toast-global", this.$t("error.try"));
           }
         }
       },

@@ -72,10 +72,6 @@ const router = createRouter({
       meta: { requiresAuth: true, role: user },
     },
     {
-      path: "/forbidden",
-      component: () => import("../components/commons/Forbidden.vue"),
-    },
-    {
       path: "/:catchAll(.*)",
       component: () => import("../components/commons/NotFound.vue"),
     },

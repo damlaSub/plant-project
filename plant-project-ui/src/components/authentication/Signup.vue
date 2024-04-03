@@ -66,6 +66,7 @@
         },
       };
     },
+
     methods: {
       async submitForm() {
         const valid = await this.v$.$validate();
@@ -75,6 +76,7 @@
             lastName: this.inputs.lastName,
             email: this.inputs.email,
             password: this.inputs.password,
+            confirm: this.inputs.confirm,
           };
           localStorage.clear();
           await this.$axios
@@ -86,12 +88,19 @@
               }
             })
             .catch((error) => {
-              if (error.response.status === 401) {
-                (this.showErrorTooltip = true),
-                  this.$tooltip.error(
-                    "tooltip-global",
-                    error.response.data.description
-                  );
+              if (error.response && error.response.status === 400) {
+                const fieldErrors = error.response.data.fieldErrors;
+                if (
+                  fieldErrors &&
+                  fieldErrors.email &&
+                  fieldErrors.email.includes("UniqueAccountEmail")
+                ) {
+                  (this.showErrorTooltip = true),
+                    this.$tooltip.error(
+                      "tooltip-global",
+                      this.$t("error.customValid.emailExists")
+                    );
+                }
               } else {
                 (this.showErrorTooltip = true),
                   this.$tooltip.error("tooltip-global", this.$t("error.try"));
@@ -265,6 +274,6 @@
     border-color: #355e3b;
   }
   .card-footer {
-    background-color: #c2cec4;
+    background-color: #f4ede7;
   }
 </style>

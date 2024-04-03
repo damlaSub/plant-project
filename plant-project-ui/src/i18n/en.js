@@ -45,10 +45,13 @@ const messages = {
     common: "Maximum of 100 chars",
     latin: "Maximum of 200 chars",
     required: "The value is required",
-    img: "Image size must be less than 500ko",
+    img: "Image size must be less than 500ko.",
     desc: "Maximum of 1000 chars",
-    err: "An error occured.",
-    try: "An error occured. Please try again",
+    try: "An error occured. Please try again.",
+    customValid: {
+      emailExists: "This email is already associated with an account.",
+      confirmedPsw: "Password and confirmed password does not match. ",
+    },
   },
   success: {
     add: "Plant added with success.",

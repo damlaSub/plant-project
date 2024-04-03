@@ -52,7 +52,7 @@
             this.initPlantStatus();
             this.$toast.success("toast-global", this.$t("success.add"));
           } else {
-            this.$toast.error("toast-global", this.$t("error.err"));
+            this.$toast.error("toast-global", this.$t("error.try"));
           }
         });
       },

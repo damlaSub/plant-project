@@ -22,7 +22,7 @@
           this.$toast.success("toast-global", this.$t("success.delete"));
         } else {
           console.log(resp);
-          this.$toast.error("toast-global", this.$t("error.err"));
+          this.$toast.error("toast-global", this.$t("error.try"));
         }
       },
     },

@@ -1,7 +1,7 @@
 import axios from "axios";
 import Base64 from "base-64";
 
-const ACCEPTED_STATUS = [200, 201, 202, 204, 400];
+const ACCEPTED_STATUS = [200, 201, 202, 204];
 
 export default {
   install: (app) => {
@@ -39,11 +39,12 @@ async function handleResponse(response) {
 }
 
 function handleErrorResponse(error) {
-  // if (error.response && error.response.status === 401) {
-  //   handleRefreshTokenError();
-  // } else if (error.response && error.response.status === 403) {
-  //   handleForbiddenError();
-  // }
+  if (
+    (error.response && error.response.status === 401) ||
+    error.response.status === 403
+  ) {
+    handleAuthError();
+  }
   return Promise.reject(error);
 }
 
@@ -57,7 +58,7 @@ async function handleRequest(config) {
       config.headers.Authorization = `Bearer ${newToken}`;
     } catch (error) {
       console.error("RefreshToken failed:", error);
-      handleRefreshTokenError();
+      handleAuthError();
       return Promise.reject(error);
     }
   } else if (token) {
@@ -119,15 +120,11 @@ async function refreshJWToken() {
     return newToken;
   } catch (error) {
     console.error("Token refresh failed:", error);
-    handleRefreshTokenError();
+    handleAuthError();
   }
 }
 
-function handleRefreshTokenError() {
+function handleAuthError() {
   localStorage.clear();
   $router.push("/signin");
-}
-
-function handleForbiddenError() {
-  $router.push("/forbidden");
 }
