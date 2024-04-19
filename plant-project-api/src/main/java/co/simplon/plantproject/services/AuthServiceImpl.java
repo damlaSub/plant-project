@@ -87,28 +87,42 @@ public class AuthServiceImpl implements AuthService {
 	    RefreshTokenRequest request) {
 	String idAsString = authHelper
 		.getIdFromToken(request.getRefreshToken());
+
 	Long id = Long.parseLong(idAsString);
-	Optional<Account> account = Optional.ofNullable(
+	Optional<Account> optAccount = Optional.of(
 		accountRepository.findById(id).orElseThrow(
-			() -> new AccountNotFoundException(
-				"Account not found")));
-	return createTokenFromAccount(account
-		.orElseThrow(() -> new RuntimeException(
-			"An error occured during token creation")));
+			(() -> new AccountNotFoundException(
+				"Account not found"))));
+	if (optAccount.isPresent()) {
+	    Account account = new Account();
+	    account.setEmail(optAccount.get().getEmail());
+	    account.setFirstName(
+		    optAccount.get().getFirstName());
+	    account.setRole(optAccount.get().getRole());
+	    return createTokenFromAccount(account);
+	}
+	return null;
     }
 
     TokenInfo createTokenFromAccount(Account account) {
-	String id = String.valueOf(account.getId());
-	String roleCode = account.getRole().getCode();
-	String token = authHelper.createJWT(roleCode, id);
-	TokenInfo tokenInfo = new TokenInfo();
-	tokenInfo.setToken(token);
-	tokenInfo.setRole(roleCode);
-	tokenInfo.setFirstName(account.getFirstName());
-	String refreshToken;
-	refreshToken = authHelper.createRefreshJWT(id);
-	tokenInfo.setRefreshToken(refreshToken);
-	return tokenInfo;
+	try {
+	    String id = String.valueOf(account.getId());
+	    String roleCode = account.getRole().getCode();
+	    String token = authHelper.createJWT(roleCode,
+		    id);
+	    TokenInfo tokenInfo = new TokenInfo();
+	    tokenInfo.setToken(token);
+	    tokenInfo.setRole(roleCode);
+	    tokenInfo.setFirstName(account.getFirstName());
+	    String refreshToken;
+	    refreshToken = authHelper.createRefreshJWT(id);
+	    tokenInfo.setRefreshToken(refreshToken);
+	    return tokenInfo;
+	} catch (Exception e) {
+	    throw new RuntimeException(
+		    "An error occurred during token creation",
+		    e);
+	}
     }
 
     @Override

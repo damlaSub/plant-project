@@ -74,16 +74,14 @@ class ErrorExceptionHandler
 		HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler(Exception.class)
-    protected ResponseEntity<ErrorMessage> globalExceptionHandler(
-	    Exception ex, WebRequest request) {
-	ErrorMessage message = new ErrorMessage(
-		HttpStatus.INTERNAL_SERVER_ERROR.value(),
-		ex.getMessage(),
-		request.getDescription(false));
-
-	return new ResponseEntity<ErrorMessage>(message,
-		HttpStatus.INTERNAL_SERVER_ERROR);
+    @ExceptionHandler(NumberFormatException.class)
+    protected ResponseEntity<ErrorMessage> handleNumberFormatException(
+	    NumberFormatException ex) {
+	ErrorMessage errorMessage = new ErrorMessage(
+		HttpStatus.UNAUTHORIZED.value(),
+		"NumberFormatException", ex.getMessage());
+	return new ResponseEntity<>(errorMessage,
+		HttpStatus.UNAUTHORIZED);
     }
 
     @Override
