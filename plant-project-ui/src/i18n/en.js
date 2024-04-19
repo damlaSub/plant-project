@@ -48,6 +48,7 @@ const messages = {
     img: "Image size must be less than 500ko.",
     desc: "Maximum of 1000 chars",
     try: "An error occured. Please try again.",
+    credentials: "Invalid email or password",
     customValid: {
       emailExists: "This email is already associated with an account.",
       confirmedPsw: "Password and confirmed password does not match. ",

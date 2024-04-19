@@ -39,12 +39,6 @@ async function handleResponse(response) {
 }
 
 function handleErrorResponse(error) {
-  if (
-    (error.response && error.response.status === 401) ||
-    error.response.status === 403
-  ) {
-    handleAuthError();
-  }
   return Promise.reject(error);
 }
 

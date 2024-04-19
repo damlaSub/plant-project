@@ -56,15 +56,21 @@
               }
             })
             .catch((error) => {
-              if (error.response.data && error.response.status === 401) {
+              const credentialsError = "Invalid email or password";
+              if (
+                error.response &&
+                error.response.data.status === 401 &&
+                error.response.data.description === credentialsError
+              ) {
                 (this.showErrorTooltip = true),
                   this.$tooltip.error(
                     "tooltip-global",
-                    error.response.data.description
+                    this.$t("error.credentials")
                   );
               } else {
                 (this.showErrorTooltip = true),
                   this.$tooltip.error("tooltip-global", this.$t("error.try"));
+                console.log(error);
               }
             });
         }
