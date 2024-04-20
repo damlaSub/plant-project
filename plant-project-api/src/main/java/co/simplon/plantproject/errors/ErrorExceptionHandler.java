@@ -1,5 +1,6 @@
 package co.simplon.plantproject.errors;
 
+import java.nio.file.NoSuchFileException;
 import java.util.List;
 
 import org.springframework.http.HttpHeaders;
@@ -82,6 +83,16 @@ class ErrorExceptionHandler
 		"NumberFormatException", ex.getMessage());
 	return new ResponseEntity<>(errorMessage,
 		HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(NoSuchFileException.class)
+    protected ResponseEntity<ErrorMessage> handleNoSuchFileException(
+	    NoSuchFileException ex) {
+	ErrorMessage errorMessage = new ErrorMessage(
+		HttpStatus.INTERNAL_SERVER_ERROR.value(),
+		"NoSuchFileException", ex.getMessage());
+	return new ResponseEntity<>(errorMessage,
+		HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override
