@@ -2,7 +2,6 @@ package co.simplon.plantproject.services;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +23,6 @@ public class AuthServiceImpl implements AuthService {
 
     private final AuthHelper authHelper;
 
-    @Autowired(required = true)
     private final AccountRepository accountRepository;
 
     private final RoleRepository roleRepository;
