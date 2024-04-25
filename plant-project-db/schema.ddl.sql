@@ -6,28 +6,28 @@ DROP TABLE IF EXISTS roles CASCADE;
 DROP TABLE IF EXISTS account_plants CASCADE;
 
 CREATE TABLE roles (
-    id SERIAL NOT NULL,
-    role_code VARCHAR(15) NOT NULL,
-    role_name VARCHAR(40) NOT NULL,
+    id SERIAL,
+    role_code VARCHAR(15),
+    role_name VARCHAR(40),
     CONSTRAINT roles_role_code UNIQUE (role_code),
     CONSTRAINT roles_role_name UNIQUE (role_name),
     CONSTRAINT roles_pk PRIMARY KEY (id)
 );
 
 CREATE TABLE accounts (
-	id SERIAL NOT NULL,
+	id SERIAL,
 	first_name VARCHAR(100) NOT NULL,
 	last_name VARCHAR(100) NOT NULL,
 	email VARCHAR(100) NOT NULL,
 	password VARCHAR(100) NOT NULL,
-	role_id INTEGER NOT NULL,
+	role_id INTEGER,
 	CONSTRAINT accounts_email UNIQUE (email),
 	CONSTRAINT accounts_role_id_fk FOREIGN KEY (role_id) REFERENCES roles(id),
 	CONSTRAINT accounts_pk PRIMARY KEY (id)
 );
 
 CREATE TABLE hydration_levels (
-	id SERIAL NOT NULL,
+	id SERIAL,
 	hydration_code VARCHAR(4) NOT NULL,
 	hydration_name VARCHAR(40) NOT NULL,
 	logical_order SMALLINT NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE hydration_levels (
 );
 
 CREATE TABLE sunlight_levels (
-	id SERIAL NOT NULL,
+	id SERIAL,
 	sunlight_code VARCHAR(4) NOT NULL,
 	sunlight_name VARCHAR(40) NOT NULL,
 	logical_order SMALLINT NOT NULL,
@@ -47,13 +47,13 @@ CREATE TABLE sunlight_levels (
 );
 
 CREATE TABLE plants (
-	id SERIAL NOT NULL,
+	id SERIAL,
 	common_name VARCHAR(100) UNIQUE NOT NULL,
 	latin_name VARCHAR(200) UNIQUE NOT NULL,
 	description VARCHAR(1000) NOT NULL,
 	image VARCHAR(300) UNIQUE NOT NULL,
-	hydration_id INTEGER NOT NULL,
-	sunlight_id INTEGER NOT NULL,
+	hydration_id INTEGER,
+	sunlight_id INTEGER,
     added_at DATE NOT NULL,
 	CONSTRAINT hydration_levels_hydration_id_fk FOREIGN KEY (hydration_id) REFERENCES hydration_levels(id),
 	CONSTRAINT sunlight_levels_sunlight_id_fk FOREIGN KEY (sunlight_id) REFERENCES sunlight_levels(id),
@@ -61,9 +61,9 @@ CREATE TABLE plants (
 );
 
 CREATE TABLE account_plants (
-	id SERIAL NOT NULL,
-	account_id INTEGER NOT NULL,
-	plant_id INTEGER NOT NULL,
+	id SERIAL,
+	account_id INTEGER,
+	plant_id INTEGER,
 	UNIQUE(account_id, plant_id),
 	CONSTRAINT accounts_account_id_fk FOREIGN KEY (account_id) REFERENCES accounts(id),
 	CONSTRAINT plants_plant_id_fk FOREIGN KEY (plant_id) REFERENCES plants(id),
