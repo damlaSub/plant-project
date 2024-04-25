@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import co.simplon.plantproject.entities.Role;
 
 public interface RoleRepository
-	extends JpaRepository<Role, String> {
+	extends JpaRepository<Role, Long> {
 
     Role getReferenceByCode(String name);
 }
