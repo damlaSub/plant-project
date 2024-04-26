@@ -5,9 +5,9 @@ DELETE FROM accounts;
 DELETE FROM roles;
 
 INSERT INTO roles 
-	(role_code, role_name)
+	(role_code)
 	VALUES 
-	('ADMIN', 'Administrator'), ('USER', 'User');
+	('ADMIN'), ('USER');
 
 INSERT INTO accounts
 	(first_name, last_name, email, password, role_id)
