@@ -32,8 +32,8 @@ public class Hydration extends AbstractEntity {
     }
 
     @SuppressWarnings("unused")
-    public void setCode(String code) {
-
+    private void setCode(String code) {
+    	// Not updatable
 	this.code = code;
 
     }
@@ -45,8 +45,8 @@ public class Hydration extends AbstractEntity {
     }
 
     @SuppressWarnings("unused")
-    public void setName(String name) {
-
+    private void setName(String name) {
+    	// Not updatable
 	this.name = name;
 
     }
@@ -58,8 +58,8 @@ public class Hydration extends AbstractEntity {
     }
 
     @SuppressWarnings("unused")
-    public void setLogicalOrder(int logicalOrder) {
-
+    private void setLogicalOrder(int logicalOrder) {
+    	// Not updatable
 	this.logicalOrder = logicalOrder;
 
     }

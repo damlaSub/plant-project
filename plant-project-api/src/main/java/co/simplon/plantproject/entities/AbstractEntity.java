@@ -22,6 +22,7 @@ abstract class AbstractEntity {
 
     @SuppressWarnings("unused")
     private void setId(Long id) {
+    	// Not updatable
 	this.id = id;
     }
 

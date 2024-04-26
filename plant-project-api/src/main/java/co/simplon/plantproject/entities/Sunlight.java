@@ -27,7 +27,9 @@ public class Sunlight extends AbstractEntity {
 	return code;
     }
 
-    public void setCode(String code) {
+    @SuppressWarnings("unused")
+	private void setCode(String code) {
+    	// Not updatable
 	this.code = code;
     }
 
@@ -35,7 +37,9 @@ public class Sunlight extends AbstractEntity {
 	return name;
     }
 
-    public void setName(String name) {
+    @SuppressWarnings("unused")
+	private void setName(String name) {
+    	// Not updatable
 	this.name = name;
     }
 
@@ -43,7 +47,9 @@ public class Sunlight extends AbstractEntity {
 	return logicalOrder;
     }
 
-    public void setLogicalOrder(int logicalOrder) {
+    @SuppressWarnings("unused")
+	private void setLogicalOrder(int logicalOrder) {
+    	// Not updatable
 	this.logicalOrder = logicalOrder;
     }
 
