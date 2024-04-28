@@ -11,7 +11,8 @@ public class RefreshTokenRequest {
 	return refreshToken;
     }
 
-    public void setRefreshToken(String refreshToken) {
+    private void setRefreshToken(String refreshToken) {
+    	// Not updatable
 	this.refreshToken = refreshToken;
     }
 }

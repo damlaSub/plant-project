@@ -11,10 +11,8 @@ import co.simplon.plantproject.dtos.AccountSigninDto;
 import co.simplon.plantproject.dtos.RefreshTokenRequest;
 import co.simplon.plantproject.dtos.TokenInfo;
 import co.simplon.plantproject.entities.Account;
-import co.simplon.plantproject.entities.Role;
 import co.simplon.plantproject.errors.AccountNotFoundException;
 import co.simplon.plantproject.repositories.AccountRepository;
-import co.simplon.plantproject.repositories.RoleRepository;
 import co.simplon.plantproject.utils.AuthHelper;
 
 @Service
@@ -25,14 +23,12 @@ public class AuthServiceImpl implements AuthService {
 
     private final AccountRepository accountRepository;
 
-    private final RoleRepository roleRepository;
 
     public AuthServiceImpl(AuthHelper authHelper,
-	    AccountRepository accountRepository,
-	    RoleRepository roleRepository) {
+	    AccountRepository accountRepository) {
 	this.authHelper = authHelper;
 	this.accountRepository = accountRepository;
-	this.roleRepository = roleRepository;
+
     }
 
     @Override
@@ -46,13 +42,9 @@ public class AuthServiceImpl implements AuthService {
 		.encode(inputs.getPassword());
 	account.setPassword(hashPassword);
 	if (account.getEmail().endsWith("@plantme.com")) {
-	    Role adminRole = roleRepository
-		    .getReferenceByCode("ADMIN");
-	    account.setRole(adminRole);
+	    account.setRole("ADMIN");
 	} else {
-	    Role role = roleRepository
-		    .getReferenceByCode("USER");
-	    account.setRole(role);
+	    account.setRole("USER");
 	}
 	accountRepository.save(account);
     }
@@ -105,12 +97,12 @@ public class AuthServiceImpl implements AuthService {
     TokenInfo createTokenFromAccount(Account account) {
 	try {
 	    String id = String.valueOf(account.getId());
-	    String roleCode = account.getRole().getCode();
-	    String token = authHelper.createJWT(roleCode,
+	    String role = account.getRole();
+	    String token = authHelper.createJWT(role,
 		    id);
 	    TokenInfo tokenInfo = new TokenInfo();
 	    tokenInfo.setToken(token);
-	    tokenInfo.setRole(roleCode);
+	    tokenInfo.setRole(role);
 	    tokenInfo.setFirstName(account.getFirstName());
 	    String refreshToken;
 	    refreshToken = authHelper.createRefreshJWT(id);
