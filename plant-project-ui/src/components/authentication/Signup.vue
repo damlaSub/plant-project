@@ -59,10 +59,10 @@
             // "Password must have at least 1 upper and lower letter, at least 1 digit, at least 1 of #?!@$%^&*-"
             //),
           },
-          confirm: {
-            required,
-            sameAs: sameAs(this.inputs.password),
-          },
+          // confirm: {
+          //   required,
+          //   sameAs: sameAs(this.inputs.password),
+          // },
         },
       };
     },
@@ -203,9 +203,9 @@
                   <span class="text-danger" v-if="v$.inputs.password.$error">
                     {{ v$.inputs.password.$errors[0].$message }}
                   </span>
-                  <!-- <div v-if="v$.password.pattern">
+                  <div v-if="v$.password.pattern">
                     {{ v$.password.pattern }}
-                  </div> -->
+                  </div>
                 </div>
 
                 <div class="mb-3">

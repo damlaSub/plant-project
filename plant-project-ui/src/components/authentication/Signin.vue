@@ -56,7 +56,7 @@
               }
             })
             .catch((error) => {
-              const credentialsError = "Invalid email or password";
+              const credentialsError = this.$t("error.credentials");
               if (
                 error.response &&
                 error.response.data.status === 401 &&
