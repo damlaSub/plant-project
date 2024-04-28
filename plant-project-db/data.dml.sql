@@ -2,19 +2,15 @@ DELETE FROM plants;
 DELETE FROM hydration_levels;
 DELETE FROM sunlight_levels;
 DELETE FROM accounts;
-DELETE FROM roles;
 
-INSERT INTO roles 
-	(role_code)
-	VALUES 
-	('ADMIN'), ('USER');
+
 
 INSERT INTO accounts
-	(first_name, last_name, email, password, role_id)
+	(first_name, last_name, email, password, role)
 	VALUES
-	('Damla', 'Plant', 'damla@plantme.com', '$2a$11$Qs5QuF6Y5ihMU758PPZMleWxuYvFrLkyE2i0Gl00pqYbMfFt6voYC', (SELECT r.id FROM roles r WHERE r.role_code = 'ADMIN')),
-	('Lindsay', 'Test', 'test@test.com', '$2a$11$Qs5QuF6Y5ihMU758PPZMleWxuYvFrLkyE2i0Gl00pqYbMfFt6voYC', (SELECT r.id FROM roles r WHERE r.role_code = 'USER')),
-	('Damla', 'Test', 'damla@test.com', '$2a$11$Qs5QuF6Y5ihMU758PPZMleWxuYvFrLkyE2i0Gl00pqYbMfFt6voYC', (SELECT r.id FROM roles r WHERE r.role_code = 'USER'));
+	('Damla', 'Plant', 'damla@plantme.com', '$2a$11$Qs5QuF6Y5ihMU758PPZMleWxuYvFrLkyE2i0Gl00pqYbMfFt6voYC', 'ADMIN'),
+	('Lindsay', 'Test', 'test@test.com', '$2a$11$Qs5QuF6Y5ihMU758PPZMleWxuYvFrLkyE2i0Gl00pqYbMfFt6voYC', 'USER'),
+	('Damla', 'Test', 'damla@test.com', '$2a$11$Qs5QuF6Y5ihMU758PPZMleWxuYvFrLkyE2i0Gl00pqYbMfFt6voYC', 'USER');
 
 INSERT INTO hydration_levels
 	(hydration_code, hydration_name, logical_order)
