@@ -4,6 +4,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import co.simplon.plantproject.customValidation.FileType;
 import co.simplon.plantproject.customValidation.MaxSize;
+import co.simplon.plantproject.customValidation.UniqueCommonName;
+import co.simplon.plantproject.customValidation.UniqueLatinName;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -14,11 +16,13 @@ public class PlantUpdateDto {
 
     @NotBlank
     @Size(max = 100)
+    @UniqueCommonName
     @Pattern(regexp = "^[a-zA-Z-éàâèêôûîç'’ ]+$")
     private String commonName;
 
     @NotBlank
     @Size(max = 200)
+    @UniqueLatinName
     @Pattern(regexp = "^[a-zA-Z-éàâèêôûîç'’ ]+$")
     private String latinName;
 
