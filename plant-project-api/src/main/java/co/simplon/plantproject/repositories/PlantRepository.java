@@ -18,4 +18,8 @@ public interface PlantRepository
 
     PlantForUpdate findProjectedById(Long id);
 
+	Boolean existsByCommonNameIgnoreCase(String commonName);
+	
+	Boolean existsByLatinNameIgnoreCase(String latinName);
+
 }

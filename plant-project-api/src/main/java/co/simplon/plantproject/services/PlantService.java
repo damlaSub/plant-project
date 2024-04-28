@@ -21,4 +21,8 @@ public interface PlantService {
     void update(Long id, PlantUpdateDto inputs);
 
     void delete(Long id);
+    
+    Boolean existsByCommonName(String commonName);
+
+	Boolean existsByLatinName(String latinName);
 }

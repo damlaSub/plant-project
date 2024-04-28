@@ -148,4 +148,14 @@ public class PlantServiceImpl implements PlantService {
 
     }
 
+	@Override
+	public Boolean existsByCommonName(String commonName) {
+		return plants.existsByCommonNameIgnoreCase(commonName);
+	}
+
+	@Override
+	public Boolean existsByLatinName(String latinName) {
+		return plants.existsByLatinNameIgnoreCase(latinName);
+	}
+
 }
