@@ -52,6 +52,8 @@ const messages = {
     customValid: {
       emailExists: "This email is already associated with an account.",
       confirmedPsw: "Password and confirmed password does not match. ",
+      uniqueCommonName: "This common name exists already",
+      uniqueLatinName: "This latin name exists already",
     },
   },
   success: {

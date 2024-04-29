@@ -19,6 +19,9 @@
           sunlightId: 0,
         },
         namesRegex: helpers.regex(/^[a-zA-Z-éàâèêôûîç'’ ]{1,100}$/),
+        showErrorTooltip: false,
+        showCommonNameError: false,
+        showLatinNameError: false,
       };
     },
     validations() {
@@ -58,16 +61,43 @@
             formData.append(key, value);
           }
         });
-        const resp = await this.$axios.post("/plants/admin/create", formData);
-        if (resp.status === 204) {
+        await this.$axios.post("/plants/admin/create", formData)
+        .then((response) => {
+        if (response.status === 204) {
           Object.assign(this.inputs, this.$options.data().inputs);
           this.v$.$reset();
           event.target.reset();
           this.$toast.success("toast-global", this.$t("success.create"));
           this.$router.push("/admin/plants");
-        } else {
-          this.$toast.error("toast-global", this.$t("error.try"));
-        }
+         
+        }})
+            .catch((error) => {
+              if (error.response) {
+                if (error.response.data.fieldErrors){
+                 const fieldErrors = error.response.data.fieldErrors;
+                   if (
+                  
+                  fieldErrors.commonName &&
+                  fieldErrors.commonName.includes("UniqueCommonName")
+                    ) {
+                  (this.showCommonNameError = true);
+          
+                } 
+                 if (
+                  
+                  fieldErrors.latinName &&
+                  fieldErrors.latinName.includes("UniqueLatinName")
+                    ) {
+                  (this.showLatinNameError = true);
+          
+                }
+                 }} else {
+                (this.showErrorTooltip = true),
+                  this.$tooltip.error("tooltip-global", this.$t("error.try"));
+              }
+           
+          
+        })
       },
       async initSunlightLevels() {
         const resp = await this.$axios.get("/sunlights");
@@ -90,10 +120,14 @@
     <h1 class="fs-4 card-title fw-bold mb-4">{{ $t("title.createPlant") }}</h1>
     <form class="row g-3 needs-validation" novalidate @submit.prevent="submit">
       <div class="col-md-4">
+        <div class="tooltip-wrapper mb-3">
+                  <Tooltip v-if="showErrorTooltip" id="tooltip-global" />
+                </div>
         <label for="input-name" class="form-label required" maxlength="100">{{
           $t("title.common")
         }}</label>
         <input
+       
           :class="{ 'is-invalid': v$.inputs.commonName.$error }"
           v-model.trim="inputs.commonName"
           name="input-name"
@@ -105,6 +139,9 @@
         <span class="form-text text-danger" v-if="v$.inputs.commonName.$error">
           {{ $t("error.common") }}
         </span>
+        <span class="form-text text-danger" v-else-if=this.showCommonNameError>
+          {{ $t("error.customValid.uniqueCommonName") }}
+        </span>
         <span id="input-name-helptext" class="fw-light" v-else>
           {{ $t("helper.common") }}
         </span>
@@ -114,6 +151,7 @@
           $t("title.latin")
         }}</label>
         <input
+       
           :class="{ 'is-invalid': v$.inputs.latinName.$error }"
           v-model.trim="inputs.latinName"
           name="latin"
@@ -124,6 +162,9 @@
         />
         <span class="form-text text-danger" v-if="v$.inputs.latinName.$error">
           {{ $t("error.latin") }}
+        </span>
+        <span class="form-text text-danger" v-else-if=this.showLatinNameError>
+          {{ $t("error.customValid.uniqueLatinName") }}
         </span>
         <span id="latin-helptext" class="fw-light" v-else>
           {{ $t("helper.latin") }}
@@ -200,6 +241,7 @@
           $t("title.img")
         }}</label>
         <input
+       
           :class="{ 'is-invalid': v$.inputs.file.$error }"
           name="image"
           type="file"
