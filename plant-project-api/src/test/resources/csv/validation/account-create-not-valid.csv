@@ -1,0 +1,22 @@
+method§path§tokenName§json§field§error
+
+POST§/auth/sign-up§anonymous§{"firstName": null, "lastName": "a", "email": "e@e.co", "password": "Test1234@", "confirm": "Test1234@"}§firstName§NotBlank
+POST§/auth/sign-up§anonymous§{"firstName": "", "lastName": "a", "email": "e@e.co", "password": "Test1234@", "confirm": "Test1234@"}§firstName§Pattern,Size,NotBlank
+POST§/auth/sign-up§anonymous§{"firstName": " ", "lastName": "a", "email": "e@e.co", "password": "Test1234@", "confirm": "Test1234@"}§firstName§NotBlank
+POST§/auth/sign-up§anonymous§{"firstName": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "lastName": "a", "email": "e@e.co", "password": "Test1234@", "confirm": "Test1234@"}§firstName§Size
+POST§/auth/sign-up§anonymous§{"firstName": "a@", "lastName": "a", "email": "e@e.co", "password": "Test1234@", "confirm": "Test1234@"}§firstName§Pattern
+
+POST§/auth/sign-up§anonymous§{"firstName": "a", "lastName": null, "email": "e@e.co", "password": "Test1234@", "confirm": "Test1234@"}§lastName§NotBlank
+POST§/auth/sign-up§anonymous§{"firstName": "a", "lastName": "", "email": "e@e.co", "password": "Test1234@", "confirm": "Test1234@"}§lastName§Pattern,Size,NotBlank
+POST§/auth/sign-up§anonymous§{"firstName": "a", "lastName": " ", "email": "e@e.co", "password": "Test1234@", "confirm": "Test1234@"}§lastName§NotBlank
+POST§/auth/sign-up§anonymous§{"firstName": "a", "lastName": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "email": "e@e.co", "password": "Test1234@", "confirm": "Test1234@"}§lastName§Size
+POST§/auth/sign-up§anonymous§{"firstName": "a", "lastName": "a@", "email": "e@e.co", "password": "Test1234@", "confirm": "Test1234@"}§lastName§Pattern
+
+POST§/auth/sign-up§anonymous§{"firstName": "a", "lastName": "a", "email": null, "password": "Test1234@", "confirm": "Test1234@"}§email§NotBlank
+POST§/auth/sign-up§anonymous§{"firstName": "a", "lastName": "a", "email": "", "password": "Test1234@", "confirm": "Test1234@"}§email§NotBlank
+POST§/auth/sign-up§anonymous§{"firstName": "a", "lastName": "a", "email": " ", "password": "Test1234@", "confirm": "Test1234@"}§email§Email,NotBlank
+POST§/auth/sign-up§anonymous§{"firstName": "a", "lastName": "a", "email": "t@test.com", "password": "Test1234@", "confirm": "Test1234@"}§email§UniqueAccountEmail
+POST§/auth/sign-up§anonymous§{"firstName": "a", "lastName": "a", "email": "a", "password": "Test1234@", "confirm": "Test1234@"}§email§Email
+POST§/auth/sign-up§anonymous§{"firstName": "a", "lastName": "a", "email": "a.a", "password": "Test1234@", "confirm": "Test1234@"}§email§Email
+
+POST§/auth/sign-up§anonymous§{"firstName": "a", "lastName": "a", "email": "a@a.com", "password": "Test1234!", "confirm": "Test1234@"}§§SamePasswords

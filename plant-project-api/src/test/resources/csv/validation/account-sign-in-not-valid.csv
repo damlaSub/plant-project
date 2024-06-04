@@ -1,0 +1,10 @@
+method§path§tokenName§json§field§error
+
+POST§/auth/sign-in§anonymous§{"email": "", "password" : "Test123@"}§email§Size,NotBlank
+POST§/auth/sign-in§anonymous§{"email": " ", "password" : "Test123@"}§email§Email,NotBlank
+POST§/auth/sign-in§anonymous§{"email": null, "password" : "Test123@"}§email§NotBlank
+
+POST§/auth/sign-in§anonymous§{"email": "a@a.co", "password" : ""}§password§Size,NotBlank
+POST§/auth/sign-in§anonymous§{"email": "a@a.co", "password" : " "}§password§Size,NotBlank
+POST§/auth/sign-in§anonymous§{"email": "a@a.co", "password" : null}§password§NotBlank
+POST§/auth/sign-in§anonymous§{"email": "a@a.co", "password" : "Test@"}§password§Size

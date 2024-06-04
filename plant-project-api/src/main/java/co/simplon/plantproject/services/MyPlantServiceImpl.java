@@ -81,8 +81,9 @@ public class MyPlantServiceImpl implements MyPlantService {
 	MyPlant entity = myPlantRepo
 		.findByAccountIdAndPlantId(getAccountId(),
 			plantId);
-	myPlantRepo.delete(entity);
-
+		if(entity != null) {
+			myPlantRepo.delete(entity);
+		}
     }
 
     Long getAccountId() {
