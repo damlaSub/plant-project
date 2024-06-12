@@ -30,9 +30,10 @@ CREATE TABLE sunlight_levels (
 
 CREATE TABLE plants (
 	id SERIAL PRIMARY KEY,
+	code VARCHAR(10) UNIQUE,
 	common_name VARCHAR(100) UNIQUE NOT NULL,
 	latin_name VARCHAR(200) UNIQUE NOT NULL,
-	description VARCHAR(1000) NOT NULL,
+	description TEXT NOT NULL CHECK (LENGTH(description) <= 1000),
 	image VARCHAR(300) UNIQUE NOT NULL,
 	hydration_id INTEGER NOT NULL REFERENCES hydration_levels(id),
 	sunlight_id INTEGER NOT NULL REFERENCES sunlight_levels(id),
