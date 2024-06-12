@@ -80,15 +80,16 @@
                   fieldErrors.commonName &&
                   fieldErrors.commonName.includes("UniqueCommonName")
                     ) {
-                  (this.showCommonNameError = true);
-          
+                  this.showCommonNameError = true;
+                  this.v$.inputs.commonName.$error = true;
                 } 
                  if (
                   
                   fieldErrors.latinName &&
                   fieldErrors.latinName.includes("UniqueLatinName")
                     ) {
-                  (this.showLatinNameError = true);
+                  this.showLatinNameError = true;
+                  this.v$.inputs.latinName.$error = true;
           
                 }
                  }} else {
@@ -99,6 +100,13 @@
           
         })
       },
+      resetCommonNameError() {
+      this.showCommonNameError = false;
+      this.v$.inputs.commonName.$error = false;
+  },  resetLatinNameError(){
+       this.showLatinNameError = false;
+       this.v$.inputs.Name.$error = false;
+  },
       async initSunlightLevels() {
         const resp = await this.$axios.get("/sunlights");
         this.sunlightLevels = resp.body;
@@ -119,17 +127,17 @@
   <div class="mt-5 mb-3 p-5">
     <h1 class="fs-4 card-title fw-bold mb-4">{{ $t("title.createPlant") }}</h1>
     <form class="row g-3 needs-validation" novalidate @submit.prevent="submit">
-      <div class="col-md-4">
-        <div class="tooltip-wrapper mb-3">
+      <div class="tooltip-wrapper mb-3">
                   <Tooltip v-if="showErrorTooltip" id="tooltip-global" />
                 </div>
+      <div class="col-md-4">
         <label for="input-name" class="form-label required" maxlength="100">{{
           $t("title.common")
         }}</label>
         <input
-       
-          :class="{ 'is-invalid': v$.inputs.commonName.$error }"
+          :class="{ 'is-invalid': v$.inputs.commonName.$error || showCommonNameError }"
           v-model.trim="inputs.commonName"
+          @input="resetCommonNameError"
           name="input-name"
           type="text"
           class="form-control"
@@ -151,9 +159,9 @@
           $t("title.latin")
         }}</label>
         <input
-       
-          :class="{ 'is-invalid': v$.inputs.latinName.$error }"
+          :class="{ 'is-invalid': v$.inputs.latinName.$error || showLatinNameError }"
           v-model.trim="inputs.latinName"
+          @input="resetLatinNameError"
           name="latin"
           type="text"
           class="form-control"
