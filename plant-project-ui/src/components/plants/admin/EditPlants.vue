@@ -121,8 +121,7 @@
             />
           </div>
           <div class="col-8 d-flex justify-content-center align-items-center">
-            <p class="col-12 overflow-auto">
-              {{ plant.description }}
+            <p class="col-12 overflow-auto" v-html="plant.description">              
             </p>
           </div>
         </div>

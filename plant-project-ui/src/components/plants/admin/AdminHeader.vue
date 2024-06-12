@@ -25,7 +25,7 @@
 </script>
 
 <template>
-  <header class="fixed-top px-5">
+  <header class="navbar-expand-lg">
     <nav
       class="navbar navbar-expand-lg bg-body-tertiary"
       style="background-color: #e8d9c9"

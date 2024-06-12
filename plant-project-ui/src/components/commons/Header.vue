@@ -2,7 +2,7 @@
   import { RouterLink } from "vue-router";
 </script>
 <template>
-  <header class="fixed-top px-5">
+  <header class="navbar-expand-lg">
     <nav
       class="navbar navbar-expand-lg bg-body-tertiary"
       style="background-color: #355e3b"

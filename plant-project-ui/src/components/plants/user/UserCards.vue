@@ -54,16 +54,13 @@
               </span>
             </ul>
           </div>
-          <div class="d-flex align-items-center">
-            <p class="card-text text-truncate">{{ plant.description }}</p>
-          </div>
           <div class="d-grid d-md-flex justify-content-md-end">
             <button
               @click="deletePlant(plant.id)"
               type="button"
               class="btn btn-delete"
             >
-              <i class="bi bi-trash"></i>
+            <i class="bi bi-x-lg"></i>
             </button>
           </div>
         </div>

@@ -5,8 +5,6 @@
     data() {
       return {
         baseUrl: import.meta.env.VITE_IMG_BASE_URL,
-        hydrationLevels: [],
-        sunlightLevels: [],
         plants: [],
         plantStatus: {},
         input: "",
@@ -14,14 +12,6 @@
       };
     },
     methods: {
-      async initSunlightLevels() {
-        const resp = await this.$axios.get("/sunlights");
-        this.sunlightLevels = resp.body;
-      },
-      async initHydrationLevels() {
-        const resp = await this.$axios.get("/hydrations");
-        this.hydrationLevels = resp.body;
-      },
       async initPlants() {
         const resp = await this.$axios.get("/plants");
         this.plants = resp.body;
@@ -45,7 +35,6 @@
         const plantData = {
           plantId: plant.id,
         };
-
         await this.$axios.post("my-plants/add", plantData).then((response) => {
           if (response.status === 204) {
             console.log(response);
@@ -58,8 +47,6 @@
       },
     },
     beforeMount() {
-      this.initHydrationLevels();
-      this.initSunlightLevels();
       this.initPlants();
       this.initPlantStatus();
     },
@@ -86,33 +73,7 @@
       aria-describedby="basic-addon1"
     />
   </div>
-  <div class="d-grid gap-2 d-md-flex justify-content-md-end px-5">
-    <button
-      type="button"
-      class="btn-down"
-      data-bs-toggle="dropdown"
-      aria-expanded="false"
-    >
-      {{ $t("title.sun") }} <i class="bi bi-chevron-down"></i>
-    </button>
-    <ul class="dropdown-menu">
-      <li v-for="sunlightLevel in sunlightLevels">{{ sunlightLevel.name }}</li>
-    </ul>
-
-    <button
-      type="button"
-      class="btn-down"
-      data-bs-toggle="dropdown"
-      aria-expanded="false"
-    >
-      {{ $t("title.hyd") }} <i class="bi bi-chevron-down"></i>
-    </button>
-    <ul class="dropdown-menu">
-      <li v-for="hydrationLevel in hydrationLevels">
-        {{ hydrationLevel.name }}
-      </li>
-    </ul>
-  </div>
+  
   <div
     class="p-5 item error text-danger"
     v-if="input && !filteredPlantList().length"
@@ -147,17 +108,14 @@
               </span>
             </ul>
           </div>
-          <div class="d-flex align-items-center">
-            <p class="card-text text-truncate">{{ plant.description }}</p>
-          </div>
           <div class="d-grid d-md-flex justify-content-md-end">
             <button
               @click="addPlant(plant)"
-              v-if="plantStatus[plant.id] !== true"
+              :disabled="plantStatus[plant.id] === true"
               type="button"
               class="btn btn-add"
             >
-              +
+            <i class="bi bi-plus-lg"></i>
             </button>
           </div>
         </div>
