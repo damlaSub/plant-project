@@ -27,6 +27,8 @@
           hydrationId: 0,
           sunlightId: 0,
         },
+        showCommonNameError: false,
+        showLatinNameError: false,
       };
     },
     validations() {
@@ -55,31 +57,57 @@
     },
     methods: {
       async updatePlant() {
-        const valid = await this.v$.$validate();
-        if (valid) {
-          const formData = new FormData();
-          if (this.inputs.file != null) {
-            formData.append("file", this.inputs.file);
-          }
-          formData.append("commonName", this.inputs.commonName);
-          formData.append("latinName", this.inputs.latinName);
-          formData.append("description", this.inputs.description);
-          formData.append("hydrationId", this.inputs.hydrationId);
-          formData.append("sunlightId", this.inputs.sunlightId);
-          const resp = await this.$axios.put(
-            `/plants/admin/${this.id}`,
-            formData
-          );
-          if (resp.status == 204) {
-            this.v$.$reset();
-            this.$toast.success("toast-global", this.$t("success.update"));
-            this.$router.push("/admin/plants");
-          } else {
-            console.log(resp.status);
-            this.$toast.error("toast-global", this.$t("error.try"));
-          }
-        }
-      },
+   try {
+    const valid = await this.v$.$validate();
+    if (valid) {
+      const formData = new FormData();
+      if (this.inputs.file != null) {
+        formData.append("file", this.inputs.file);
+      }
+      formData.append("commonName", this.inputs.commonName);
+      formData.append("latinName", this.inputs.latinName);
+      formData.append("description", this.inputs.description);
+      formData.append("hydrationId", this.inputs.hydrationId);
+      formData.append("sunlightId", this.inputs.sunlightId);
+
+      const resp = await this.$axios.put(
+        `/plants/admin/${this.id}`,
+        formData
+      );
+
+      if (resp.status == 204) {
+        this.v$.$reset();
+        this.$toast.success("toast-global", this.$t("success.update"));
+        this.$router.push("/admin/plants");
+      } 
+    }
+  } catch (error) {
+    if (error.response) {
+                if (error.response.data.fieldErrors){
+                 const fieldErrors = error.response.data.fieldErrors;
+                   if (
+                  
+                  fieldErrors.commonName &&
+                  fieldErrors.commonName.includes("UniqueCommonName")
+                    ) {
+                  this.showCommonNameError = true;
+                  this.v$.inputs.commonName.$error = true;
+                } 
+                 if (
+                  
+                  fieldErrors.latinName &&
+                  fieldErrors.latinName.includes("UniqueLatinName")
+                    ) {
+                  this.showLatinNameError = true;
+                  this.v$.inputs.latinName.$error = true;
+          
+                }
+                 }} else {
+                (this.showErrorTooltip = true),
+                  this.$tooltip.error("tooltip-global", this.$t("error.try"));
+              }
+  }
+},
       async handleFileUpload(event) {
         if (event.target.files[0] != null) {
           this.inputs.file = event.target.files[0];
@@ -106,6 +134,13 @@
         const resp = await this.$axios.get("/hydrations");
         this.hydrationLevels = resp.body;
       },
+      resetCommonNameError() {
+      this.showCommonNameError = false;
+      this.v$.inputs.commonName.$error = false;
+      },  resetLatinNameError(){
+       this.showLatinNameError = false;
+       this.v$.inputs.Name.$error = false;
+  },
     },
     beforeMount() {
       this.initSunlightLevels();
@@ -128,8 +163,9 @@
             $t("title.common")
           }}</label>
           <input
-            :class="{ 'is-invalid': v$.inputs.commonName.$error }"
+            :class="{ 'is-invalid': v$.inputs.commonName.$error || showCommonNameError}"
             v-model.trim="inputs.commonName"
+            @input="resetCommonNameError"
             name="input-name"
             type="text"
             class="form-control"
@@ -142,6 +178,9 @@
           >
             {{ $t("error.common") }}
           </span>
+          <span class="form-text text-danger" v-else-if=this.showCommonNameError>
+          {{ $t("error.customValid.uniqueCommonName") }}
+        </span>
           <span id="input-name-helptext" class="fw-light" v-else>
             {{ $t("helper.common") }}
           </span>
@@ -151,8 +190,9 @@
             $t("title.latin")
           }}</label>
           <input
-            :class="{ 'is-invalid': v$.inputs.latinName.$error }"
-            v-model.trim="inputs.latinName"
+            :class="{ 'is-invalid': v$.inputs.latinName.$error || showLatinNameError}"
+            v-model.trim="inputs.latinName"  
+            @input="resetLatinNameError"
             name="latin"
             type="text"
             class="form-control"
@@ -162,6 +202,9 @@
           <span class="form-text text-danger" v-if="v$.inputs.latinName.$error">
             {{ $t("error.latin") }}
           </span>
+          <span class="form-text text-danger" v-else-if=this.showLatinNameError>
+          {{ $t("error.customValid.uniqueLatinName") }}
+        </span>
           <span id="latin-helptext" class="fw-light" v-else>
             {{ $t("helper.latin") }}
           </span>
