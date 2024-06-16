@@ -15,19 +15,19 @@ import jakarta.validation.constraints.Size;
 public class PlantCreateDto {
 
     @NotBlank
-    @Size(max = 100)
+    @Size(min =2, max = 100)
     @UniqueCommonName
     @Pattern(regexp = "^[a-zA-Z-éàâèêôûîç'’ ]+$")
     private String commonName;
 
     @NotBlank
-    @Size(max = 200)
+    @Size(min =2, max = 200)
     @UniqueLatinName
     @Pattern(regexp = "^[a-zA-Z-éàâèêôûîç'’ ]+$")
     private String latinName;
 
     @NotBlank
-    @Size(max = 1000)
+    @Size(min =2, max = 1000)
     private String description;
 
     @NotNull
