@@ -3,6 +3,7 @@
   import {
     helpers,
     maxLength,
+    minLength,
     minValue,
     required,
   } from "@vuelidate/validators";
@@ -27,8 +28,7 @@
           hydrationId: 0,
           sunlightId: 0,
         },
-        showCommonNameError: false,
-        showLatinNameError: false,
+        showErrorTooltip: false,
       };
     },
     validations() {
@@ -37,14 +37,16 @@
           commonName: {
             required,
             pattern: this.namesRegex,
+            minLength: minLength(2),
             maxLength: maxLength(100),
           },
           latinName: {
             required,
             pattern: this.namesRegex,
+            minLength: minLength(2),
             maxLength: maxLength(200),
           },
-          description: { required, maxLength: maxLength(1000) },
+          description: { required, minLength: minLength(2), maxLength: maxLength(1000) },
           hydrationId: { required, minValue: minValue(1) },
           sunlightId: { required, minValue: minValue(1) },
           file: {
@@ -61,9 +63,7 @@
     const valid = await this.v$.$validate();
     if (valid) {
       const formData = new FormData();
-      if (this.inputs.file != null) {
-        formData.append("file", this.inputs.file);
-      }
+      formData.append("file", this.inputs.file);
       formData.append("commonName", this.inputs.commonName);
       formData.append("latinName", this.inputs.latinName);
       formData.append("description", this.inputs.description);
@@ -83,30 +83,12 @@
     }
   } catch (error) {
     if (error.response) {
-                if (error.response.data.fieldErrors){
-                 const fieldErrors = error.response.data.fieldErrors;
-                   if (
-                  
-                  fieldErrors.commonName &&
-                  fieldErrors.commonName.includes("UniqueCommonName")
-                    ) {
-                  this.showCommonNameError = true;
-                  this.v$.inputs.commonName.$error = true;
-                } 
-                 if (
-                  
-                  fieldErrors.latinName &&
-                  fieldErrors.latinName.includes("UniqueLatinName")
-                    ) {
-                  this.showLatinNameError = true;
-                  this.v$.inputs.latinName.$error = true;
-          
-                }
-                 }} else {
+                
                 (this.showErrorTooltip = true),
+                console.log(this.showErrorTooltip)
                   this.$tooltip.error("tooltip-global", this.$t("error.try"));
-              }
-  }
+              
+  }}
 },
       async handleFileUpload(event) {
         if (event.target.files[0] != null) {
@@ -126,6 +108,10 @@
         this.inputs.sunlightId = data.sunlight.id;
         this.inputs.file = data.image;
       },
+      validateField(fieldName) {
+        this.v$.$touch();
+        this.v$.inputs[fieldName].$touch();
+      },
       async initSunlightLevels() {
         const resp = await this.$axios.get("/sunlights");
         this.sunlightLevels = resp.body;
@@ -134,14 +120,10 @@
         const resp = await this.$axios.get("/hydrations");
         this.hydrationLevels = resp.body;
       },
-      resetCommonNameError() {
-      this.showCommonNameError = false;
-      this.v$.inputs.commonName.$error = false;
-      },  resetLatinNameError(){
-       this.showLatinNameError = false;
-       this.v$.inputs.Name.$error = false;
-  },
-    },
+      hideTooltip() {
+        this.showErrorTooltip = false;
+      },
+     },
     beforeMount() {
       this.initSunlightLevels();
       this.initHydrationLevels();
@@ -157,15 +139,19 @@
       <img :src="fileSystem + inputs.image" class="rounded img-fluid" />
     </div>
     <div class="col-md-8">
+      
       <form novalidate @submit.prevent="updatePlant">
+        <div class="tooltip-wrapper col-md-8 my-3">
+                  <Tooltip v-if="showErrorTooltip" id="tooltip-global" />
+                </div>
         <div class="col-md-4 my-3">
           <label for="input-name" class="form-label required" maxlength="100">{{
             $t("title.common")
           }}</label>
           <input
-            :class="{ 'is-invalid': v$.inputs.commonName.$error || showCommonNameError}"
-            v-model.trim="inputs.commonName"
-            @input="resetCommonNameError"
+            :class="{ 'is-invalid': v$.inputs.commonName.$error }"
+            @input="validateField('commonName')"
+            v-model.lazy.trim="inputs.commonName"
             name="input-name"
             type="text"
             class="form-control"
@@ -178,9 +164,6 @@
           >
             {{ $t("error.common") }}
           </span>
-          <span class="form-text text-danger" v-else-if=this.showCommonNameError>
-          {{ $t("error.customValid.uniqueCommonName") }}
-        </span>
           <span id="input-name-helptext" class="fw-light" v-else>
             {{ $t("helper.common") }}
           </span>
@@ -190,9 +173,9 @@
             $t("title.latin")
           }}</label>
           <input
-            :class="{ 'is-invalid': v$.inputs.latinName.$error || showLatinNameError}"
-            v-model.trim="inputs.latinName"  
-            @input="resetLatinNameError"
+            :class="{ 'is-invalid': v$.inputs.latinName.$error }"
+            @input="validateField('latinName')"
+            v-model.lazy.trim="inputs.latinName"
             name="latin"
             type="text"
             class="form-control"
@@ -202,9 +185,6 @@
           <span class="form-text text-danger" v-if="v$.inputs.latinName.$error">
             {{ $t("error.latin") }}
           </span>
-          <span class="form-text text-danger" v-else-if=this.showLatinNameError>
-          {{ $t("error.customValid.uniqueLatinName") }}
-        </span>
           <span id="latin-helptext" class="fw-light" v-else>
             {{ $t("helper.latin") }}
           </span>

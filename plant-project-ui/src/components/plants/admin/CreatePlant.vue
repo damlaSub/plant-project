@@ -1,7 +1,7 @@
 <script>
   import { useVuelidate } from "@vuelidate/core";
   import { helpers } from "@vuelidate/validators";
-  import { maxLength, minValue, required } from "@vuelidate/validators";
+  import { maxLength, minLength, minValue, required } from "@vuelidate/validators";
   export default {
     setup() {
       return { v$: useVuelidate({ $autoDirty: true }) };
@@ -30,14 +30,16 @@
           commonName: {
             required,
             pattern: this.namesRegex,
+            minLength: minLength(2),
             maxLength: maxLength(100),
           },
           latinName: {
             required,
             pattern: this.namesRegex,
+            minLength: minLength(2),
             maxLength: maxLength(200),
           },
-          description: { required, maxLength: maxLength(1000) },
+          description: { required, minLength: minLength(2), maxLength: maxLength(1000) },
           hydrationId: { required, minValue: minValue(1) },
           sunlightId: { required, minValue: minValue(1) },
           file: {
@@ -74,29 +76,31 @@
             .catch((error) => {
               if (error.response) {
                 if (error.response.data.fieldErrors){
-                 const fieldErrors = error.response.data.fieldErrors;
-                   if (
-                  
-                  fieldErrors.commonName &&
-                  fieldErrors.commonName.includes("UniqueCommonName")
-                    ) {
+                const fieldErrors = error.response.data.fieldErrors;
+                const commonN =fieldErrors.commonName;
+                const latinN = fieldErrors.latinName;
+                if( (commonN && commonN.includes("UniqueCommonName")) && (latinN && latinN.includes("UniqueLatinName")) ){
                   this.showCommonNameError = true;
                   this.v$.inputs.commonName.$error = true;
-                } 
-                 if (
-                  
-                  fieldErrors.latinName &&
-                  fieldErrors.latinName.includes("UniqueLatinName")
-                    ) {
                   this.showLatinNameError = true;
                   this.v$.inputs.latinName.$error = true;
-          
+                } else if(commonN && commonN.includes("UniqueCommonName")){
+                  this.showCommonNameError = true;
+                  this.v$.inputs.commonName.$error = true;
+                } else if(latinN && latinN.includes("UniqueLatinName")){
+                  this.showLatinNameError = true;
+                  this.v$.inputs.latinName.$error = true;
+                } else {
+                  (this.showErrorTooltip = true),
+                  this.$tooltip.error("tooltip-global", this.$t("error.try"));
                 }
-                 }} else {
+              }
+                
+              }
+              else {
                 (this.showErrorTooltip = true),
                   this.$tooltip.error("tooltip-global", this.$t("error.try"));
               }
-           
           
         })
       },
@@ -107,6 +111,9 @@
        this.showLatinNameError = false;
        this.v$.inputs.Name.$error = false;
   },
+  hideTooltip() {
+        this.showErrorTooltip = false;
+      },
       async initSunlightLevels() {
         const resp = await this.$axios.get("/sunlights");
         this.sunlightLevels = resp.body;
@@ -126,10 +133,11 @@
 <template>
   <div class="mt-5 mb-3 p-5">
     <h1 class="fs-4 card-title fw-bold mb-4">{{ $t("title.createPlant") }}</h1>
-    <form class="row g-3 needs-validation" novalidate @submit.prevent="submit">
-      <div class="tooltip-wrapper mb-3">
+    <div class="tooltip-wrapper col-md-8">
                   <Tooltip v-if="showErrorTooltip" id="tooltip-global" />
                 </div>
+    <form class="row g-3 needs-validation" novalidate @submit.prevent="submit">
+      
       <div class="col-md-4">
         <label for="input-name" class="form-label required" maxlength="100">{{
           $t("title.common")
@@ -296,3 +304,4 @@
     </form>
   </div>
 </template>
+
