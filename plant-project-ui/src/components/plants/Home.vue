@@ -91,42 +91,42 @@
   >
     <p>{{ $t("title.noResult") }}</p>
   </div>
-  <div class="row row-cols-md-4 g-3 p-5">
+  <div class="row row-cols-1 row-cols-md-4 g-3 p-5">
     <div class="col" v-for="plant in filteredPlantList()" :key="plant.id">
-      <div class="card h-100">
-        <div class="p-3">
-          <img
-            :src="baseUrl + plant.image"
-            class="card-img-top plant-img"
-            :alt="plant.name"
-          />
-        </div>
-        <div class="card-body">
-          <div>
-            <h5 class="card-title">{{ plant.commonName }}</h5>
-          </div>
+        <div class="card h-100">
+            <div class="p-3">
+                <img
+                    :src="baseUrl + plant.image"
+                    class="card-img-top plant-img"
+                    :alt="plant.name"
+                />
+            </div>
+            <div class="card-body">
+                <div>
+                    <h5 class="card-title">{{ plant.commonName }}</h5>
+                </div>
 
-          <div class="d-flex">
-            <ul>
-              <span v-for="n in plant.sunlight.logicalOrder">
-                <img src="/images/sun.svg" />
-              </span>
-            </ul>
+                <div class="d-flex">
+                    <ul>
+                        <span v-for="n in plant.sunlight.logicalOrder">
+                            <img src="/images/sun.svg" />
+                        </span>
+                    </ul>
 
-            <ul>
-              <span v-for="n in plant.hydration.logicalOrder">
-                <img src="/images/water.svg" />
-              </span>
-            </ul>
-          </div>
-          <div class="d-flex align-items-center">
-            <p class="card-text text-truncate">{{ plant.description }}</p>
-          </div>
-          <div class="d-grid d-md-flex justify-content-md-end"></div>
+                    <ul>
+                        <span v-for="n in plant.hydration.logicalOrder">
+                            <img src="/images/water.svg" />
+                        </span>
+                    </ul>
+                </div>
+                <div class="d-flex align-items-center">
+                    <p class="card-text text-truncate">{{ plant.description }}</p>
+                </div>
+                <div class="d-grid d-md-flex justify-content-md-end"></div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
 </template>
 <style>
   .btn-add {

@@ -25,9 +25,9 @@
 </script>
 
 <template>
-  <header class="navbar-expand-lg">
+  <header class="header">
     <nav
-      class="navbar navbar-expand-lg bg-body-tertiary"
+      class="navbar navbar-expand-md bg-body-tertiary"
       style="background-color: #e8d9c9"
     >
       <div class="container-fluid">

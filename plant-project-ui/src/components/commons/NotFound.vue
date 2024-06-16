@@ -9,7 +9,7 @@
         <h3>The page does not exist or is deleted</h3>
         <div></div>
         <RouterLink :to="{ name: 'home' }">
-          <button class="btn button">
+          <button class="btn button not-found">
             <i class="bi bi-sign-turn-left"></i> Go Home
           </button></RouterLink
         >
@@ -21,5 +21,9 @@
   .responsive-image {
     max-width: 70%;
     height: auto;
+  }
+  button.btn.button.not-found:hover, button.btn.button.not-found:active{
+    color: #355e3b;
+    border-color:antiquewhite;
   }
 </style>

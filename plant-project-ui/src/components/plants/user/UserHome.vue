@@ -37,7 +37,6 @@
         };
         await this.$axios.post("my-plants/add", plantData).then((response) => {
           if (response.status === 204) {
-            console.log(response);
             this.initPlantStatus();
             this.$toast.success("toast-global", this.$t("success.add"));
           } else {
@@ -80,7 +79,7 @@
   >
     <p>{{ $t("title.noResult") }}</p>
   </div>
-  <div class="row row-cols-md-4 g-3 p-5">
+  <div class="row row-cols-1 row-cols-md-4 g-3 p-5">
     <div class="col" v-for="plant in filteredPlantList()" :key="plant.id">
       <div class="card h-100">
         <div class="p-3">
@@ -147,7 +146,7 @@
   }
 
   .search:focus {
-    box-shadow: 0 0 0 0.2rem #355e3b;
+    box-shadow: 0 0 0 0.1rem #355e3b;
   }
   .plant-img {
     height: 100%;

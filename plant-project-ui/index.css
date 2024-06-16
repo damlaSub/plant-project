@@ -29,18 +29,17 @@ body {
     margin: 0px 16px 0px 0px;
   }
   .btn-save {
-    color: #355e3b;
-    background-color: #f9f5f1;
-    border-color: black;
-    border-radius: 12px;
-    padding: 8px 18px;
+    color: #f9f5f1;;
+    background-color: #355e3b;
+    border-color: #355e3b;
     box-shadow: 0 0 0 0.01rem black;
   }
   .btn-save:hover,
   .btn-save:focus {
-    color: #355e3b;
-    background-color: #f9f5f1;
-    border-color: black;
+    color: #f9f5f1;;
+    background-color: #355e3b;
+    border-color: #355e3b;
+    box-shadow: 0 0 0 0.01rem black;
     cursor: pointer;
   }
   #input-name:focus,

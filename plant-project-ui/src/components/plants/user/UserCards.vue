@@ -26,7 +26,7 @@
   };
 </script>
 <template>
-  <div class="row row-cols-md-4 g-3 p-5 mt-5">
+  <div class="row row-cols-1 row-cols-md-4 g-3 p-5">
     <div class="col" v-for="plant in myPlants" :key="plant.id">
       <div class="card h-100">
         <div class="p-3">

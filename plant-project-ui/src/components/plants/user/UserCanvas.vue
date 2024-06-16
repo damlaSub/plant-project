@@ -15,6 +15,12 @@
         userName,
       };
     },
+    methods: {
+      signout() {
+        localStorage.clear();
+        this.$router.push("/signin");
+      },
+    },
   };
 </script>
 <template>

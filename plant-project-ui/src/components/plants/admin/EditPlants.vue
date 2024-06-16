@@ -33,21 +33,24 @@
 </script>
 <template>
   <div class="mb-3 p-5">
-    <div class="d-grid d-md-flex justify-content-md-end mt-5">
+    <div class="container-xl">
+      <div class="d-grid pb-3">
       <RouterLink :to="{ name: 'create' }" class="admin-create">
-        <button role="button" class="btn btn-create m-4">
-          <i class="bi bi-plus-circle"></i> {{ $t("title.createPlant") }}
+        <button role="button" class="btn btn-create custom-button">
+          <div> <i class="bi bi-plus-circle"></i> {{ $t("title.createPlant") }}</div>
+         
         </button></RouterLink
       >
+    </div>
     </div>
     <div class="container-xl">
       <div class="row row-title fw-bold py-3 px-3">
         <div class="col text-center">{{ $t("title.common") }}</div>
-        <div class="col">{{ $t("title.latin") }}</div>
-        <div class="col text-center d-none d-sm-block">
+        <div class="col text-center d-none d-md-block">{{ $t("title.latin") }}</div>
+        <div class="col text-center d-none d-lg-block">
           {{ $t("title.hydration") }}
         </div>
-        <div class="col text-center text-end d-none d-sm-block">
+        <div class="col text-center text-end d-none d-lg-block">
           {{ $t("title.sunlight") }}
         </div>
         <div class="col text-end">{{ $t("title.action") }}</div>
@@ -82,13 +85,13 @@
             </div>
           </div>
         </div>
-        <div class="col text-truncate">
+        <div class="col text-truncate text-center d-none d-md-block">
           {{ plant.latinName }}
         </div>
-        <div class="col text-center d-none d-sm-block">
+        <div class="col text-center d-none d-lg-block">
           {{ plant.hydration.name }}
         </div>
-        <div class="col text-center d-none d-sm-block">
+        <div class="col text-center d-none d-lg-block">
           {{ plant.sunlight.name }}
         </div>
         <div class="col text-center">
@@ -121,7 +124,7 @@
             />
           </div>
           <div class="col-8 d-flex justify-content-center align-items-center">
-            <p class="col-12 overflow-auto" v-html="plant.description">              
+            <p class="col-12 overflow-auto description-text " v-html="plant.description">              
             </p>
           </div>
         </div>
@@ -130,27 +133,45 @@
   </div>
 </template>
 <style>
-  .btn-create,
-  .create-a {
-    color: #355e3b;
-    background-color: #f9f5f1;
-    border-color: black;
-    border-radius: 12px;
-    padding: 6px 14px;
+.btn-create{
+  width: 100%;
+}
+.custom-button {
+  color: black !important;
+  background-color: #e8d9c9 !important;
+  border-color: #e8d9c9 !important;
+  text-decoration: none !important;
+}
+
+.custom-button:hover,
+.custom-button:focus,
+.custom-button:active {
+  color: black !important;
+  background-color: #e8d9c9 !important;
+  border-color: #e8d9c9 !important;
+  text-decoration: none !important;
+}
+
+@media (min-width: 768px) {
+  .btn-create, .btn-create:hover, .btn-create:active {
+    width: auto; 
+    text-decoration: none;
   }
-  .btn-create:hover,
-  .create-a:hover,
-  .create-a:focus,
-  .create-a:active,
-  .btn-create:focus,
-  .btn-create:active {
-    color: #355e3b;
-    background-color: #f9f5f1;
-    border-color: #355e3b;
-    border-radius: 12px;
-    padding: 6px 14px;
-    cursor: pointer;
+
+  .admin-create {
+    display: flex;
+    justify-content: end; 
+    text-decoration: none;
   }
+}
+
+@media (max-width: 767.98px) {
+  .admin-create, .btn-create:hover, .btn-create:active {
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+  }   
+} 
   .row-title {
     background-color: #e8d9c9;
   }
@@ -173,7 +194,8 @@
   }
   .img-edit {
     width: 70%;
-    height: 70%;
+    height: auto;
+    max-width: 100%;
     border-radius: 50%;
   }
   .collapsing {
@@ -195,6 +217,21 @@
   button.btn.collapse-btn.collapsed .collapse-icon {
     transform: rotate(
       180deg
-    ); /* Rotate the icon when the class 'rotated' is present */
+    ); 
   }
+.description-text {
+  font-size: 1rem; 
+}
+
+@media (max-width: 768px) {
+  .description-text {
+    font-size: 0.875rem; 
+  }
+}
+
+@media (max-width: 576px) {
+  .description-text {
+    font-size: 0.75rem; 
+  }
+}
 </style>
