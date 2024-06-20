@@ -3,21 +3,11 @@
     data() {
       return {
         baseUrl: import.meta.env.VITE_IMG_BASE_URL,
-        hydrationLevels: [],
-        sunlightLevels: [],
         plants: [],
         input: "",
       };
     },
     methods: {
-      async initSunlightLevels() {
-        const resp = await this.$axios.get("/sunlights");
-        this.sunlightLevels = resp.body;
-      },
-      async initHydrationLevels() {
-        const resp = await this.$axios.get("/hydrations");
-        this.hydrationLevels = resp.body;
-      },
       async initPlants() {
         const resp = await this.$axios.get("/plants");
         this.plants = resp.body;
@@ -33,8 +23,6 @@
       },
     },
     beforeMount() {
-      this.initHydrationLevels();
-      this.initSunlightLevels();
       this.initPlants();
     },
     mounted() {
@@ -57,33 +45,6 @@
       aria-label="Search plants"
       aria-describedby="basic-addon1"
     />
-  </div>
-  <div class="d-grid gap-2 d-md-flex justify-content-md-end px-5">
-    <button
-      type="button"
-      class="btn-down"
-      data-bs-toggle="dropdown"
-      aria-expanded="false"
-    >
-      {{ $t("title.sun") }} <i class="bi bi-chevron-down"></i>
-    </button>
-    <ul class="dropdown-menu">
-      <li v-for="sunlightLevel in sunlightLevels">{{ sunlightLevel.name }}</li>
-    </ul>
-
-    <button
-      type="button"
-      class="btn-down"
-      data-bs-toggle="dropdown"
-      aria-expanded="false"
-    >
-      {{ $t("title.hyd") }} <i class="bi bi-chevron-down"></i>
-    </button>
-    <ul class="dropdown-menu">
-      <li v-for="hydrationLevel in hydrationLevels">
-        {{ hydrationLevel.name }}
-      </li>
-    </ul>
   </div>
   <div
     class="p-5 item error text-danger"
