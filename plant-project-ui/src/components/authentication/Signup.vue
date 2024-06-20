@@ -15,6 +15,7 @@
     },
     data() {
       return {
+        fileSystem: import.meta.env.VITE_IMG_BASE_URL,
         inputs: {
           firstName: null,
           lastName: null,
@@ -49,20 +50,14 @@
             email,
           },
           password: {
-            required: helpers.withMessage(
-              "This field cannot be empty",
-              required
-            ),
-            pattern:
-              //helpers.withMessage(
-              this.pswRegex,
-            // "Password must have at least 1 upper and lower letter, at least 1 digit, at least 1 of #?!@$%^&*-"
-            //),
+            required,
+            pattern: this.pswRegex,
           },
-          // confirm: {
-          //   required,
-          //   sameAs: sameAs(this.inputs.password),
-          // },
+          confirm: {
+            required,
+            pattern: this.pswRegex,
+            sameAs: sameAs(this.inputs.password),
+          },
         },
       };
     },
@@ -123,7 +118,7 @@
           <div class="card shadow-lg">
             <div class="card-body">
               <div class="text-center my-1">
-                <img src="/src/assets/plant.png" alt="logo" width="100" />
+                <img :src="fileSystem + 'plant.png'" alt="logo" width="100" />
               </div>
               <h1 class="fs-4 card-title fw-bold mb-4">
                 {{ $t("title.createAcc") }}
@@ -203,11 +198,7 @@
                   <span class="text-danger" v-if="v$.inputs.password.$error">
                     {{ v$.inputs.password.$errors[0].$message }}
                   </span>
-                  <div v-if="v$.password.pattern">
-                    {{ v$.password.pattern }}
-                  </div>
                 </div>
-
                 <div class="mb-3">
                   <div class="mb-2 w-100"></div>
                   <input
@@ -215,6 +206,7 @@
                     id="password-confirm"
                     type="password"
                     class="form-control"
+                    :class="{ 'is-invalid': v$.inputs.confirm.$error }"
                     name="password-confirm"
                     :placeholder="$t('auth.confirmPsw')"
                     v-model="this.inputs.confirm"

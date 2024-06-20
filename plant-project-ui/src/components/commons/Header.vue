@@ -1,5 +1,12 @@
 <script>
   import { RouterLink } from "vue-router";
+  export default {
+  data() {
+      return {
+        fileSystem: import.meta.env.VITE_IMG_BASE_URL,
+      }
+    }
+  }
 </script>
 <template>
   <header class="header">
@@ -9,12 +16,9 @@
     >
       <div class="container-fluid">
         <a class="navbar-brand" href="/"
-          ><img
-            src="../../assets/plant.png"
-            alt="Bootstrap"
+          ><img  :src="fileSystem + 'plant.png'"  alt="Bootstrap"
             width="60"
-            height="48"
-        /></a>
+            height="48"/></a>
         <button
           class="navbar-toggler"
           type="button"

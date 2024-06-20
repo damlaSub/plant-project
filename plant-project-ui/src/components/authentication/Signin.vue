@@ -9,6 +9,7 @@
     },
     data() {
       return {
+        fileSystem: import.meta.env.VITE_IMG_BASE_URL,
         pswPattern: helpers.regex(
           /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,32}$/
         ),
@@ -89,7 +90,7 @@
           <div class="card shadow-lg">
             <div class="card-body">
               <div class="text-center my-1">
-                <img src="/src/assets/plant.png" alt="logo" width="100" />
+                <img :src="fileSystem + 'plant.png'" alt="logo" width="100" />
               </div>
               <h1 class="fs-4 card-title fw-bold mb-4">Sign in</h1>
               <form

@@ -15,6 +15,11 @@
         userName,
       };
     },
+    data() {
+      return {
+        fileSystem: import.meta.env.VITE_IMG_BASE_URL,
+      }
+    },
     methods: {
       signout() {
         localStorage.clear();
@@ -33,7 +38,7 @@
       <div class="container-fluid">
         <RouterLink :to="{ name: 'user-home' }" class="navbar-brand">
           <img
-            src="../../../assets/plant.png"
+           :src="fileSystem + 'plant.png'"
             alt="Bootstrap"
             width="60"
             height="48"
