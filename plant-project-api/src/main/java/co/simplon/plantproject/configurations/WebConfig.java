@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@ConditionalOnProperty(value="plant.cors.enabled", havingValue="true", matchIfMissing=true )
+@ConditionalOnProperty(value = "plant.cors.enabled", havingValue = "true", matchIfMissing = true)
 public class WebConfig implements WebMvcConfigurer {
 
     @Value("${plant.cors.allowedOrigins}")
