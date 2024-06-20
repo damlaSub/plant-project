@@ -311,9 +311,10 @@
           </span>
         </div>
         <div class="d-grid d-md-flex justify-content-md-end">
-          <button type="submit" class="btn-save">{{ $t("btn.save") }}</button>
+          <button type="submit" class="btn btn-save">{{ $t("btn.save") }}</button>
         </div>
       </form>
     </div>
   </div>
 </template>
+

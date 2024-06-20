@@ -56,12 +56,11 @@
       },
       async submit(event) {
         const valid = await this.v$.$validate();
+        if (valid) {
         const formData = new FormData();
         Object.keys(this.inputs).forEach((key) => {
-          const value = this.inputs[key];
-          if (valid) {
+            const value = this.inputs[key];
             formData.append(key, value);
-          }
         });
         await this.$axios.post("/plants/admin/create", formData)
         .then((response) => {
@@ -101,8 +100,10 @@
                 (this.showErrorTooltip = true),
                   this.$tooltip.error("tooltip-global", this.$t("error.try"));
               }
+              
           
         })
+      }
       },
       resetCommonNameError() {
       this.showCommonNameError = false;

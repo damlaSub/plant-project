@@ -5,7 +5,6 @@
       return {
         fileSystem: import.meta.env.VITE_IMG_BASE_URL,
         toast: null,
-        baseUrl: import.meta.env.VITE_IMG_BASE_URL,
         plants: [],
       };
     },
