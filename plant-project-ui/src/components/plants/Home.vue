@@ -95,17 +95,7 @@
     border-radius: 6%;
     padding: 1% 4%;
   }
-  .btn-down {
-    color: #355e3b;
-    background-color: #f9f5f1;
-    border-color: black;
-    border-radius: 12px;
-    padding: 6px 14px;
-  }
-  .btn-add:hover,
-  .btn-down:hover {
-    cursor: pointer;
-  }
+
   #basic-addon1 {
     background-color: #355e3b;
   }

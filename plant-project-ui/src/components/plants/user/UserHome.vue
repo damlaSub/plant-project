@@ -123,23 +123,17 @@
   </div>
 </template>
 <style>
-  .btn-add {
-    color: #355e3b;
-    background-color: #f9f5f1;
-    border-color: black;
-    border-radius: 6%;
-    padding: 1% 4%;
+  button.btn.btn-add,  button.btn.btn-add:focus,  button.btn.btn-add:active {
+    color: #f9f5f1;;
+    background-color: #355e3b;
+    border-color: #355e3b;
+    box-shadow: 0 0 0 0.01rem black;
   }
-  .btn-down {
-    color: #355e3b;
-    background-color: #f9f5f1;
-    border-color: black;
-    border-radius: 12px;
-    padding: 6px 14px;
-  }
-  .btn-add:hover,
-  .btn-down:hover {
-    cursor: pointer;
+  button.btn.btn-add:disabled{
+    color: #f9f5f1;;
+    background-color: #496e4e;
+    border-color:#496e4e;
+    box-shadow: 0 0 0 0.01rem black;
   }
   #basic-addon1 {
     background-color: #355e3b;
