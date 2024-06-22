@@ -75,23 +75,11 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public TokenInfo refreshToken(
 	    RefreshTokenRequest request) {
-	String idAsString = authHelper
-		.getIdFromToken(request.getRefreshToken());
-
-	Long id = Long.parseLong(idAsString);
-	Optional<Account> optAccount = Optional.of(
-		accountRepository.findById(id).orElseThrow(
-			(() -> new AccountNotFoundException(
-				"Account not found"))));
-	if (optAccount.isPresent()) {
-	    Account account = new Account();
-	    account.setEmail(optAccount.get().getEmail());
-	    account.setFirstName(
-		    optAccount.get().getFirstName());
-	    account.setRole(optAccount.get().getRole());
-	    return createTokenFromAccount(account);
-	}
-	return null;
+    	String idAsString = authHelper.getIdFromToken(request.getRefreshToken());
+        Long id = Long.parseLong(idAsString);
+        Account account = accountRepository.findById(id)
+                .orElseThrow(() -> new AccountNotFoundException("Account not found"));
+        return createTokenFromAccount(account);
     }
 
     TokenInfo createTokenFromAccount(Account account) {
