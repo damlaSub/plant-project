@@ -22,7 +22,7 @@ public interface PlantService {
 
     void delete(Long id);
     
-    Boolean existsByCommonName(String commonName);
+    Boolean existsByCommonNameIgnoreCase(String commonName);
 
-	Boolean existsByLatinName(String latinName);
+	Boolean existsByLatinNameIgnoreCase(String latinName);
 }

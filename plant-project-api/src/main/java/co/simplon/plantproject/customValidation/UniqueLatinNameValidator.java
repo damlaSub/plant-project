@@ -19,7 +19,7 @@ ConstraintValidator<UniqueLatinName, String>{
     public boolean isValid(String latinName,
 	    ConstraintValidatorContext context) {
 	if ((Objects.nonNull(latinName))
-		&& this.service.existsByLatinName(latinName)) {
+		&& this.service.existsByLatinNameIgnoreCase(latinName)) {
 	    return false;
 	}
 	return true;

@@ -12,5 +12,4 @@ public interface AccountRepository
     Boolean existsByEmailIgnoreCase(String email);
 
     Optional<Account> findByEmailIgnoreCase(String email);
-
 }

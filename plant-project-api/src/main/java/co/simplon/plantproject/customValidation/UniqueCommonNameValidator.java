@@ -19,7 +19,7 @@ ConstraintValidator<UniqueCommonName, String>{
     public boolean isValid(String commonName,
 	    ConstraintValidatorContext context) {
 	if ((Objects.nonNull(commonName))
-		&& this.service.existsByCommonName(commonName)) {
+		&& this.service.existsByCommonNameIgnoreCase(commonName)) {
 	    return false;
 	}
 	return true;
