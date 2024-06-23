@@ -96,7 +96,6 @@
   #basic-addon1 {
     background-color: #355e3b;
   }
-
   .search:focus {
     box-shadow: 0 0 0 0.2rem #355e3b;
   }

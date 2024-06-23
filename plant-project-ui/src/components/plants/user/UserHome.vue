@@ -148,4 +148,8 @@
     height: 100%;
     width: 100%;
   }
+  ul {
+    padding-left: 0;
+    padding-right: 2px;
+  }
 </style>
