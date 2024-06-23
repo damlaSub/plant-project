@@ -17,6 +17,15 @@ const router = createRouter({
       meta: { requiresAuth: false },
     },
     {
+      path: "/plants/:id/detail",
+      name: "plant-detail",
+      components: {
+        navbar: () => import("../components/commons/Header.vue"),
+        default: () => import("../views/PlantDetailView.vue"),
+      },
+      meta: { requiresAuth: false },
+    },
+    {
       path: "/signin",
       name: "signin",
       component: () => import("../views/SigninView.vue"),
@@ -68,6 +77,15 @@ const router = createRouter({
       components: {
         navbar: () => import("../components/plants/user/UserHeader.vue"),
         default: () => import("../views/UserHomeView.vue"),
+      },
+      meta: { requiresAuth: true, role: user },
+    },
+    {
+      path: "/user/plants/:id",
+      name: "user-plant-detail",
+      components: {
+        navbar: () => import("../components/plants/user/UserHeader.vue"),
+        default: () => import("../views/PlantDetailView.vue"),
       },
       meta: { requiresAuth: true, role: user },
     },

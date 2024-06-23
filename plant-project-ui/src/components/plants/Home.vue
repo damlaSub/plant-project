@@ -56,11 +56,17 @@
     <div class="col" v-for="plant in filteredPlantList()" :key="plant.id">
         <div class="card h-100">
             <div class="p-3">
+              <RouterLink
+                  :to="{ name: 'plant-detail', params: { id: plant.id } }"
+                >
+                  
                 <img
                     :src="baseUrl + plant.image"
                     class="card-img-top plant-img"
                     :alt="plant.name"
                 />
+                </RouterLink
+                >
             </div>
             <div class="card-body">
                 <div>
@@ -68,13 +74,12 @@
                 </div>
 
                 <div class="d-flex">
-                    <ul>
+                    <ul class="water">
                         <span v-for="n in plant.sunlight.logicalOrder">
                             <img src="/images/sun.svg" />
                         </span>
-                    </ul>
-
-                    <ul>
+                      </ul>
+                      <ul>
                         <span v-for="n in plant.hydration.logicalOrder">
                             <img src="/images/water.svg" />
                         </span>
@@ -88,14 +93,6 @@
 </div>
 </template>
 <style>
-  .btn-add {
-    color: #355e3b;
-    background-color: #f9f5f1;
-    border-color: black;
-    border-radius: 6%;
-    padding: 1% 4%;
-  }
-
   #basic-addon1 {
     background-color: #355e3b;
   }
@@ -107,4 +104,9 @@
     height: 100%;
     width: 100%;
   }
+  ul {
+    padding-left: 0;
+    padding-right: 2px;
+  }
+
 </style>

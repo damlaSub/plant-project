@@ -83,11 +83,13 @@
     <div class="col" v-for="plant in filteredPlantList()" :key="plant.id">
       <div class="card h-100">
         <div class="p-3">
+          <RouterLink :to="{ name: 'user-plant-detail', params: { id: plant.id } }" class="ms-auto">
           <img
             :src="baseUrl + plant.image"
             class="card-img-top plant-img"
             :alt="plant.name"
           />
+          </RouterLink>  
         </div>
         <div class="card-body">
           <div>
