@@ -12,7 +12,4 @@ public interface PlantDetail {
 
     String getImage();
 
-    String getHydrationName();
-
-    String getSunlightName();
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.simplon.plantproject.dtos.PlantCreateDto;
+import co.simplon.plantproject.dtos.PlantDetail;
 import co.simplon.plantproject.dtos.PlantForUpdate;
 import co.simplon.plantproject.dtos.PlantItem;
 import co.simplon.plantproject.dtos.PlantUpdateDto;
@@ -28,6 +29,12 @@ public class PlantController {
 
     public PlantController(PlantService service) {
 	this.service = service;
+    }
+    
+    @GetMapping("/{id}")
+    public PlantDetail getPlantDetail(
+	    @PathVariable Long id) {
+	return service.getPlant(id);
     }
 
     @PostMapping("/admin/create")
