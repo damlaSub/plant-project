@@ -73,6 +73,10 @@ public class PlantServiceImpl implements PlantService {
 	store(file, fileName);
 	LocalDate addedAt = LocalDate.now();
 	entity.setAddedAt(addedAt);
+	Long plantCode = this.plants
+			.getNextValMySequence();
+		entity.setPlantCode(
+			"PL".concat(plantCode.toString()));
 	plants.save(entity);
 
     }

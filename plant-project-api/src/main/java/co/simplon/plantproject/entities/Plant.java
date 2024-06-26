@@ -13,6 +13,9 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "plants")
 public class Plant extends AbstractEntity {
+	
+	@Column(name = "plant_code")
+    private String plantCode;
 
     @Column(name = "common_name")
     private String commonName;
@@ -40,6 +43,14 @@ public class Plant extends AbstractEntity {
     public Plant() {
 
     }
+    
+    public String getPlantCode() {
+    	return plantCode;
+        }
+
+        public void setPlantCode(String plantCode) {
+    	this.plantCode = plantCode;
+        }
 
     public String getCommonName() {
 	return commonName;
@@ -97,18 +108,18 @@ public class Plant extends AbstractEntity {
 	this.sunlight = sunlight;
     }
 
-    @Override
-    public String toString() {
-	return "{commonName=" + commonName + ", latinName="
-		+ latinName + ", description=" + description
-		+ ", image=" + image + ", addedAt="
-		+ addedAt + ", hydration=" + hydration
-		+ ", sunlight=" + sunlight + "}";
-    }
+    
 
     @Override
+	public String toString() {
+		return "Plant [plantCode=" + plantCode + ", commonName=" + commonName + ", latinName=" + latinName
+				+ ", description=" + description + ", image=" + image + ", addedAt=" + addedAt + ", hydration="
+				+ hydration + ", sunlight=" + sunlight + "]";
+	}
+
+	@Override
     public int hashCode() {
-	return Objects.hash(latinName);
+	return Objects.hash(plantCode);
     }
 
     @Override
@@ -123,7 +134,7 @@ public class Plant extends AbstractEntity {
 	    return false;
 	}
 	Plant other = (Plant) obj;
-	return Objects.equals(latinName, other.latinName);
+	return Objects.equals(plantCode, other.plantCode);
     }
 
 }
