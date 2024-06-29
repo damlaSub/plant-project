@@ -10,7 +10,7 @@ CREATE TABLE accounts (
 	last_name VARCHAR(100) NOT NULL,
 	email VARCHAR(100) UNIQUE NOT NULL,
 	password VARCHAR(100) NOT NULL,
-	role VARCHAR(11)
+	role VARCHAR(11) NOT NULL
 );
 
 CREATE TABLE hydration_levels (
