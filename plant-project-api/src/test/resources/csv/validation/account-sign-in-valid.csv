@@ -1,3 +1,4 @@
 method§path§tokenName§json§expectedStatus
 
 POST§/auth/sign-in§anonymous§{"email": "t@test.com", "password": "1234Test@"}§200
+POST§/auth/sign-in§anonymous§{"email": "d@plantme.com", "password": "1234Test@"}§200

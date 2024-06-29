@@ -35,4 +35,3 @@ build/
 ### Application Properties ###
 application.properties
 application-dev.properties
-application-test.properties
