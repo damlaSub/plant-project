@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.simplon.plantproject.dtos.PlantCreateDto;
 import co.simplon.plantproject.dtos.PlantDetail;
+import co.simplon.plantproject.dtos.PlantForSearch;
 import co.simplon.plantproject.dtos.PlantForUpdate;
 import co.simplon.plantproject.dtos.PlantItem;
 import co.simplon.plantproject.dtos.PlantUpdateDto;
@@ -67,5 +69,12 @@ public class PlantController {
     public void delete(@PathVariable Long id) {
 	service.delete(id);
     }
+    
+    @GetMapping("/search")
+    public Collection<PlantItem> searchPlantsByNames(
+    		@RequestParam String searchText){
+    	return service.searchPlants(searchText);
+    }
+
 
 }

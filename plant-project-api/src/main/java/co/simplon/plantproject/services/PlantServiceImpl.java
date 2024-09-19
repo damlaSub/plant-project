@@ -8,7 +8,11 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import co.simplon.plantproject.dtos.PlantCreateDto;
 import co.simplon.plantproject.dtos.PlantDetail;
+import co.simplon.plantproject.dtos.PlantForSearch;
 import co.simplon.plantproject.dtos.PlantForUpdate;
 import co.simplon.plantproject.dtos.PlantItem;
 import co.simplon.plantproject.dtos.PlantUpdateDto;
@@ -152,7 +157,11 @@ public class PlantServiceImpl implements PlantService {
 	}
 
     }
-
+    
+    @Override
+    public Collection<PlantItem> searchPlants(String searchText){
+    	return plants.findPlantsBySearchText(searchText);
+    }
     
     public Boolean existsByCommonNameIgnoreCase(String commonName) {
         return plants.existsByCommonNameIgnoreCase(commonName);

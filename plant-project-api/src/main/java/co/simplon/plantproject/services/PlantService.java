@@ -1,9 +1,12 @@
 package co.simplon.plantproject.services;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 import co.simplon.plantproject.dtos.PlantCreateDto;
 import co.simplon.plantproject.dtos.PlantDetail;
+import co.simplon.plantproject.dtos.PlantForSearch;
 import co.simplon.plantproject.dtos.PlantForUpdate;
 import co.simplon.plantproject.dtos.PlantItem;
 import co.simplon.plantproject.dtos.PlantUpdateDto;
@@ -25,4 +28,7 @@ public interface PlantService {
     Boolean existsByCommonNameIgnoreCase(String commonName);
 
 	Boolean existsByLatinNameIgnoreCase(String latinName);
+
+	Collection<PlantItem> searchPlants(String searchText);
+
 }
