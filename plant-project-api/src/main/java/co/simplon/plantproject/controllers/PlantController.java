@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.simplon.plantproject.dtos.PlantCreateDto;
 import co.simplon.plantproject.dtos.PlantDetail;
-import co.simplon.plantproject.dtos.PlantForSearch;
 import co.simplon.plantproject.dtos.PlantForUpdate;
 import co.simplon.plantproject.dtos.PlantItem;
 import co.simplon.plantproject.dtos.PlantUpdateDto;
