@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.http.HttpStatus;
@@ -44,43 +45,33 @@ public class MyPlantServiceImpl implements MyPlantService {
 
     @Override
     public Set<MyPlantDetail> getAll() {
-	return myPlantRepo.findByAccountId(getAccountId());
+	return myPlantRepo.findByAccountId(getCurrentAccountId());
 
     }
 
     @Override
     @Transactional
-    public void add(MyPlantAddDto inputs) {
-	Account account = getAccount(getAccountId());
-	if ((Objects.nonNull(account))) {
-	    MyPlant entity = new MyPlant();
+    public void add(MyPlantAddDto inputs) {	    
 	    Long plantId = inputs.getPlantId();
-	    Plant plant = getPlant(plantId);
-	    if (Objects.nonNull(plant)
-		    && !existsByPlantId(plantId)) {
-		entity.setPlant(plant);
-		entity.setAccount(account);
+	    if (!existsByPlantId(plantId)) {
+	    MyPlant entity = new MyPlant();
+		entity.setPlant(getPlant(plantId));
+		entity.setAccount(getAccount(getCurrentAccountId()));
 		myPlantRepo.save(entity);
-	    } else if (existsByPlantId(plantId)) {
+	    } else {
 		throw new Conflict(HttpStatus.CONFLICT,
 			"Plant already exists in my plants");
 	    }
-	}
-    }
+	  }
 
     @Override
     @Transactional
     public void delete(Long plantId) {
-
-	MyPlant entity = myPlantRepo
-		.findByAccountIdAndPlantId(getAccountId(),
-			plantId);
-		if(entity != null) {
-			myPlantRepo.delete(entity);
-		}
+    	Optional.ofNullable(myPlantRepo.findByAccountIdAndPlantId(getCurrentAccountId(), plantId))
+    	.ifPresent(myPlantRepo::delete);
     }
-
-    Long getAccountId() {
+    
+    Long getCurrentAccountId() {
 	Authentication authentication = SecurityContextHolder
 		.getContext().getAuthentication();
 	if (!(authentication instanceof AnonymousAuthenticationToken)) {
@@ -92,7 +83,6 @@ public class MyPlantServiceImpl implements MyPlantService {
     }
     
     Account getAccount(Long accountId) {
-    	accountId = getAccountId();
     	return accountRepo.findById(accountId)
     		.orElseThrow(
     			() -> new AccountNotFoundException(
@@ -101,12 +91,12 @@ public class MyPlantServiceImpl implements MyPlantService {
     
     Plant getPlant(Long plantId) {
     	return plantRepo.findById(plantId)
-	    .orElse(null);
+    			.orElseThrow(() -> new IllegalArgumentException("Plant not found"));
     }
 
     @Override
     public boolean existsByPlantId(Long plantId) {
-	Long accountId = getAccountId();
+	Long accountId = getCurrentAccountId();
 	return Objects.nonNull(
 		myPlantRepo.findByAccountIdAndPlantId(
 			accountId, plantId));
@@ -117,19 +107,13 @@ public class MyPlantServiceImpl implements MyPlantService {
 	Collection<PlantItem> plants = plantRepo
 		.findAllProjectedBy();
 	Set<MyPlantDetail> myPlants = myPlantRepo
-		.findByAccountId(getAccountId());
-
+		.findByAccountId(getCurrentAccountId());
 	Map<Long, Boolean> myPlantStatus = new HashMap<>();
-	for (PlantItem plant : plants) {
-	    Boolean isMyPlant = false;
-	    for (MyPlantDetail myPlant : myPlants) {
-		if (plant.getId().equals(myPlant.getId())) {
-		    isMyPlant = true;
-		}
-	    }
-	    myPlantStatus.put(plant.getId(), isMyPlant);
-	}
+	plants.forEach(plant -> {
+		boolean isMyPlant = myPlants.stream().anyMatch(myPlant -> 
+		myPlant.getId().equals(plant.getId()));
+		myPlantStatus.put(plant.getId(), isMyPlant);
+	});
 	return myPlantStatus;
     }
-
 }
