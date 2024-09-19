@@ -51,17 +51,11 @@ public class MyPlantServiceImpl implements MyPlantService {
     @Override
     @Transactional
     public void add(MyPlantAddDto inputs) {
-	Long accountId = getAccountId();
-	Account account = accountRepo.findById(accountId)
-		.orElseThrow(
-			() -> new AccountNotFoundException(
-				"Account not found"));
-
+	Account account = getAccount(getAccountId());
 	if ((Objects.nonNull(account))) {
 	    MyPlant entity = new MyPlant();
 	    Long plantId = inputs.getPlantId();
-	    Plant plant = plantRepo.findById(plantId)
-		    .orElse(null);
+	    Plant plant = getPlant(plantId);
 	    if (Objects.nonNull(plant)
 		    && !existsByPlantId(plantId)) {
 		entity.setPlant(plant);
@@ -95,6 +89,19 @@ public class MyPlantServiceImpl implements MyPlantService {
 	    return Long.parseLong(currentAccountId);
 	}
 	return null;
+    }
+    
+    Account getAccount(Long accountId) {
+    	accountId = getAccountId();
+    	return accountRepo.findById(accountId)
+    		.orElseThrow(
+    			() -> new AccountNotFoundException(
+    				"Account not found"));
+    }
+    
+    Plant getPlant(Long plantId) {
+    	return plantRepo.findById(plantId)
+	    .orElse(null);
     }
 
     @Override
