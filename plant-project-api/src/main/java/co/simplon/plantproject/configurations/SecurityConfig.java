@@ -64,7 +64,7 @@ public class SecurityConfig {
 			.permitAll()
 			.requestMatchers(HttpMethod.GET,
 				"/sunlights", "/hydrations",
-				"/plants", "/plants/{id}")
+				"/plants", "/plants/{id}", "/plants/search")
 			.permitAll()
 			.requestMatchers("/my-plants/{id}",
 				"/my-plants/add",
