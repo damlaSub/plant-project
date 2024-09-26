@@ -41,13 +41,11 @@ public class AuthServiceImpl implements AuthService {
 	String hashPassword = authHelper
 		.encode(inputs.getPassword());
 	account.setPassword(hashPassword);
-	if (account.getEmail().endsWith("@plantme.com")) {
-	    account.setRole("ADMIN");
-	} else {
-	    account.setRole("USER");
-	}
+	account.setRole(createRole(account.getEmail()));
 	accountRepository.save(account);
     }
+    
+    
 
     @Override
     @Transactional
@@ -107,5 +105,13 @@ public class AuthServiceImpl implements AuthService {
     public Boolean existsByEmail(String email) {
 	return this.accountRepository
 		.existsByEmailIgnoreCase(email.toString());
+    }
+    
+    String createRole(String email) {
+    	if(email.endsWith("@plantme.com")) {
+    	    return "ADMIN";
+    	} else {
+    	    return "USER";
+    	}
     }
 }
