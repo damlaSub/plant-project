@@ -62,11 +62,8 @@ public class PlantServiceImpl implements PlantService {
 		.getReferenceById(inputs.getSunlightId());
 	entity.setSunlight(sunlight);
 	MultipartFile file = inputs.getFile();
-	String baseName = UUID.randomUUID().toString();
-	String fileExtention = StringUtils
-		.getFilenameExtension(inputs.getFile()
-			.getOriginalFilename());
-	String fileName = baseName + "." + fileExtention;
+	String fileName = setFileName(inputs.getFile()
+		    .getOriginalFilename());
 	entity.setImage(fileName);
 	store(file, fileName);
 	LocalDate addedAt = LocalDate.now();
@@ -96,18 +93,20 @@ public class PlantServiceImpl implements PlantService {
 	    Path oldImage = Paths.get(uploadDir,
 		    entity.getImage());
 	    MultipartFile file = inputs.getFile();
-	    String baseName = UUID.randomUUID().toString();
-	    String fileExtention = StringUtils
-		    .getFilenameExtension(inputs.getFile()
-			    .getOriginalFilename());
-	    String fileName = baseName + "."
-		    + fileExtention;
+	    String fileName = setFileName(inputs.getFile()
+			    .getOriginalFilename()); 
 	    entity.setImage(fileName);
 	    store(file, fileName);
 	    oldImage.toFile().delete();
 	}
-
     }
+    
+    private String setFileName(String originalFilename){
+    	String baseName = UUID.randomUUID().toString();
+ 	    String fileExtention = StringUtils
+ 		    .getFilenameExtension(originalFilename);
+ 	    return baseName + "."+ fileExtention;
+}
 
     private void store(MultipartFile file,
 	    String fileName) {
@@ -140,15 +139,17 @@ public class PlantServiceImpl implements PlantService {
     @Transactional
     public void delete(Long id) {
 	Plant entity = plants.findById(id).get();
-	String image = entity.getImage();
 	plants.delete(entity);
-	Path target = Paths.get(uploadDir).resolve(image);
-	try {
-	    Files.delete(target);
-	} catch (IOException ex) {
-	    throw new RuntimeException(ex);
-	}
-
+	deleteFile(entity.getImage());
+    }
+    
+    private void deleteFile(String image) {
+		Path target = Paths.get(uploadDir).resolve(image);
+		try {
+		    Files.delete(target);
+		} catch (IOException ex) {
+		    throw new RuntimeException(ex);
+		}
     }
     
     @Override
@@ -163,7 +164,6 @@ public class PlantServiceImpl implements PlantService {
 	@Override
 	public Boolean existsByLatinNameIgnoreCase(String latinName) {
 		return plants.existsByLatinNameIgnoreCase(latinName);
+
 	}
-
-
 }
